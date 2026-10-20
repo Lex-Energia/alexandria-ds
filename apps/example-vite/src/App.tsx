@@ -3,7 +3,7 @@
 import {useState} from 'react';
 import * as stylex from '@stylexjs/stylex';
 import {Theme} from '@pharos-ds/core/theme';
-import {neutralTheme} from '@pharos-ds/theme-neutral/built';
+import {pharosTheme} from '@pharos-ds/theme-pharos/built';
 import {VStack, HStack} from '@pharos-ds/core/Layout';
 import {Button} from '@pharos-ds/core/Button';
 import {Text, Heading} from '@pharos-ds/core/Text';
@@ -50,7 +50,7 @@ export default function App() {
   const [email, setEmail] = useState('');
 
   return (
-    <Theme theme={neutralTheme}>
+    <Theme theme={pharosTheme}>
       <main {...stylex.props(styles.main)}>
         <div {...stylex.props(styles.container)}>
           <VStack gap={6}>

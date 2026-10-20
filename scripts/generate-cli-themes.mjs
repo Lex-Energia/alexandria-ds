@@ -23,7 +23,9 @@ const CLI_THEMES_OUT = path.join(
 );
 
 // Flagged in the manifest so `theme list` can mark it "(maintained)".
-const MAINTAINED_SLUG = 'neutral';
+// Pharos (Alexandria brand) is the default theme; every other bundled theme
+// is an example only.
+const MAINTAINED_SLUG = 'pharos';
 
 function toIdentifier(slug) {
   return slug.replace(/-([a-z])/g, (_, c) => c.toUpperCase());

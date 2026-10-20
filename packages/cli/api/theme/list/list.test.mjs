@@ -23,10 +23,12 @@ describe('themeList (api/theme/list)', () => {
     }
   });
 
-  it('surfaces the maintained neutral theme', () => {
+  it('surfaces the maintained pharos theme (Alexandria default)', () => {
+    const pharos = themeList().data.find(t => t.slug === 'pharos');
+    expect(pharos).toBeTruthy();
+    expect(pharos?.maintained).toBe(true);
     const neutral = themeList().data.find(t => t.slug === 'neutral');
-    expect(neutral).toBeTruthy();
-    expect(neutral?.maintained).toBe(true);
+    expect(neutral?.maintained).toBe(false);
   });
 
   it('projects only the list fields (no entry/exportName/files leak)', () => {

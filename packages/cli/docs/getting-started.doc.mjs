@@ -21,7 +21,7 @@ export const docs = {
           type: 'code',
           lang: 'text',
           label: 'Paste this into your AI',
-          code: 'Install @pharos-ds/core, @pharos-ds/theme-neutral, and @pharos-ds/cli in this project, then run `npx @pharos-ds/cli init` to set up agent docs. Read the generated files to learn the conventions.',
+          code: 'Install @pharos-ds/core, @pharos-ds/theme-pharos (the default theme — Alexandria brand), and @pharos-ds/cli in this project, then run `npx @pharos-ds/cli init` to set up agent docs. Read the generated files to learn the conventions.',
         },
       ],
     },
@@ -36,7 +36,7 @@ export const docs = {
           type: 'code',
           lang: 'bash',
           label: 'Terminal',
-          code: `npm install @pharos-ds/core @pharos-ds/theme-neutral @pharos-ds/cli`,
+          code: `npm install @pharos-ds/core @pharos-ds/theme-pharos @pharos-ds/cli`,
         },
         {
           type: 'prose',
@@ -63,11 +63,11 @@ export const docs = {
           label: 'globals.css',
           code: `@import '@pharos-ds/core/reset.css';
 @import '@pharos-ds/core/pharos.css';
-@import '@pharos-ds/theme-neutral/theme.css';`,
+@import '@pharos-ds/theme-pharos/theme.css';`,
         },
         {
           type: 'prose',
-          text: 'Available themes: @pharos-ds/theme-neutral (muted minimal, a good starting point), @pharos-ds/theme-butter, @pharos-ds/theme-chocolate, @pharos-ds/theme-gothic (dark-only), @pharos-ds/theme-matcha, @pharos-ds/theme-stone, and @pharos-ds/theme-y2k. See `pharos docs theme` for the full theming guide.',
+          text: 'The default theme is @pharos-ds/theme-pharos — the Alexandria brand (Figtree, orange accent #F26641, Lucide icons). Use it for every Alexandria product. The other bundled packages (@pharos-ds/theme-neutral, theme-butter, theme-chocolate, theme-gothic, theme-matcha, theme-stone, theme-y2k) are example themes for custom-theme authoring only. See `pharos docs theme` for the full theming guide.',
         },
         {
           type: 'prose',

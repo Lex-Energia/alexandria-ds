@@ -10,7 +10,7 @@
   "dependencies": {
     "@stylexjs/stylex": "^0.19.0",
     "@pharos-ds/core": "*",
-    "@pharos-ds/theme-neutral": "*",
+    "@pharos-ds/theme-pharos": "*",
     "next": "^16.3.0-preview.9",
     "react": "^19.2.7",
     "react-dom": "^19.2.7"

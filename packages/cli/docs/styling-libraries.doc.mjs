@@ -162,7 +162,7 @@ const styles = stylex.create({
 @import "tailwindcss/preflight.css" layer(base);
 @import "@pharos-ds/core/reset.css";
 @import "@pharos-ds/core/pharos.css";
-@import "@pharos-ds/theme-neutral/theme.css";
+@import "@pharos-ds/theme-pharos/theme.css";
 @import "@pharos-ds/core/tailwind-theme.css";
 @import "tailwindcss/utilities.css" layer(utilities);`,
         },
@@ -374,9 +374,9 @@ tokens: {
           lang: 'ts',
           label: 'Resolve tokens without React context',
           code: `import {resolveThemeTokens} from '@pharos-ds/core/theme/tokens';
-import {neutralTheme} from '@pharos-ds/theme-neutral';
+import {pharosTheme} from '@pharos-ds/theme-pharos';
 
-const tokens = resolveThemeTokens(neutralTheme, {mode: 'light'});
+const tokens = resolveThemeTokens(pharosTheme, {mode: 'light'});
 
 const chartOptions = {
   textColor: tokens['--color-text-primary'],

@@ -128,29 +128,30 @@ describe('doctor — individual checks', () => {
     expect(res.status).toBe('info');
   });
 
-  it('themes: WARN when no theme packages installed', () => {
+  it('themes: WARN when no theme packages installed, pointing at the default theme', () => {
     const res = checkThemes({cwd: tmpDir, configTheme: null});
     expect(res.status).toBe('warn');
+    expect(res.fix).toContain('@pharos-ds/theme-pharos');
   });
 
   it('themes: WARN when theme installed but not wired', () => {
-    installPkg('@pharos-ds/theme-neutral', '0.0.14');
+    installPkg('@pharos-ds/theme-pharos', '0.0.14');
     const res = checkThemes({cwd: tmpDir, configTheme: null});
     expect(res.status).toBe('warn');
-    expect(res.message).toContain('@pharos-ds/theme-neutral');
+    expect(res.message).toContain('@pharos-ds/theme-pharos');
   });
 
   it('themes: PASS when theme installed and wired via config', () => {
-    installPkg('@pharos-ds/theme-neutral', '0.0.14');
+    installPkg('@pharos-ds/theme-pharos', '0.0.14');
     const res = checkThemes({cwd: tmpDir, configTheme: 'default'});
     expect(res.status).toBe('pass');
   });
 
   it('themes: detects pnpm-style symlinked theme packages (#3530)', () => {
-    installPkgPnpmStyle('@pharos-ds/theme-neutral', '0.1.2');
+    installPkgPnpmStyle('@pharos-ds/theme-pharos', '0.1.2');
     const res = checkThemes({cwd: tmpDir, configTheme: 'default'});
     expect(res.status).toBe('pass');
-    expect(res.message).toContain('@pharos-ds/theme-neutral');
+    expect(res.message).toContain('@pharos-ds/theme-pharos');
   });
 
   it('config: INFO when no pharos.config.mjs', async () => {

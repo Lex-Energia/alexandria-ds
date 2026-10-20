@@ -31,8 +31,14 @@ describe('init Next steps theme guidance', () => {
   });
 
   it('uses the pre-built theme path matching the runtime recommendation', () => {
-    expect(text).toContain("'@pharos-ds/theme-neutral/built'");
-    expect(text).toContain("'@pharos-ds/theme-neutral/theme.css'");
+    expect(text).toContain("'@pharos-ds/theme-pharos/built'");
+    expect(text).toContain("'@pharos-ds/theme-pharos/theme.css'");
+  });
+
+  it('presents the Pharos (Alexandria) theme as the default, not an option', () => {
+    expect(text).toContain('npm install @pharos-ds/theme-pharos');
+    expect(text).not.toMatch(/Optionally add a theme/i);
+    expect(text).not.toContain('theme-neutral');
   });
 
   it('mentions building custom themes via `pharos theme build`', () => {
@@ -41,6 +47,6 @@ describe('init Next steps theme guidance', () => {
 
   it('does not steer users to the runtime style-injection import', () => {
     // The bare source import (no `/built`) is the slow runtime-injection path.
-    expect(text).not.toContain("from '@pharos-ds/theme-neutral'");
+    expect(text).not.toContain("from '@pharos-ds/theme-pharos'");
   });
 });

@@ -23,7 +23,7 @@
  * 2. Combine with base styles and theme:
  *    import '@pharos-ds/core/reset.css';        // @layer reset  — clean slate
  *    import '@pharos-ds/core/pharos.css';        // @layer pharos-base — component styles
- *    import '@pharos-ds/theme-neutral/theme.css'; // @layer pharos-theme — theme overrides
+ *    import '@pharos-ds/theme-pharos/theme.css';  // @layer pharos-theme — default theme (Alexandria)
  *
  * Layer order: reset → pharos-base → pharos-theme
  * Consumer styles (unlayered) always override all Pharos layers.

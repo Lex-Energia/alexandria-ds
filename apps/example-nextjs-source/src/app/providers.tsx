@@ -5,11 +5,11 @@
 import Link from 'next/link';
 import {Theme} from '@pharos-ds/core/theme';
 import {LinkProvider} from '@pharos-ds/core/Link';
-import {neutralTheme} from '@pharos-ds/theme-neutral';
+import {pharosTheme} from '@pharos-ds/theme-pharos';
 
 export function Providers({children}: {children: React.ReactNode}) {
   return (
-    <Theme theme={neutralTheme}>
+    <Theme theme={pharosTheme}>
       <LinkProvider component={Link}>{children}</LinkProvider>
     </Theme>
   );
