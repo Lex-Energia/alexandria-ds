@@ -7,6 +7,7 @@ import * as os from 'node:os';
 import {
   detectPackageManager,
   getDlxPrefix,
+  getInstallCommand,
   isCliOneOff,
   getCliInvocation,
   formatCliCommand,
@@ -143,6 +144,32 @@ describe('getDlxPrefix', () => {
     const dir = makeTmpDir();
     delete process.env.npm_config_user_agent;
     expect(getDlxPrefix(dir)).toBe('npx');
+  });
+});
+
+describe('getInstallCommand', () => {
+  it('returns "pnpm add" for pnpm projects', () => {
+    const dir = makeTmpDir();
+    fs.writeFileSync(path.join(dir, 'pnpm-lock.yaml'), '');
+    expect(getInstallCommand(dir)).toBe('pnpm add');
+  });
+
+  it('returns "yarn add" for yarn projects', () => {
+    const dir = makeTmpDir();
+    fs.writeFileSync(path.join(dir, 'yarn.lock'), '');
+    expect(getInstallCommand(dir)).toBe('yarn add');
+  });
+
+  it('returns "bun add" for bun projects', () => {
+    const dir = makeTmpDir();
+    fs.writeFileSync(path.join(dir, 'bun.lockb'), '');
+    expect(getInstallCommand(dir)).toBe('bun add');
+  });
+
+  it('falls back to "npm i" with no signals', () => {
+    const dir = makeTmpDir();
+    delete process.env.npm_config_user_agent;
+    expect(getInstallCommand(dir)).toBe('npm i');
   });
 });
 

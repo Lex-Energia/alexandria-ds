@@ -100,6 +100,9 @@ export default defineConfig({
           include: [
             'packages/core/src/**/*.test.{ts,tsx,mjs}',
             'packages/lab/src/**/*.test.{ts,tsx,mjs}',
+            // Theme contrast tests import the theme source, which needs the
+            // same @pharos-ds/core → src alias + StyleX transform as core.
+            'packages/themes/*/src/**/*.test.{ts,tsx}',
           ],
         },
       },

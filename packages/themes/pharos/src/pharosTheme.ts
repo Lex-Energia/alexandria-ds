@@ -4,7 +4,10 @@
  * Pharos Theme — Alexandria brand
  *
  * Brandbook (Março/2026) as source of truth for palette:
- *   Laranja primary  #F26641  (UI accent / Button primary)
+ *   Laranja primary  #F26641  (UI accent / Button primary fill; text-sized
+ *                              uses of the hue are darkened to #B84626 so
+ *                              links and icons clear WCAG AA on light surfaces,
+ *                              and the Button primary label is dark #171717)
  *   Azul             #034694  (categorical / info)
  *   Roxo destaque    #7C51A1
  *   Amarelo #1/#2    #FAA61A / #FFF200
@@ -135,17 +138,25 @@ export const pharosTheme = defineTheme({
     '--color-text-primary': ['#383838', '#fafafa'],
     '--color-text-secondary': ['#737373', '#a3a3a3'],
     '--color-text-disabled': ['#a3a3a3', '#525252'],
-    '--color-text-accent': ['#F26641', '#FF8A5C'],
+    // Text-sized laranja darkened to clear WCAG AA (4.5:1) on body #f1f1f1
+    // (4.7:1) and surface #ffffff (5.3:1); the vivid #F26641 only reaches
+    // 3.1:1 on white, which is fine for non-text (rings, fills) but not for
+    // links. Dark mode keeps the lifted stop (7.4:1 on body).
+    '--color-text-accent': ['#B84626', '#FF8A5C'],
     '--color-on-dark': '#ffffff',
     '--color-on-light': '#383838',
-    // White on brand laranja; dark text on lifted orange in dark mode
-    '--color-on-accent': ['#ffffff', '#171717'],
+    // Dark text on brand laranja in BOTH modes: white on #F26641 is 3.1:1
+    // (fails AA for the 14px Button primary label), #171717 on #F26641 is
+    // 5.8:1 and on the dark-mode #FF8A5C is 7.7:1.
+    '--color-on-accent': '#171717',
     '--color-on-success': ['#ffffff', '#171717'],
     '--color-on-error': ['#ffffff', '#171717'],
     '--color-on-warning': '#383838',
 
     // Icon
-    '--color-icon-accent': ['#F26641', '#FF8A5C'],
+    // Same darkened stop as --color-text-accent: icons sit next to accent
+    // text and the vivid laranja is only 2.8:1 on body #f1f1f1.
+    '--color-icon-accent': ['#B84626', '#FF8A5C'],
     '--color-icon-primary': ['#383838', '#fafafa'],
     '--color-icon-secondary': ['#737373', '#a3a3a3'],
     '--color-icon-disabled': ['#a3a3a3', '#525252'],
@@ -233,8 +244,10 @@ export const pharosTheme = defineTheme({
     // Orange — brand #F26641 (Pantone 7579 C)
     '--color-background-orange': ['#FDE0D6', '#F266413D'],
     '--color-border-orange': ['#F5C4B3', '#F26641'],
-    '--color-icon-orange': ['#C44A28', '#FFA07A'],
-    '--color-text-orange': ['#C44A28', '#FFC4A8'],
+    // #C44A28 was 3.9:1 on the pastel #FDE0D6 (badge/banner text); #B04324
+    // reaches 4.6:1 there and 5.1:1 on body.
+    '--color-icon-orange': ['#B04324', '#FFA07A'],
+    '--color-text-orange': ['#B04324', '#FFC4A8'],
 
     // Yellow — brand #FAA61A / #FFF200
     '--color-background-yellow': ['#FFF0CC', '#FAA61A3D'],

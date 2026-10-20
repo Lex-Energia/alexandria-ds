@@ -22,7 +22,7 @@ import * as fs from 'node:fs';
 import * as path from 'node:path';
 import {findCoreDir, CLI_ROOT} from '../../utils/paths.mjs';
 import {assertWithin} from '../../utils/path-safety.mjs';
-import {getCliInvocation} from '../../utils/package-manager.mjs';
+import {getCliInvocation, getInstallCommand} from '../../utils/package-manager.mjs';
 import {discoverComponents} from '../../lib/component-discovery.mjs';
 import {humanLog} from '../../lib/json.mjs';
 
@@ -260,11 +260,14 @@ export function detectStylingSystem(targetDir) {
  * configured (see {@link detectStylingSystem}) so the agent never reaches for a
  * styling path that isn't compiled here.
  *
+ * `installCommand` follows the detected package manager (`pnpm add`, `yarn add`,
+ * `bun add`, `npm i`) so the setup hint never tells a pnpm project to run npm.
+ *
  * @param {string} version
- * @param {{coreDir?: string|null, invocation?: string, stylingSystem?: 'stylex'|'tailwind'|'css', zh?: boolean, lang?: string}} [options]
+ * @param {{coreDir?: string|null, invocation?: string, installCommand?: string, stylingSystem?: 'stylex'|'tailwind'|'css', zh?: boolean, lang?: string}} [options]
  * @returns {string}
  */
-export function generateCompressedIndex(version, {coreDir, invocation = getCliInvocation(), stylingSystem = 'css'} = {}) {
+export function generateCompressedIndex(version, {coreDir, invocation = getCliInvocation(), installCommand = getInstallCommand(), stylingSystem = 'css'} = {}) {
   const run = invocation;
   const lines = [MARKER_START];
 
@@ -290,10 +293,10 @@ export function generateCompressedIndex(version, {coreDir, invocation = getCliIn
   // everything renders unstyled. The default theme is @pharos-ds/theme-pharos
   // (Alexandria brand): it is part of the required setup so every app — built
   // by a human or an agent — ships with the Alexandria UI.
-  lines.push('SETUP (once, in your app entry e.g. main.tsx) — without these, components render unstyled:');
+  lines.push('SETUP (once, in your app entry: main.tsx, or the root layout + a "use client" Providers component in Next.js) — without these, components render unstyled:');
   lines.push('  import "@pharos-ds/core/reset.css";');
   lines.push('  import "@pharos-ds/core/pharos.css";');
-  lines.push('  import "@pharos-ds/theme-pharos/theme.css";   // default theme (Alexandria brand) — npm i @pharos-ds/theme-pharos');
+  lines.push(`  import "@pharos-ds/theme-pharos/theme.css";   // default theme (Alexandria brand) — ${installCommand} @pharos-ds/theme-pharos`);
   lines.push('  import {Theme} from "@pharos-ds/core/theme"; import {pharosTheme} from "@pharos-ds/theme-pharos/built";');
   lines.push('  <Theme theme={pharosTheme} mode="system">{app}</Theme>');
   lines.push('  Never install/use other @pharos-ds/theme-* packages (neutral, butter, …) — they are examples, not the Alexandria UI.');

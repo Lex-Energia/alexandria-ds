@@ -99,6 +99,23 @@ export function getRunPrefix(targetDir) {
   }
 }
 
+/**
+ * Get the command that adds a dependency with the detected package manager.
+ *
+ * @param {string} [targetDir]
+ * @returns {string} e.g. 'npm i', 'yarn add', 'pnpm add', 'bun add'
+ */
+export function getInstallCommand(targetDir) {
+  const pm = detectPackageManager(targetDir);
+  switch (pm) {
+    case 'yarn': return 'yarn add';
+    case 'pnpm': return 'pnpm add';
+    case 'bun': return 'bun add';
+    case 'npm':
+    default: return 'npm i';
+  }
+}
+
 /** The published CLI package name — used for one-off (uninstalled) invocations. */
 export const CLI_PACKAGE = '@pharos-ds/cli';
 
