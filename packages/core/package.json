@@ -5,14 +5,14 @@
   "description": "Pharos component library. Accessible, themeable React components with spacing, dark mode, and StyleX styling.",
   "author": "Caio Silvestre",
   "license": "MIT",
-  "homepage": "https://github.com/Caio-Silvestre/alexandria-ds#readme",
+  "homepage": "https://github.com/Lex-Energia/alexandria-ds#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Caio-Silvestre/alexandria-ds.git",
+    "url": "git+https://github.com/Lex-Energia/alexandria-ds.git",
     "directory": "packages/core"
   },
   "bugs": {
-    "url": "https://github.com/Caio-Silvestre/alexandria-ds/issues"
+    "url": "https://github.com/Lex-Energia/alexandria-ds/issues"
   },
   "keywords": [
     "pharos",

@@ -5,14 +5,14 @@
   "description": "Pharos charts — a config-model data visualization library (d3-based). Published to npm only under the @canary dist-tag for early testing; never released as a stable (latest) version.",
   "author": "Caio Silvestre",
   "license": "MIT",
-  "homepage": "https://github.com/Caio-Silvestre/alexandria-ds#readme",
+  "homepage": "https://github.com/Lex-Energia/alexandria-ds#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Caio-Silvestre/alexandria-ds.git",
+    "url": "git+https://github.com/Lex-Energia/alexandria-ds.git",
     "directory": "packages/charts"
   },
   "bugs": {
-    "url": "https://github.com/Caio-Silvestre/alexandria-ds/issues"
+    "url": "https://github.com/Lex-Energia/alexandria-ds/issues"
   },
   "keywords": [
     "pharos",

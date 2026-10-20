@@ -5,14 +5,14 @@
   "description": "Earthy greens with a calm, organic feel. Naturalistic and grounded, great for wellness or content-first apps.",
   "author": "Caio Silvestre",
   "license": "MIT",
-  "homepage": "https://github.com/Caio-Silvestre/alexandria-ds#readme",
+  "homepage": "https://github.com/Lex-Energia/alexandria-ds#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Caio-Silvestre/alexandria-ds.git",
+    "url": "git+https://github.com/Lex-Energia/alexandria-ds.git",
     "directory": "packages/themes/matcha"
   },
   "bugs": {
-    "url": "https://github.com/Caio-Silvestre/alexandria-ds/issues"
+    "url": "https://github.com/Lex-Energia/alexandria-ds/issues"
   },
   "keywords": [
     "pharos",

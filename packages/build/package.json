@@ -4,14 +4,14 @@
   "description": "Build plugins for XDS source builds — babel, PostCSS, and Vite integrations",
   "author": "Caio Silvestre",
   "license": "MIT",
-  "homepage": "https://github.com/Caio-Silvestre/alexandria-ds#readme",
+  "homepage": "https://github.com/Lex-Energia/alexandria-ds#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Caio-Silvestre/alexandria-ds.git",
+    "url": "git+https://github.com/Lex-Energia/alexandria-ds.git",
     "directory": "packages/build"
   },
   "bugs": {
-    "url": "https://github.com/Caio-Silvestre/alexandria-ds/issues"
+    "url": "https://github.com/Lex-Energia/alexandria-ds/issues"
   },
   "keywords": [
     "pharos",
