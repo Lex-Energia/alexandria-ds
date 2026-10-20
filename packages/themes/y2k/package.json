@@ -1,6 +1,6 @@
 {
   "name": "@pharos-ds/theme-y2k",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "displayName": "Y2K Theme",
   "private": true,
   "description": "Hot pinks, lime greens, and Poppins. Bubbly, playful, and unmistakably retro.",
@@ -52,11 +52,11 @@
     "lucide-react": "^1.26.0"
   },
   "peerDependencies": {
-    "@pharos-ds/core": "1.0.3",
+    "@pharos-ds/core": "1.0.4",
     "react": ">=19"
   },
   "devDependencies": {
-    "@pharos-ds/cli": "1.0.3"
+    "@pharos-ds/cli": "1.0.4"
   },
   "module": "./dist/source.mjs"
 }
