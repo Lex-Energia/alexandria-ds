@@ -99,6 +99,26 @@ describe('TextInput', () => {
     expect(screen.getByRole('textbox')).toHaveValue('Controlled value');
   });
 
+  it('forwards autoComplete to the input', () => {
+    render(
+      <TextInput
+        label="Senha"
+        type="password"
+        autoComplete="current-password"
+        value=""
+      />,
+    );
+    expect(screen.getByLabelText('Senha')).toHaveAttribute(
+      'autocomplete',
+      'current-password',
+    );
+  });
+
+  it('does not set autocomplete when the prop is omitted', () => {
+    render(<TextInput label="Nome" value="" />);
+    expect(screen.getByLabelText('Nome')).not.toHaveAttribute('autocomplete');
+  });
+
   it('forwards ref correctly', () => {
     const ref = vi.fn();
     render(<TextInput ref={ref} label="Name" value="" onChange={() => {}} />);

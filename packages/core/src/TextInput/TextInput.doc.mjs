@@ -141,6 +141,12 @@ export const docs = {
         'The HTML name attribute for the input, useful for form submissions.',
     },
     {
+      name: 'autoComplete',
+      type: 'HTMLInputAutoCompleteAttribute',
+      description:
+        "The HTML autocomplete attribute (e.g. 'email', 'current-password', 'one-time-code'), so browsers and password managers can fill the field.",
+    },
+    {
       name: 'width',
       type: 'SizeValue',
       description:
@@ -312,6 +318,12 @@ export const docsZh = {
       description:
         '输入框的 HTML name 属性，用于表单提交。',
     },
+    {
+      name: 'autoComplete',
+      type: 'HTMLInputAutoCompleteAttribute',
+      description:
+        "输入框的 HTML autocomplete 属性（如 'email'、'current-password'、'one-time-code'），便于浏览器和密码管理器自动填充。",
+    },
   ],
   theming: {
     targets: [
@@ -392,5 +404,6 @@ export const docsDense = {
     hasClear: 'Shows clear button when input has value. Clears value on click.',
     hasAutoFocus: 'Auto-focus input on mount.',
     htmlName: 'HTML name attr for form submissions.',
+    autoComplete: "HTML autocomplete attr ('email', 'current-password'…) for browser/password-manager fill.",
   },
 };

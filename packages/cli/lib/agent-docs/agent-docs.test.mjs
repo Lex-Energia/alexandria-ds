@@ -102,6 +102,17 @@ describe('generateCompressedIndex', () => {
     expect(result).not.toContain('npx pharos');
   });
 
+  it('tells a pnpm project to install the theme with pnpm, never npm', () => {
+    const result = generateCompressedIndex('1.0.0', {invocation: 'pnpm exec pharos', installCommand: 'pnpm add'});
+    expect(result).toContain('pnpm add @pharos-ds/theme-pharos');
+    expect(result).not.toContain('npm i ');
+  });
+
+  it('falls back to npm when nothing else is detected', () => {
+    const result = generateCompressedIndex('1.0.0', {installCommand: 'npm i'});
+    expect(result).toContain('npm i @pharos-ds/theme-pharos');
+  });
+
   it('uses the scoped package for one-off (uninstalled) runs so agents never hit the bare name', () => {
     const result = generateCompressedIndex('1.0.0', {invocation: 'npx @pharos-ds/cli'});
     expect(result).toContain('npx @pharos-ds/cli <cmd>');

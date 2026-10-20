@@ -259,6 +259,11 @@ export interface TextInputProps extends Omit<
    */
   htmlName?: string;
   /**
+   * The HTML autocomplete attribute (e.g. `'email'`, `'current-password'`,
+   * `'one-time-code'`). Lets browsers and password managers fill the field.
+   */
+  autoComplete?: React.HTMLInputAutoCompleteAttribute;
+  /**
    * Callback fired when the user presses the Enter key.
    */
   onEnter?: () => void;
@@ -299,6 +304,7 @@ export function TextInput({
   hasClear = false,
   hasAutoFocus = false,
   htmlName,
+  autoComplete,
   onEnter,
   onKeyDown,
   width,
@@ -425,6 +431,7 @@ export function TextInput({
         ref={mergeRefs(ref, inputRef)}
         id={id}
         name={htmlName}
+        autoComplete={autoComplete}
         type={type}
         value={optimisticValue}
         onChange={handleChange}
