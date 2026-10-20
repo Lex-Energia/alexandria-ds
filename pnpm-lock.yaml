@@ -557,7 +557,7 @@ importers:
   packages/charts:
     dependencies:
       '@pharos-ds/core':
-        specifier: 1.0.0
+        specifier: 1.0.2
         version: link:../core
       '@stylexjs/stylex':
         specifier: ^0.19.0
@@ -662,7 +662,7 @@ importers:
   packages/lab:
     dependencies:
       '@pharos-ds/core':
-        specifier: 1.0.0
+        specifier: 1.0.2
         version: link:../core
       '@stylexjs/stylex':
         specifier: ^0.19.0
@@ -720,7 +720,7 @@ importers:
   packages/richtext:
     dependencies:
       '@pharos-ds/core':
-        specifier: 1.0.0
+        specifier: 1.0.2
         version: link:../core
       '@stylexjs/stylex':
         specifier: ^0.19.0
@@ -735,7 +735,7 @@ importers:
   packages/themes/butter:
     dependencies:
       '@pharos-ds/core':
-        specifier: 1.0.0
+        specifier: 1.0.2
         version: link:../../core
       lucide-react:
         specifier: ^1.26.0
@@ -745,13 +745,13 @@ importers:
         version: 19.2.8
     devDependencies:
       '@pharos-ds/cli':
-        specifier: 1.0.0
+        specifier: 1.0.2
         version: link:../../cli
 
   packages/themes/chocolate:
     dependencies:
       '@pharos-ds/core':
-        specifier: 1.0.0
+        specifier: 1.0.2
         version: link:../../core
       lucide-react:
         specifier: ^1.26.0
@@ -761,13 +761,13 @@ importers:
         version: 19.2.8
     devDependencies:
       '@pharos-ds/cli':
-        specifier: 1.0.0
+        specifier: 1.0.2
         version: link:../../cli
 
   packages/themes/gothic:
     dependencies:
       '@pharos-ds/core':
-        specifier: 1.0.0
+        specifier: 1.0.2
         version: link:../../core
       lucide-react:
         specifier: ^1.26.0
@@ -777,13 +777,13 @@ importers:
         version: 19.2.8
     devDependencies:
       '@pharos-ds/cli':
-        specifier: 1.0.0
+        specifier: 1.0.2
         version: link:../../cli
 
   packages/themes/matcha:
     dependencies:
       '@pharos-ds/core':
-        specifier: 1.0.0
+        specifier: 1.0.2
         version: link:../../core
       lucide-react:
         specifier: ^1.26.0
@@ -793,13 +793,13 @@ importers:
         version: 19.2.8
     devDependencies:
       '@pharos-ds/cli':
-        specifier: 1.0.0
+        specifier: 1.0.2
         version: link:../../cli
 
   packages/themes/neutral:
     dependencies:
       '@pharos-ds/core':
-        specifier: 1.0.0
+        specifier: 1.0.2
         version: link:../../core
       lucide-react:
         specifier: ^1.26.0
@@ -809,13 +809,13 @@ importers:
         version: 19.2.8
     devDependencies:
       '@pharos-ds/cli':
-        specifier: 1.0.0
+        specifier: 1.0.2
         version: link:../../cli
 
   packages/themes/pharos:
     dependencies:
       '@pharos-ds/core':
-        specifier: 1.0.0
+        specifier: 1.0.2
         version: link:../../core
       lucide-react:
         specifier: ^1.26.0
@@ -825,13 +825,13 @@ importers:
         version: 19.2.8
     devDependencies:
       '@pharos-ds/cli':
-        specifier: 1.0.0
+        specifier: 1.0.2
         version: link:../../cli
 
   packages/themes/stone:
     dependencies:
       '@pharos-ds/core':
-        specifier: 1.0.0
+        specifier: 1.0.2
         version: link:../../core
       lucide-react:
         specifier: ^1.26.0
@@ -841,13 +841,13 @@ importers:
         version: 19.2.8
     devDependencies:
       '@pharos-ds/cli':
-        specifier: 1.0.0
+        specifier: 1.0.2
         version: link:../../cli
 
   packages/themes/y2k:
     dependencies:
       '@pharos-ds/core':
-        specifier: 1.0.0
+        specifier: 1.0.2
         version: link:../../core
       lucide-react:
         specifier: ^1.26.0
@@ -857,7 +857,7 @@ importers:
         version: 19.2.8
     devDependencies:
       '@pharos-ds/cli':
-        specifier: 1.0.0
+        specifier: 1.0.2
         version: link:../../cli
 
   packages/vega:
