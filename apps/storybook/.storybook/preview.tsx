@@ -2,7 +2,12 @@
 
 import type {Preview, Decorator} from '@storybook/react';
 import * as React from 'react';
-import {Theme, LayerProvider, InternationalizationProvider} from '@pharos-ds/core';
+import {
+  Theme,
+  LayerProvider,
+  InternationalizationProvider,
+} from '@pharos-ds/core';
+import {pharosTheme} from '@pharos-ds/theme-pharos';
 import {neutralTheme} from '@pharos-ds/theme-neutral';
 import {stoneTheme} from '@pharos-ds/theme-stone';
 import {y2kTheme} from '@pharos-ds/theme-y2k';
@@ -13,6 +18,7 @@ import '@pharos-ds/core/reset.css';
  * Map of available themes
  */
 const themes = {
+  pharos: pharosTheme,
   neutral: neutralTheme,
   stone: stoneTheme,
   y2k: y2kTheme,
@@ -29,7 +35,7 @@ const themes = {
  */
 const withTheme: Decorator = (Story, context) => {
   // Get theme selection from toolbar
-  const themeKey = (context.globals?.pharosTheme || 'neutral') as string;
+  const themeKey = (context.globals?.pharosTheme || 'pharos') as string;
   const mode = context.globals?.colorMode === 'dark' ? 'dark' : 'light';
   const direction = context.globals?.direction === 'rtl' ? 'rtl' : 'ltr';
 
@@ -56,7 +62,7 @@ const withTheme: Decorator = (Story, context) => {
     );
   }
 
-  const theme = themes[themeKey as keyof typeof themes] || neutralTheme;
+  const theme = themes[themeKey as keyof typeof themes] || pharosTheme;
 
   return (
     <Theme theme={theme} mode={mode}>
@@ -97,7 +103,12 @@ const preview: Preview = {
         icon: 'paintbrush',
         items: [
           {value: 'none', title: 'None (base tokens)', icon: 'close'},
-          {value: 'neutral', title: 'Neutral', icon: 'circle'},
+          {
+            value: 'pharos',
+            title: 'Pharos (Alexandria, default)',
+            icon: 'star',
+          },
+          {value: 'neutral', title: 'Neutral (example)', icon: 'circle'},
           {value: 'stone', title: 'Stone', icon: 'circlehollow'},
           {value: 'y2k', title: 'Y2K', icon: 'lightning'},
         ],
@@ -130,7 +141,7 @@ const preview: Preview = {
     },
   },
   initialGlobals: {
-    pharosTheme: 'neutral',
+    pharosTheme: 'pharos',
     colorMode: 'light',
     direction: 'ltr',
   },

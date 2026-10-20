@@ -2,7 +2,7 @@
 
 import {useState} from 'react';
 import {Theme} from '@pharos-ds/core/theme';
-import {neutralTheme} from '@pharos-ds/theme-neutral/built';
+import {pharosTheme} from '@pharos-ds/theme-pharos/built';
 import {VStack, HStack} from '@pharos-ds/core/Layout';
 import {Button} from '@pharos-ds/core/Button';
 import {Text, Heading} from '@pharos-ds/core/Text';
@@ -26,7 +26,7 @@ export default function App() {
   const [name, setName] = useState('');
 
   return (
-    <Theme theme={neutralTheme}>
+    <Theme theme={pharosTheme}>
       <main className="min-h-screen bg-body p-8">
         <div className="mx-auto max-w-3xl">
           <VStack gap={8}>

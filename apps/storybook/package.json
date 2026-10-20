@@ -12,6 +12,7 @@
     "@pharos-ds/core": "*",
     "@pharos-ds/lab": "*",
     "@pharos-ds/theme-neutral": "*",
+    "@pharos-ds/theme-pharos": "*",
     "@pharos-ds/theme-stone": "*",
     "@pharos-ds/theme-y2k": "*",
     "@pharos-ds/vega": "*",

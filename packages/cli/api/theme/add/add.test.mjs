@@ -3,7 +3,7 @@
 /**
  * @file Direct-API tests for the `theme add` leaf. Copies real bundled themes
  * into a tmp cwd and asserts the receipt + on-disk effects, plus the guard rails
- * (unknown slug, no-overwrite, path traversal). Uses the maintained `neutral`
+ * (unknown slug, no-overwrite, path traversal). Uses the bundled example `neutral`
  * theme so the fixture stays stable.
  */
 

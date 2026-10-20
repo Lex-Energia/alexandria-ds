@@ -3,7 +3,7 @@
 import {StrictMode} from 'react';
 import {createRoot} from 'react-dom/client';
 import '@pharos-ds/core/reset.css';
-import '@pharos-ds/theme-neutral/theme.css';
+import '@pharos-ds/theme-pharos/theme.css';
 import './index.css';
 import App from './App';
 

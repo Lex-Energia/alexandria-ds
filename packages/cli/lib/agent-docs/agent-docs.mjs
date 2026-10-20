@@ -287,10 +287,16 @@ export function generateCompressedIndex(version, {coreDir, invocation = getCliIn
   lines.push('');
 
   // Required setup — components ship precompiled CSS; without these imports
-  // everything renders unstyled. Theme is optional (a default ships in pharos.css).
+  // everything renders unstyled. The default theme is @pharos-ds/theme-pharos
+  // (Alexandria brand): it is part of the required setup so every app — built
+  // by a human or an agent — ships with the Alexandria UI.
   lines.push('SETUP (once, in your app entry e.g. main.tsx) — without these, components render unstyled:');
   lines.push('  import "@pharos-ds/core/reset.css";');
   lines.push('  import "@pharos-ds/core/pharos.css";');
+  lines.push('  import "@pharos-ds/theme-pharos/theme.css";   // default theme (Alexandria brand) — npm i @pharos-ds/theme-pharos');
+  lines.push('  import {Theme} from "@pharos-ds/core/theme"; import {pharosTheme} from "@pharos-ds/theme-pharos/built";');
+  lines.push('  <Theme theme={pharosTheme} mode="system">{app}</Theme>');
+  lines.push('  Never install/use other @pharos-ds/theme-* packages (neutral, butter, …) — they are examples, not the Alexandria UI.');
   lines.push('');
 
   // Workflow — `build` is the front door; discover before writing UI.

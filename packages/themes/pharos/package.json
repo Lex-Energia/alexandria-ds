@@ -3,7 +3,7 @@
   "version": "1.0.1",
   "displayName": "Pharos Theme",
   "private": false,
-  "description": "Official Pharos theme for the Alexandria brand.",
+  "description": "Official Pharos theme for the Alexandria brand — the default theme for every Pharos app.",
   "author": "Caio Silvestre",
   "license": "MIT",
   "homepage": "https://github.com/Caio-Silvestre/alexandria-ds#readme",

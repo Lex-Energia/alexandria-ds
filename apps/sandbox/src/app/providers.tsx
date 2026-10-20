@@ -5,6 +5,7 @@
 import {useState, createContext, useContext, useEffect} from 'react';
 import {Theme} from '@pharos-ds/core/theme';
 import {LayerProvider} from '@pharos-ds/core/Layer';
+import {pharosTheme} from '@pharos-ds/theme-pharos/built';
 import {neutralTheme} from '@pharos-ds/theme-neutral/built';
 import {matchaTheme} from '@pharos-ds/theme-matcha/built';
 import {stoneTheme} from '@pharos-ds/theme-stone/built';
@@ -25,6 +26,7 @@ export const SANDBOX_THEMES: ReadonlyArray<{
   label: string;
   theme: DefinedTheme;
 }> = [
+  {id: 'pharos', label: 'Pharos (Alexandria)', theme: pharosTheme},
   {id: 'neutral', label: 'Neutral', theme: neutralTheme},
   {id: 'matcha', label: 'Matcha', theme: matchaTheme},
   {id: 'stone', label: 'Stone', theme: stoneTheme},
@@ -45,7 +47,7 @@ type ThemeContextValue = {
 };
 
 const ThemeContext = createContext<ThemeContextValue>({
-  themeName: 'neutral',
+  themeName: 'pharos',
   setThemeName: () => {},
   mode: 'light',
   setMode: () => {},
@@ -71,7 +73,7 @@ function getEmbedThemeParams(): {
   isEmbed: boolean;
 } {
   if (typeof window === 'undefined') {
-    return {initialTheme: 'neutral', initialMode: 'light', isEmbed: false};
+    return {initialTheme: 'pharos', initialMode: 'light', isEmbed: false};
   }
   const params = new URLSearchParams(window.location.search);
   const isEmbed = params.get('embed') === '1';
@@ -80,7 +82,7 @@ function getEmbedThemeParams(): {
 
   return {
     initialTheme:
-      isEmbed && paramTheme && paramTheme in themes ? paramTheme : 'neutral',
+      isEmbed && paramTheme && paramTheme in themes ? paramTheme : 'pharos',
     initialMode:
       isEmbed && (paramMode === 'light' || paramMode === 'dark')
         ? (paramMode as ThemeMode)
@@ -168,7 +170,7 @@ export function Providers({children}: {children: React.ReactNode}) {
     document.documentElement.style.setProperty('color-scheme', mode);
   }, [mode]);
 
-  const theme = themes[themeName] || neutralTheme;
+  const theme = themes[themeName] || pharosTheme;
 
   return (
     <ThemeContext.Provider value={{themeName, setThemeName, mode, setMode}}>

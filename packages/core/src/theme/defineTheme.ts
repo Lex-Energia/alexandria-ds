@@ -164,11 +164,11 @@ export interface DefineThemeInput {
    *
    * @example
    * ```tsx
-   * import {neutralTheme} from '@pharos-ds/theme-neutral';
+   * import {pharosTheme} from '@pharos-ds/theme-pharos';
    *
    * const myTheme = defineTheme({
    *   name: 'my-brand',
-   *   extends: neutralTheme,
+   *   extends: pharosTheme,
    *   icons: myIcons,
    *   tokens: { '--color-accent': '#FF0000' },
    * });

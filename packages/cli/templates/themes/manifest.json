@@ -54,7 +54,7 @@
       "slug": "neutral",
       "displayName": "Neutral",
       "description": "Restrained warm grays. Minimal and quiet, so the content stays the focus.",
-      "maintained": true,
+      "maintained": false,
       "entry": "neutralTheme.ts",
       "exportName": "neutralTheme",
       "files": [
@@ -65,8 +65,8 @@
     {
       "slug": "pharos",
       "displayName": "Pharos",
-      "description": "Official Pharos theme for the Alexandria brand.",
-      "maintained": false,
+      "description": "Official Pharos theme for the Alexandria brand — the default theme for every Pharos app.",
+      "maintained": true,
       "entry": "pharosTheme.ts",
       "exportName": "pharosTheme",
       "files": [

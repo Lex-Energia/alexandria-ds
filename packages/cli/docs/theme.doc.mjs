@@ -18,18 +18,18 @@ export const docs = {
           type: 'code',
           lang: 'bash',
           label: 'Install a theme package',
-          code: 'npm install @pharos-ds/theme-neutral',
+          code: 'npm install @pharos-ds/theme-pharos',
         },
         {
           type: 'code',
           lang: 'tsx',
           label: 'Basic theme setup (runtime injection)',
           code: `import {Theme} from '@pharos-ds/core';
-import {neutralTheme} from '@pharos-ds/theme-neutral';
+import {pharosTheme} from '@pharos-ds/theme-pharos';
 
 function App() {
   return (
-    <Theme theme={neutralTheme}>
+    <Theme theme={pharosTheme}>
       <YourApp />
     </Theme>
   );
@@ -40,12 +40,12 @@ function App() {
           lang: 'tsx',
           label: 'Optimized setup (pre-built CSS)',
           code: `import {Theme} from '@pharos-ds/core';
-import {neutralTheme} from '@pharos-ds/theme-neutral/built';
-import '@pharos-ds/theme-neutral/theme.css';
+import {pharosTheme} from '@pharos-ds/theme-pharos/built';
+import '@pharos-ds/theme-pharos/theme.css';
 
 function App() {
   return (
-    <Theme theme={neutralTheme}>
+    <Theme theme={pharosTheme}>
       <YourApp />
     </Theme>
   );
@@ -67,16 +67,21 @@ function App() {
       content: [
         {
           type: 'prose',
-          text: 'Install the theme package you want with `npm install @pharos-ds/theme-{name}`, then import its theme object as shown below.',
+          text: 'The default theme is **Pharos** (`@pharos-ds/theme-pharos`) — the Alexandria brand. Every Alexandria product uses it. The remaining packages are example themes, kept as references for authoring a custom theme; install one with `npm install @pharos-ds/theme-{name}` only for that purpose.',
         },
         {
           type: 'table',
           headers: ['Theme', 'Import', 'Description'],
           rows: [
             [
-              'Neutral',
+              'Pharos (default)',
+              "import {pharosTheme} from '@pharos-ds/theme-pharos/built'",
+              'Alexandria brand: Figtree type, orange accent (#F26641), brand blue/purple/yellow categorical colors, Lucide icons. Light + dark.',
+            ],
+            [
+              'Neutral (example)',
               "import {neutralTheme} from '@pharos-ds/theme-neutral'",
-              'Muted, minimal aesthetic with system fonts. A good starting point.',
+              'Muted, minimal aesthetic with system fonts. Reference for custom themes.',
             ],
             [
               'Butter',
@@ -228,14 +233,14 @@ const myTheme = defineTheme({
         {
           type: 'code',
           lang: 'tsx',
-          label: 'Extending the neutral theme',
+          label: 'Extending the Pharos theme',
           code: `import {defineTheme} from '@pharos-ds/core/theme';
-import {neutralTheme} from '@pharos-ds/theme-neutral';
+import {pharosTheme} from '@pharos-ds/theme-pharos';
 import {myIcons} from './icons';
 
 const brandTheme = defineTheme({
   name: 'brand',
-  extends: neutralTheme,
+  extends: pharosTheme,
   icons: myIcons,
   tokens: {
     '--color-accent': ['#7B61FF', '#9B85FF'],
@@ -559,9 +564,9 @@ const pandaOrEmotionTheme = {
           lang: 'ts',
           label: 'Resolve token values without a hook',
           code: `import {resolveThemeTokens} from '@pharos-ds/core/theme/tokens';
-import {neutralTheme} from '@pharos-ds/theme-neutral';
+import {pharosTheme} from '@pharos-ds/theme-pharos';
 
-const lightTokens = resolveThemeTokens(neutralTheme, {mode: 'light'});
+const lightTokens = resolveThemeTokens(pharosTheme, {mode: 'light'});
 const chartTheme = {
   textColor: lightTokens['--color-text-primary'],
   seriesColor: lightTokens['--color-data-categorical-blue'],

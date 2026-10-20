@@ -252,7 +252,7 @@ export function checkThemes(ctx) {
       label: 'Theme packages',
       status: 'warn',
       message: 'No @pharos-ds/theme-* packages are installed.',
-      fix: 'Install a theme, e.g. `npm install @pharos-ds/theme-neutral`, then import its CSS or set pharos.theme.',
+      fix: 'Install the default theme: `npm install @pharos-ds/theme-pharos`, then import `@pharos-ds/theme-pharos/theme.css` or set pharos.theme.',
     };
   }
 

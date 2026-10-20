@@ -36,6 +36,10 @@ const VALID_FEATURES = ['agents', 'theme', 'template'];
  * don't end up with an unstyled app or the slower runtime style-injection
  * path. See https://github.com/Caio-Silvestre/alexandria-ds/issues/3080.
  *
+ * The default theme is `@pharos-ds/theme-pharos` (Alexandria brand). It is
+ * presented as a required step, not an option, so humans and agents end up
+ * with the Alexandria UI out of the box.
+ *
  * @param {string} invocation install-aware CLI invocation stem (e.g. `npx pharos`, `pnpm exec pharos`, or `npx @pharos-ds/cli` for one-off runs)
  * @returns {string[]} ordered list of human-facing lines
  */
@@ -46,10 +50,13 @@ export function getNextSteps(invocation) {
     "    1. Import base styles: import '@pharos-ds/core/reset.css'",
     "       and import '@pharos-ds/core/pharos.css'",
     "    2. Import components: import { Button } from '@pharos-ds/core'",
-    '    3. Optionally add a theme (use the pre-built path for performance):',
-    "       import { neutralTheme } from '@pharos-ds/theme-neutral/built'",
-    "       import '@pharos-ds/theme-neutral/theme.css'",
-    '       <Theme theme={neutralTheme}>...</Theme>',
+    '    3. Install the default theme (Pharos — Alexandria brand) and wrap the app with it',
+    '       (use the pre-built path for performance):',
+    '       npm install @pharos-ds/theme-pharos',
+    "       import { pharosTheme } from '@pharos-ds/theme-pharos/built'",
+    "       import '@pharos-ds/theme-pharos/theme.css'",
+    '       <Theme theme={pharosTheme}>...</Theme>',
+    '       Other @pharos-ds/theme-* packages are examples only — do not use them for Alexandria products.',
     `       For custom themes, run \`${invocation} theme build <file>\` to generate the built artifacts.`,
     `    4. ${invocation} --help for all commands`,
     '',

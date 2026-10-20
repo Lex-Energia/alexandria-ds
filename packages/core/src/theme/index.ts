@@ -10,9 +10,9 @@
  * - defineTheme: Create themes with token + component overrides
  * - Token exports for direct use in StyleX
  *
- * Themes are in separate packages:
- *   import { neutralTheme } from '@pharos-ds/theme-neutral';
- *   import { neutralTheme } from '@pharos-ds/theme-neutral';
+ * Themes are in separate packages. The default theme is Pharos (Alexandria brand):
+ *   import { pharosTheme } from '@pharos-ds/theme-pharos/built';
+ *   import '@pharos-ds/theme-pharos/theme.css';
  */
 
 export {Theme} from './Theme';
@@ -71,19 +71,13 @@ export {expandTypeScale, generateTypeScaleComponents} from './expandTypeScale';
 export type {TypeScaleConfig, TypeScaleTokens} from './expandTypeScale';
 
 export {expandRadiusScale} from './expandRadiusScale';
-export type {
-  RadiusScaleConfig,
-  RadiusScaleTokens,
-} from './expandRadiusScale';
+export type {RadiusScaleConfig, RadiusScaleTokens} from './expandRadiusScale';
 
 export {expandColorScale} from './expandColorScale';
 export type {ColorScaleConfig, ColorScaleTokens} from './expandColorScale';
 
 export {expandMotionScale} from './expandMotionScale';
-export type {
-  MotionScaleConfig,
-  MotionScaleTokens,
-} from './expandMotionScale';
+export type {MotionScaleConfig, MotionScaleTokens} from './expandMotionScale';
 
 // Export token defaults and vars for use in custom components and themes
 export {

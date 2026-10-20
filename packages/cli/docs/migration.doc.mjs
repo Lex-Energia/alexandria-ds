@@ -92,15 +92,15 @@ pharos component Button --json`,
           lang: 'tsx',
           label: 'Root provider with explicit mode',
           code: `import {Theme} from '@pharos-ds/core/theme';
-import {neutralTheme} from '@pharos-ds/theme-neutral/built';
+import {pharosTheme} from '@pharos-ds/theme-pharos/built';
 import {useState} from 'react';
-import '@pharos-ds/theme-neutral/theme.css';
+import '@pharos-ds/theme-pharos/theme.css';
 
 export function AppRoot({children}: {children: React.ReactNode}) {
   const [mode, setMode] = useState<'system' | 'light' | 'dark'>('system');
 
   return (
-    <Theme theme={neutralTheme} mode={mode}>
+    <Theme theme={pharosTheme} mode={mode}>
       <SettingsContext.Provider value={{mode, setMode}}>
         {children}
       </SettingsContext.Provider>
@@ -122,7 +122,7 @@ export function AppRoot({children}: {children: React.ReactNode}) {
 @import "tailwindcss/preflight.css" layer(base);
 @import "@pharos-ds/core/reset.css";
 @import "@pharos-ds/core/pharos.css";
-@import "@pharos-ds/theme-neutral/theme.css";
+@import "@pharos-ds/theme-pharos/theme.css";
 @import "@pharos-ds/core/tailwind-theme.css";
 @import "tailwindcss/utilities.css" layer(utilities);`,
         },
@@ -138,7 +138,7 @@ export function AppRoot({children}: {children: React.ReactNode}) {
 
 @import "@pharos-ds/core/reset.css";
 @import "@pharos-ds/core/pharos.css";
-@import "@pharos-ds/theme-neutral/theme.css";
+@import "@pharos-ds/theme-pharos/theme.css";
 
 @layer tw-preflight {
   @tailwind base; /* layered: pharos-theme now wins over preflight */
