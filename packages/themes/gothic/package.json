@@ -1,6 +1,6 @@
 {
   "name": "@pharos-ds/theme-gothic",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "displayName": "Gothic Theme",
   "private": true,
   "description": "Deep blue-grays and a signature display serif. Dramatic and editorial, for surfaces that want to be remembered.",
@@ -52,11 +52,11 @@
     "lucide-react": "^1.26.0"
   },
   "peerDependencies": {
-    "@pharos-ds/core": "1.0.0",
+    "@pharos-ds/core": "1.0.2",
     "react": ">=19"
   },
   "devDependencies": {
-    "@pharos-ds/cli": "1.0.0"
+    "@pharos-ds/cli": "1.0.2"
   },
   "module": "./dist/source.mjs"
 }
