@@ -1,5 +1,19 @@
 # @xds/cli
 
+# 1.0.3
+
+#### Other Changes
+
+- Republish the CLI: the 1.0.2 publish was accepted by npm but never left its staging pipeline, so `npx @pharos-ds/cli@latest` still resolved to 1.0.0. No code changes versus 1.0.2.
+
+#### Contributors
+
+Thanks to everyone who contributed to this release:
+
+- @Caio-Silvestre
+
+---
+
 # 1.0.2
 
 #### New Features
