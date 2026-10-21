@@ -14,4 +14,7 @@ export type {
   AlexandriaLogoKind,
   AlexandriaLogoProps,
   AlexandriaLogoTone,
+  AlexandriaSymbolProps,
+  AlexandriaSymbolTone,
+  AlexandriaWordmarkProps,
 } from './AlexandriaLogo';

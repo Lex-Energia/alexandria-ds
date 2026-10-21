@@ -27,6 +27,7 @@ const SURFACES = [
   '--color-background-surface',
   '--color-background-body',
   '--color-background-card',
+  '--color-background-muted',
 ];
 
 describe.each<Mode>(['light', 'dark'])('Pharos theme contrast (%s)', mode => {
@@ -159,3 +160,111 @@ describe('Pharos icon registry', () => {
     }
   });
 });
+
+/** A parsed `#rgb`, `#rrggbb` or `#rrggbbaa` color; `var(--token)` is followed. */
+type Rgba = {r: number; g: number; b: number; a: number};
+
+function parseRgba(tokens: Record<string, string>, value: string): Rgba {
+  const alias = /^var\((--[\w-]+)\)$/.exec(value.trim());
+  if (alias) {return parseRgba(tokens, tokens[alias[1]]);}
+  let hex = value.trim().replace('#', '');
+  if (hex.length === 3) {hex = [...hex].map(c => c + c).join('');}
+  const channel = (i: number) => parseInt(hex.slice(i, i + 2), 16);
+  return {
+    r: channel(0),
+    g: channel(2),
+    b: channel(4),
+    a: hex.length >= 8 ? channel(6) / 255 : 1,
+  };
+}
+
+/** The opaque color `fg` paints over an opaque `bg`, as the browser blends it. */
+function over(fg: Rgba, bg: Rgba): Rgba {
+  const mix = (f: number, b: number) => fg.a * f + (1 - fg.a) * b;
+  return {r: mix(fg.r, bg.r), g: mix(fg.g, bg.g), b: mix(fg.b, bg.b), a: 1};
+}
+
+function toHex({r, g, b}: Rgba): string {
+  return `#${[r, g, b].map(v => Math.round(v).toString(16).padStart(2, '0')).join('')}`;
+}
+
+const HUES = [
+  'red',
+  'orange',
+  'yellow',
+  'green',
+  'teal',
+  'cyan',
+  'blue',
+  'purple',
+  'pink',
+  'gray',
+] as const;
+const STATUSES = ['success', 'error', 'warning'] as const;
+
+// Tinted backgrounds (banners, badges, tokens, the destructive Button) are
+// translucent in dark mode, so what the text sits on depends on the surface
+// underneath: body #383838, or the lighter surface #454545 of dialogs and the
+// app shell. axe caught the destructive Button at 4.24:1 on the surface once.
+describe.each<Mode>(['light', 'dark'])(
+  'Pharos theme contrast of tinted surfaces (%s)',
+  mode => {
+    const tokens = resolveThemeTokens(pharosTheme, {mode});
+    const rgba = (name: string) => parseRgba(tokens, tokens[name]);
+    const ratio = (fgToken: string, bgToken: string, baseToken: string) => {
+      const bg = over(rgba(bgToken), rgba(baseToken));
+      return contrast(toHex(over(rgba(fgToken), bg)), toHex(bg));
+    };
+
+    const hueCases = HUES.flatMap(hue =>
+      SURFACES.map(base => [hue, base] as const),
+    );
+    const statusCases = STATUSES.flatMap(status =>
+      SURFACES.map(base => [status, base] as const),
+    );
+
+    it.each(hueCases)('text-%s on its tint over %s meets AA', (hue, base) => {
+      expect(
+        ratio(`--color-text-${hue}`, `--color-background-${hue}`, base),
+      ).toBeGreaterThanOrEqual(AA_TEXT);
+    });
+
+    it.each(hueCases)(
+      'icon-%s on its tint over %s meets AA non-text',
+      (hue, base) => {
+        expect(
+          ratio(`--color-icon-${hue}`, `--color-background-${hue}`, base),
+        ).toBeGreaterThanOrEqual(AA_NON_TEXT);
+      },
+    );
+
+    it.each(statusCases)(
+      '%s text on its muted tint over %s meets AA',
+      (s, base) => {
+        expect(
+          ratio(`--color-${s}`, `--color-${s}-muted`, base),
+        ).toBeGreaterThanOrEqual(AA_TEXT);
+      },
+    );
+
+    it.each(SURFACES)(
+      'accent and primary text on accent-muted over %s',
+      base => {
+        for (const text of ['--color-text-accent', '--color-text-primary']) {
+          expect(
+            ratio(text, '--color-accent-muted', base),
+          ).toBeGreaterThanOrEqual(AA_TEXT);
+        }
+      },
+    );
+
+    // Kbd and Pagination set secondary text on the neutral wash.
+    it.each(SURFACES)('primary and secondary text on neutral over %s', base => {
+      for (const text of ['--color-text-primary', '--color-text-secondary']) {
+        expect(ratio(text, '--color-neutral', base)).toBeGreaterThanOrEqual(
+          AA_TEXT,
+        );
+      }
+    });
+  },
+);

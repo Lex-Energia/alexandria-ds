@@ -23,13 +23,15 @@
  * altered):
  *   #B04324 / #B84626  laranja darkened  — orange text/icons on light surfaces
  *   #FF8A5C / #FFA07A / #FFC4A8  laranja lifted — orange on dark surfaces
- *   #6BA3F5 / #8BB8F8 / #C5DBFC  azul lifted — blue fill/text/icons on dark
+ *   #6BA3F5 / #8BB8F8 / #A9CBFA / #C5DBFC  azul lifted — blue fill/text/icons on dark
  *   #A67BC4 / #C4A3E0 / #DCC8F0  roxo lifted — purple on dark
  *   #5C3A7A            roxo darkened — purple text on light pastel
- *   #B87400            amarelo darkened — yellow text/icons on light
+ *   #B87400 / #946000  amarelo darkened — yellow icons / text on light
  *   #FFD066 / #FFE08A  amarelo lifted — yellow on dark
- *   <hue>3D            24% alpha overlays of the lifted tones — tinted
+ *   <hue>29            16% alpha overlays of the lifted tones — tinted
  *                      surfaces in dark mode (banner, badge backgrounds)
+ *   #616161 / #cccccc  chumbo-derived grays — secondary text and icons on
+ *                      light / dark (AA on every surface, tinted or neutral)
  * Status colors (green, red, amber) are technical colors outside the brand
  * palette, allowed for success / error / warning only.
  *
@@ -131,8 +133,8 @@ export const pharosTheme = defineTheme({
     // Accent — brand azul Alexandria (#034694): primary action, links, focus
     // and information. Dark mode lifts for contrast on the chumbo canvas.
     '--color-accent': ['#034694', '#6BA3F5'],
-    '--color-accent-muted': ['#D6E4F5', '#6BA3F53D'],
-    '--color-neutral': ['#3838380F', '#FFFFFF1A'],
+    '--color-accent-muted': ['#D6E4F5', '#6BA3F524'],
+    '--color-neutral': ['#3838380F', '#FFFFFF14'],
 
     // Overlays (modal scrims, hover/pressed tints) — tinted with chumbo, not
     // absolute black.
@@ -142,11 +144,11 @@ export const pharosTheme = defineTheme({
 
     // Text — chumbo #383838 (brandbook); avoid absolute black
     '--color-text-primary': ['#383838', '#fafafa'],
-    '--color-text-secondary': ['#737373', '#bdbdbd'],
+    '--color-text-secondary': ['#616161', '#cccccc'],
     '--color-text-disabled': ['#a3a3a3', '#7a7a7a'],
     // Brand azul clears AA as text on white (9.1:1) and on muted #f1f1f1; dark
     // mode uses the lifted stop (5.8:1 on body, 4.7:1 on surface).
-    '--color-text-accent': ['#034694', '#8BB8F8'],
+    '--color-text-accent': ['#034694', '#A9CBFA'],
     '--color-on-dark': '#ffffff',
     '--color-on-light': '#383838',
     // White on brand azul is 9.1:1; dark text on the lifted dark-mode azul
@@ -157,9 +159,9 @@ export const pharosTheme = defineTheme({
     '--color-on-warning': '#383838',
 
     // Icon
-    '--color-icon-accent': ['#034694', '#8BB8F8'],
+    '--color-icon-accent': ['#034694', '#A9CBFA'],
     '--color-icon-primary': ['#383838', '#fafafa'],
-    '--color-icon-secondary': ['#737373', '#bdbdbd'],
+    '--color-icon-secondary': ['#616161', '#cccccc'],
     '--color-icon-disabled': ['#a3a3a3', '#7a7a7a'],
 
     // Status / Sentiment — dark mode follows the issue #2150 rubric:
@@ -177,7 +179,7 @@ export const pharosTheme = defineTheme({
     //                       (in light), banner-status-* text overrides.
     //   --color-X-muted   = "muted bg stop":
     //                         light = T90 light pastel
-    //                         dark  = hue-tinted alpha overlay (T70 stop @ 24%)
+    //                         dark  = hue-tinted alpha overlay (T70 stop @ 16%)
     //                       Used by banner bg, status-input message bg,
     //                       destructive button bg. Dark mode uses an alpha
     //                       overlay rather than a solid T20 tinted bg so
@@ -185,16 +187,18 @@ export const pharosTheme = defineTheme({
     //                       it (body, card, popover) rather than reading
     //                       as a hard colored panel.
     //
-    //   24% alpha = '3D' suffix. Hue values match --color-icon-{X} dark
-    //   slots (palette T70). Composited onto body #1b1b1b, the effective
-    //   bg luminance hits ~1.65-1.70:1 vs body — visible colored surface
-    //   without the heaviness of a solid T20 panel.
+    //   16% alpha = '29' suffix. Hue values match --color-icon-{X} dark
+    //   slots (palette T70). The tint composites onto whatever sits behind
+    //   it, and the text on it has to clear AA (4.5:1) on every dark base —
+    //   body #383838 and the lighter surface #454545 that dialogs and the app
+    //   shell use. At the earlier 24% the pastel text fell to ~4.2:1 on the
+    //   surface (axe flagged the destructive Button), so the tint is lighter.
     '--color-success': ['#007004', '#9fe59b'],
     '--color-error': ['#a50c25', '#ffc6c1'],
     '--color-warning': ['#745b00', '#fdcf4f'],
-    '--color-success-muted': ['#c5e5c0', '#84c9803D'],
-    '--color-error-muted': ['#facecb', '#ff9e973D'],
-    '--color-warning-muted': ['#f8da9d', '#deb4333D'],
+    '--color-success-muted': ['#c5e5c0', '#84c98029'],
+    '--color-error-muted': ['#facecb', '#ff9e9729'],
+    '--color-warning-muted': ['#f8da9d', '#deb43329'],
 
     // Border
     '--color-border': ['#00000014', '#FFFFFF1A'],
@@ -214,12 +218,11 @@ export const pharosTheme = defineTheme({
     //               the token touches).
     //
     // Per-token tone choice (CIELab L*):
-    //   bg     light=T87-T90 pastel       dark=T70 hue @ 24% alpha overlay
-    //                                       (composites onto body to ~1.65:1
-    //                                        vs body — colored surface that
-    //                                        feels lighter than a solid T20
-    //                                        panel; same hue as --color-icon-X
-    //                                        dark slot, just at lower opacity)
+    //   bg     light=T87-T90 pastel       dark=T70 hue @ 16% alpha overlay
+    //                                       (a colored surface lighter than a
+    //                                        solid T20 panel; same hue as the
+    //                                        --color-icon-X dark slot, just at
+    //                                        lower opacity)
     //   border light=T80 pastel           dark=T60 mid-bright (>=5.8:1 vs body)
     //   icon   light=T30 dark colored     dark=T70 light pastel
     //   text   light=T30 dark colored     dark=T80 light pastel (>=7:1 on bg)
@@ -234,17 +237,17 @@ export const pharosTheme = defineTheme({
     // apps/sandbox/src/app/(fullscreen)/pages/neutral-palette/page.tsx via
     // the canonical dark-ramp transform (chroma×0.85, +5 tone-lift taper)
     // — same algorithm the Tonal Palettes preview renders. Border=T60,
-    // icon=T70, text=T80. Background uses the T70 hue at 24% alpha so the
-    // overlay surface composites onto body to ~1.65:1 luminance.
+    // icon=T70, text=T80. Background uses the T70 hue at 16% alpha, the most
+    // tint that keeps the T80 text at AA on both dark bases.
 
     // Red  H=22 — source #eb183a
-    '--color-background-red': ['#facecb', '#ff9e973D'],
+    '--color-background-red': ['#facecb', '#ff9e9729'],
     '--color-border-red': ['#e6bab8', '#ff6f6c'],
     '--color-icon-red': ['#89001a', '#ff9e97'],
     '--color-text-red': ['#89001a', '#ffc6c1'],
 
     // Orange — brand #F26641 (Pantone 7579 C)
-    '--color-background-orange': ['#FDE0D6', '#F266413D'],
+    '--color-background-orange': ['#FDE0D6', '#F2664129'],
     '--color-border-orange': ['#F5C4B3', '#F26641'],
     // #C44A28 was 3.9:1 on the pastel #FDE0D6 (badge/banner text); #B04324
     // reaches 4.6:1 there and 5.1:1 on body.
@@ -252,13 +255,13 @@ export const pharosTheme = defineTheme({
     '--color-text-orange': ['#B04324', '#FFC4A8'],
 
     // Yellow — brand #FAA61A / #FFF200
-    '--color-background-yellow': ['#FFF0CC', '#FAA61A3D'],
+    '--color-background-yellow': ['#FFF0CC', '#FAA61A29'],
     '--color-border-yellow': ['#F5D78A', '#FAA61A'],
     '--color-icon-yellow': ['#B87400', '#FFD066'],
-    '--color-text-yellow': ['#B87400', '#FFE08A'],
+    '--color-text-yellow': ['#946000', '#FFE08A'],
 
     // Green  H=144 — source #358a3a
-    '--color-background-green': ['#c5e5c0', '#84c9803D'],
+    '--color-background-green': ['#c5e5c0', '#84c98029'],
     '--color-border-green': ['#b2d1ac', '#69ad67'],
     '--color-icon-green': ['#0c5700', '#84c980'],
     '--color-text-green': ['#0c5700', '#9fe59b'],
@@ -270,32 +273,32 @@ export const pharosTheme = defineTheme({
     // ~5% brighter than red/blue because the eye's luminance response
     // peaks in this band. Dropping L+C brings perceived brightness in
     // line with the rest of the palette without losing hue identity.
-    '--color-background-teal': ['#a5e3d6', '#7ec6b83D'],
+    '--color-background-teal': ['#a5e3d6', '#7ec6b829'],
     '--color-border-teal': ['#94d6c8', '#63ab9d'],
     '--color-icon-teal': ['#005348', '#7ec6b8'],
     '--color-text-teal': ['#005348', '#99e2d3'],
 
     // Cyan  H=215 — source #0c6f82
     // Same L=0.87 C=0.065 pastel as teal (luminance overshoot compensation).
-    '--color-background-cyan': ['#a3e0ef', '#83c2d43D'],
+    '--color-background-cyan': ['#a3e0ef', '#83c2d429'],
     '--color-border-cyan': ['#91d3e3', '#67a7b8'],
     '--color-icon-cyan': ['#00505f', '#83c2d4'],
     '--color-text-cyan': ['#00505f', '#9edef0'],
 
     // Blue — brand azul categórico / info #034694 (Pantone 286 C)
-    '--color-background-blue': ['#D6E4F5', '#6BA3F53D'],
+    '--color-background-blue': ['#D6E4F5', '#6BA3F529'],
     '--color-border-blue': ['#A8C4E8', '#6BA3F5'],
     '--color-icon-blue': ['#034694', '#8BB8F8'],
     '--color-text-blue': ['#034694', '#C5DBFC'],
 
     // Purple — brand destaque #7C51A1 (Pantone 7441 C)
-    '--color-background-purple': ['#EDE4F4', '#7C51A13D'],
+    '--color-background-purple': ['#EDE4F4', '#7C51A129'],
     '--color-border-purple': ['#D0BBE3', '#A67BC4'],
     '--color-icon-purple': ['#7C51A1', '#C4A3E0'],
     '--color-text-purple': ['#5C3A7A', '#DCC8F0'],
 
     // Pink  H=355 — source #b10e69
-    '--color-background-pink': ['#fccadc', '#ff99c33D'],
+    '--color-background-pink': ['#fccadc', '#ff99c329'],
     '--color-border-pink': ['#e7b7c8', '#f273aa'],
     '--color-icon-pink': ['#83004b', '#ff99c3'],
     '--color-text-pink': ['#83004b', '#ffc3da'],
@@ -304,13 +307,13 @@ export const pharosTheme = defineTheme({
     //   Light: #e5e5e5 (Neutral 200) so it's visibly distinct from the
     //          lighter body / muted surface (both #f5f5f5).
     //   Dark : var(--color-neutral) — semi-transparent white wash
-    //          (#FFFFFF1A, 10%). Matches the same treatment the gray
-    //          badge uses; clearly distinct from the body T10 #1b1b1b
-    //          while staying chroma-0 neutral. Solid T15 #1c1c1c was
-    //          indistinguishable from --color-background-muted.
+    //          (#FFFFFF14, 8%). Matches the same treatment the gray
+    //          badge uses; distinct from the chumbo body while staying
+    //          chroma-0 neutral, and light enough that secondary text on it
+    //          (Kbd, Pagination) keeps AA on the surface tone too.
     '--color-background-gray': ['#e5e5e5', 'var(--color-neutral)'],
     '--color-border-gray': ['#d4d4d4', '#4d4d4d'],
-    '--color-icon-gray': ['#525252', '#a3a3a3'],
+    '--color-icon-gray': ['#525252', '#b3b3b3'],
     '--color-text-gray': ['#383838', '#e5e5e5'],
 
     // =========================================================================

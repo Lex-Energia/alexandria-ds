@@ -27,6 +27,21 @@ describe('AlexandriaLogo', () => {
     expect(html('dark')).toContain(escaped(alexandriaLogoSources.logo.white));
   });
 
+  it('uses the transparent "A" on light and the gradient tile on dark', () => {
+    expect(html('light', {kind: 'symbol'})).toContain(
+      escaped(alexandriaLogoSources.symbol.transparente),
+    );
+    expect(html('dark', {kind: 'symbol'})).toContain(
+      escaped(alexandriaLogoSources.symbol.gradiente),
+    );
+  });
+
+  it('honors an explicit symbol background', () => {
+    expect(html('dark', {kind: 'symbol', tone: 'branco'})).toContain(
+      escaped(alexandriaLogoSources.symbol.branco),
+    );
+  });
+
   it('honors an explicit tone and the slogan kind', () => {
     expect(html('dark', {tone: 'azul', kind: 'slogan'})).toContain(
       escaped(alexandriaLogoSources.slogan.azul),
