@@ -96,16 +96,18 @@ describe('packageRegistry', () => {
     const names = packages.map(p => p.name);
     expect(names).toContain('@pharos-ds/core');
     expect(names).toContain('@pharos-ds/cli');
-    expect(names).toContain('@pharos-ds/theme-neutral');
-    expect(names).toContain('@pharos-ds/theme-gothic');
-    expect(names).toContain('@pharos-ds/theme-stone');
+    // The example themes are private (only theme-pharos is published), so the
+    // registry skips them even though the docsite depends on them.
+    expect(names).not.toContain('@pharos-ds/theme-neutral');
+    expect(names).not.toContain('@pharos-ds/theme-gothic');
+    expect(names).not.toContain('@pharos-ds/theme-stone');
     expect(names).not.toContain('@pharos-ds/theme-default');
     expect(names).not.toContain('@pharos-ds/theme-brutalist');
     expect(names).not.toContain('@pharos-ds/theme-chocolate');
     expect(names).not.toContain('@pharos-ds/theme-daily');
     expect(names).not.toContain('@pharos-ds/lab');
     expect(names).not.toContain('@pharos-ds/build');
-    expect(packages.length).toBeGreaterThanOrEqual(5);
+    expect(packages.length).toBeGreaterThanOrEqual(2);
   });
 
   it('only includes packages listed in docsite dependencies', () => {
@@ -734,7 +736,8 @@ describe('themeRegistry', () => {
     const themePackages = packages.filter(p =>
       p.name.startsWith('@pharos-ds/theme-'),
     );
-    expect(themePackages.length).toBeGreaterThan(0);
+    // Zero is valid: published themes only enter the registry when the docsite
+    // lists them as dependencies.
     for (const pkg of themePackages) {
       const slug = pkg.name.replace('@pharos-ds/theme-', '');
       expect(registrySource).toContain(`from '${pkg.name}/built'`);

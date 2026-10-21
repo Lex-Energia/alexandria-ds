@@ -21,6 +21,7 @@ cd "$REPO_ROOT"
 #   - node_modules, .git, dist, .claude (worktrees), .changeset
 #   - markdown, json, lock, map, image, font, svg, snap, license/readme
 #   - .husky internals
+#   - pnpm-workspace.yaml (carries the Pharos rebrand header, not the Meta one)
 SOURCE_FILES=()
 while IFS= read -r -d '' file; do
   SOURCE_FILES+=("$file")
@@ -42,6 +43,7 @@ done < <(
     -not -path '*/.husky/_/*' \
     -not -path '*/__snapshots__/*' \
     -not -name 'pnpm-lock.yaml' \
+    -not -name 'pnpm-workspace.yaml' \
     -not -name 'next-env.d.ts' \
     -print0
 )
