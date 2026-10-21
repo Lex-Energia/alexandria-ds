@@ -918,6 +918,189 @@ describe('SideNavSection', () => {
   });
 });
 
+describe('SideNavSection — collapsible', () => {
+  const items = (
+    <>
+      <SideNavItem label="Dashboard" />
+      <SideNavItem label="Reports" />
+    </>
+  );
+
+  function getItemsRegion(button: HTMLElement) {
+    const id = button.getAttribute('aria-controls');
+    expect(id).toBeTruthy();
+    return document.getElementById(id!)!;
+  }
+
+  it('is not collapsible by default (no toggle button)', () => {
+    render(<SideNavSection title="Main">{items}</SideNavSection>);
+    expect(
+      screen.queryByRole('button', {name: 'Main'}),
+    ).not.toBeInTheDocument();
+    expect(document.querySelector('[aria-expanded]')).toBeNull();
+    expect(document.querySelector('[inert]')).toBeNull();
+  });
+
+  it('renders the title as a toggle button named by the title', () => {
+    render(
+      <SideNavSection title="Main" collapsible>
+        {items}
+      </SideNavSection>,
+    );
+    const button = screen.getByRole('button', {name: 'Main'});
+    expect(button).toHaveAttribute('type', 'button');
+    expect(button).toHaveAttribute('aria-expanded', 'true');
+    expect(button).not.toHaveAttribute('aria-label');
+    const region = getItemsRegion(button);
+    expect(region).toContainElement(screen.getByText('Dashboard'));
+    expect(region).not.toHaveAttribute('inert');
+    expect(region).not.toHaveAttribute('aria-hidden');
+  });
+
+  it('keeps role="group" labelled by the title', () => {
+    render(
+      <SideNavSection title="Main" collapsible>
+        {items}
+      </SideNavSection>,
+    );
+    const group = screen.getByRole('group');
+    const label = document.getElementById(
+      group.getAttribute('aria-labelledby')!,
+    );
+    expect(label).toHaveTextContent('Main');
+  });
+
+  it('toggles aria-expanded, inert and aria-hidden on click', async () => {
+    const user = userEvent.setup();
+    render(
+      <SideNavSection title="Main" collapsible data-testid="section">
+        {items}
+      </SideNavSection>,
+    );
+    const button = screen.getByRole('button', {name: 'Main'});
+    const region = getItemsRegion(button);
+
+    await user.click(button);
+    expect(button).toHaveAttribute('aria-expanded', 'false');
+    expect(region).toHaveAttribute('inert');
+    expect(region).toHaveAttribute('aria-hidden', 'true');
+    expect(screen.getByTestId('section')).toHaveAttribute(
+      'data-collapsed',
+      'collapsed',
+    );
+
+    await user.click(button);
+    expect(button).toHaveAttribute('aria-expanded', 'true');
+    expect(region).not.toHaveAttribute('inert');
+    expect(region).not.toHaveAttribute('aria-hidden');
+    expect(screen.getByTestId('section')).not.toHaveAttribute('data-collapsed');
+  });
+
+  it('starts collapsed with defaultIsCollapsed', () => {
+    render(
+      <SideNavSection title="Main" collapsible={{defaultIsCollapsed: true}}>
+        {items}
+      </SideNavSection>,
+    );
+    const button = screen.getByRole('button', {name: 'Main'});
+    expect(button).toHaveAttribute('aria-expanded', 'false');
+    expect(getItemsRegion(button)).toHaveAttribute('inert');
+  });
+
+  it('controlled mode calls onCollapsedChange and respects the prop', async () => {
+    const user = userEvent.setup();
+    const onCollapsedChange = vi.fn();
+    const {rerender} = render(
+      <SideNavSection
+        title="Main"
+        collapsible={{isCollapsed: false, onCollapsedChange}}>
+        {items}
+      </SideNavSection>,
+    );
+    const button = screen.getByRole('button', {name: 'Main'});
+
+    await user.click(button);
+    expect(onCollapsedChange).toHaveBeenCalledWith(true);
+    // Prop did not change, so the section stays expanded
+    expect(button).toHaveAttribute('aria-expanded', 'true');
+
+    rerender(
+      <SideNavSection
+        title="Main"
+        collapsible={{isCollapsed: true, onCollapsedChange}}>
+        {items}
+      </SideNavSection>,
+    );
+    expect(button).toHaveAttribute('aria-expanded', 'false');
+    expect(getItemsRegion(button)).toHaveAttribute('inert');
+
+    await user.click(button);
+    expect(onCollapsedChange).toHaveBeenLastCalledWith(false);
+  });
+
+  it('toggles with Enter and Space (native button)', async () => {
+    const user = userEvent.setup();
+    render(
+      <SideNavSection title="Main" collapsible>
+        {items}
+      </SideNavSection>,
+    );
+    const button = screen.getByRole('button', {name: 'Main'});
+    button.focus();
+
+    await user.keyboard('{Enter}');
+    expect(button).toHaveAttribute('aria-expanded', 'false');
+    await user.keyboard(' ');
+    expect(button).toHaveAttribute('aria-expanded', 'true');
+  });
+
+  it('keeps endContent outside the toggle button', () => {
+    render(
+      <SideNavSection
+        title="Main"
+        collapsible
+        endContent={
+          <button type="button" data-testid="section-action">
+            +
+          </button>
+        }>
+        {items}
+      </SideNavSection>,
+    );
+    const toggle = screen.getByRole('button', {name: 'Main'});
+    const action = screen.getByTestId('section-action');
+    expect(toggle).not.toContainElement(action);
+    expect(action.closest('button')).toBe(action);
+  });
+
+  it('is ignored when the SideNav is rail-collapsed', () => {
+    render(
+      <SideNavCollapseContext
+        value={{isCollapsed: true, toggle: () => {}, isCollapsible: true}}>
+        <SideNavSection title="Main" collapsible={{defaultIsCollapsed: true}}>
+          <SideNavItem label="Dashboard" icon={StubIcon} />
+        </SideNavSection>
+      </SideNavCollapseContext>,
+    );
+    expect(document.querySelector('[aria-expanded]')).toBeNull();
+    expect(document.querySelector('[inert]')).toBeNull();
+    expect(screen.getByLabelText('Dashboard')).toBeInTheDocument();
+  });
+
+  it('is ignored when the header is hidden', () => {
+    render(
+      <SideNavSection
+        title="Main"
+        isHeaderHidden
+        collapsible={{defaultIsCollapsed: true}}>
+        {items}
+      </SideNavSection>,
+    );
+    expect(document.querySelector('[aria-expanded]')).toBeNull();
+    expect(document.querySelector('[inert]')).toBeNull();
+  });
+});
+
 // =============================================================================
 // Resizable
 // =============================================================================
