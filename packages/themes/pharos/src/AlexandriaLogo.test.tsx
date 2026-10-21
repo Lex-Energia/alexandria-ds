@@ -1,0 +1,35 @@
+// Copyright (c) Meta Platforms, Inc. and affiliates.
+
+import React from 'react';
+import {describe, expect, it} from 'vitest';
+import {renderToStaticMarkup} from 'react-dom/server';
+import {Theme} from '@pharos-ds/core/theme';
+import {pharosTheme} from './pharosTheme';
+import {AlexandriaLogo, type AlexandriaLogoProps} from './AlexandriaLogo';
+import {alexandriaLogoSources} from './logos.generated';
+
+function html(mode: 'light' | 'dark', props: AlexandriaLogoProps = {}) {
+  return renderToStaticMarkup(
+    <Theme theme={pharosTheme} mode={mode}>
+      <AlexandriaLogo {...props} />
+    </Theme>,
+  );
+}
+
+// The markup HTML-escapes the data URI, so compare against its escaped form.
+const escaped = (src: string) => src.replace(/&/g, '&amp;');
+
+describe('AlexandriaLogo', () => {
+  it('uses the gradient logo on light and white on dark', () => {
+    expect(html('light')).toContain(
+      escaped(alexandriaLogoSources.logo.colorido),
+    );
+    expect(html('dark')).toContain(escaped(alexandriaLogoSources.logo.white));
+  });
+
+  it('honors an explicit tone and the slogan kind', () => {
+    expect(html('dark', {tone: 'azul', kind: 'slogan'})).toContain(
+      escaped(alexandriaLogoSources.slogan.azul),
+    );
+  });
+});

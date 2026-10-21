@@ -50,6 +50,7 @@
     "src"
   ],
   "scripts": {
+    "build:logos": "node scripts/build-logos.mjs",
     "build": "rm -rf dist && pharos theme build src/pharosTheme.ts -o dist/theme.css && cp src/fonts.css dist/fonts.css && tsup && tsc --project tsconfig.build.json"
   },
   "dependencies": {

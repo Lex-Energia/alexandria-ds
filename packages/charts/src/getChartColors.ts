@@ -79,8 +79,10 @@ export type TokenResolver = (name: string) => string;
 
 const CATEGORICAL_TOKENS = [
   '--color-data-categorical-blue',
-  '--color-data-categorical-orange',
   '--color-data-categorical-purple',
+  '--color-data-categorical-orange',
+  '--color-data-categorical-yellow',
+  '--color-data-categorical-gray',
   '--color-data-categorical-green',
   '--color-data-categorical-pink',
   '--color-data-categorical-cyan',

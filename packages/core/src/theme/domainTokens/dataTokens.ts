@@ -18,15 +18,17 @@
 
 export const dataTokenDefaults = {
   // --- Categorical palette (single accent color per category) ---
-  '--color-data-categorical-blue':   'light-dark(#0171E3, #0171E3)',
+  '--color-data-categorical-blue': 'light-dark(#0171E3, #0171E3)',
   '--color-data-categorical-orange': 'light-dark(#EB6E00, #EB6E00)',
   '--color-data-categorical-purple': 'light-dark(#6B1EFD, #6B1EFD)',
-  '--color-data-categorical-green':  'light-dark(#0B991F, #0B991F)',
-  '--color-data-categorical-pink':   'light-dark(#F351C0, #F351C0)',
-  '--color-data-categorical-cyan':   'light-dark(#0171A4, #0171A4)',
-  '--color-data-categorical-red':    'light-dark(#F5394F, #F5394F)',
-  '--color-data-categorical-teal':   'light-dark(#08A3A3, #08A3A3)',
-  '--color-data-categorical-brown':  'light-dark(#965E03, #965E03)',
+  '--color-data-categorical-yellow': 'light-dark(#E0A800, #E0A800)',
+  '--color-data-categorical-gray': 'light-dark(#6B7280, #9CA3AF)',
+  '--color-data-categorical-green': 'light-dark(#0B991F, #0B991F)',
+  '--color-data-categorical-pink': 'light-dark(#F351C0, #F351C0)',
+  '--color-data-categorical-cyan': 'light-dark(#0171A4, #0171A4)',
+  '--color-data-categorical-red': 'light-dark(#F5394F, #F5394F)',
+  '--color-data-categorical-teal': 'light-dark(#08A3A3, #08A3A3)',
+  '--color-data-categorical-brown': 'light-dark(#965E03, #965E03)',
   '--color-data-categorical-indigo': 'light-dark(#6F8AFF, #6F8AFF)',
 
   // --- Neutral ---

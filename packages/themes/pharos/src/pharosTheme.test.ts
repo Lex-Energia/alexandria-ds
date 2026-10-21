@@ -123,10 +123,10 @@ describe('Pharos theme brand fidelity', () => {
     expect(
       [
         '--color-data-categorical-blue',
-        '--color-data-categorical-orange',
         '--color-data-categorical-purple',
-        '--color-data-categorical-green',
-        '--color-data-categorical-pink',
+        '--color-data-categorical-orange',
+        '--color-data-categorical-yellow',
+        '--color-data-categorical-gray',
       ].map(name => light[name].toUpperCase()),
     ).toEqual(['#034694', '#7C51A1', '#F26641', '#FAA61A', '#383838']);
   });

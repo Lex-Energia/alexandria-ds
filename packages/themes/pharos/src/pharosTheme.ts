@@ -314,23 +314,17 @@ export const pharosTheme = defineTheme({
     '--color-text-gray': ['#383838', '#e5e5e5'],
 
     // =========================================================================
-    // Chart series — start with the brand: azul, roxo, laranja, amarelo,
-    // chumbo. Slot names (-blue, -orange, ...) are positional in
-    // getChartColors, not hues: slot 2 holds roxo, slot 3 laranja, and so on.
-    // Slots 6-10 repeat the five brand hues as lifted accessibility tones so
-    // charts never reach for colors outside the palette. Dark mode lifts the
-    // stops for contrast on chumbo; the chumbo series flips to light gray.
+    // Chart series — slots follow the brand order, and each slot name matches
+    // its color: azul, roxo, laranja, amarelo, chumbo. The seven extra slots
+    // (green, pink, cyan, red, teal, brown, indigo) keep the core defaults and
+    // only appear after the five brand series. Dark mode lifts the stops for
+    // contrast on chumbo; the chumbo series flips to light gray.
     // =========================================================================
     '--color-data-categorical-blue': ['#034694', '#6BA3F5'],
-    '--color-data-categorical-orange': ['#7C51A1', '#A67BC4'],
-    '--color-data-categorical-purple': ['#F26641', '#F26641'],
-    '--color-data-categorical-green': ['#FAA61A', '#FAA61A'],
-    '--color-data-categorical-pink': ['#383838', '#d4d4d4'],
-    '--color-data-categorical-cyan': ['#6BA3F5', '#034694'],
-    '--color-data-categorical-red': ['#A67BC4', '#7C51A1'],
-    '--color-data-categorical-teal': ['#FF8A5C', '#FF8A5C'],
-    '--color-data-categorical-brown': ['#FFD066', '#FFD066'],
-    '--color-data-categorical-indigo': ['#737373', '#a3a3a3'],
+    '--color-data-categorical-purple': ['#7C51A1', '#A67BC4'],
+    '--color-data-categorical-orange': ['#F26641', '#F26641'],
+    '--color-data-categorical-yellow': ['#FAA61A', '#FAA61A'],
+    '--color-data-categorical-gray': ['#383838', '#d4d4d4'],
 
     // =========================================================================
     // Radius — slightly larger than default (kept as-is)
