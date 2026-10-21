@@ -9,12 +9,14 @@
  *   Roxo destaque    #7C51A1  (secondary highlight)
  *   Laranja          #F26641  (moderate highlight: icons, accents, series)
  *   Amarelo #1/#2    #FAA61A / #FFF200
- *   Chumbo texto     #383838  (text, and the base of the dark theme)
+ *   Chumbo texto     #383838  (text; the dark theme uses darker neutrals
+ *                              derived from it)
  *
  * Surfaces: absolute white is the page background in light mode; light gray
  * only appears on sidebars, headers and zebra rows (--color-background-muted),
  * and cards separate from the page with a thin border, not a tint. Dark mode
- * derives from chumbo #383838. Absolute black is avoided for text and
+ * uses darker neutrals derived from chumbo #383838 (canvas #242424, cards
+ * #333333). Absolute black is avoided for text and
  * backgrounds; it survives only as the shadow color, a technical constraint
  * of rendering shadows.
  *
@@ -63,7 +65,9 @@ const pharosSyntax = defineSyntaxTheme({
     attribute: ['#B87400', '#FFD066'], // brand yellow
     property: ['#005348', '#83dac9'], // teal
     punctuation: ['#a3a3a3', '#7a7a7a'], // neutral
-    background: ['#fafafa', '#2e2e2e'],
+    // Dark: a step below the #242424 canvas, so code reads inset on the page
+    // and on #333333 cards alike.
+    background: ['#fafafa', '#1e1e1e'],
   },
 });
 
@@ -133,31 +137,34 @@ export const pharosTheme = defineTheme({
     // thin border (see components.card). Light gray (#f1f1f1) is reserved for
     // --color-background-muted: sidebars, table/section headers, zebra rows.
     //
-    // Dark: derived from chumbo #383838. Cards, popovers and muted collapse to
-    // body and lift via shadow + inset highlight (see --shadow-*). Surface is
-    // lighter than body so controls on top of it read as foreground.
+    // Dark: darker neutrals derived from chumbo #383838. The canvas sits well
+    // below chumbo; cards, popovers and muted rise to #333333 (one step under
+    // chumbo) and also lift via shadow + inset highlight (see --shadow-*).
+    // Surface sits between canvas and cards: lighter than body so controls on
+    // the page read as foreground.
     //
-    //   surface  light #ffffff   dark #454545 — controls, dialogs, app shells
-    //   body     light #ffffff   dark #383838 — main canvas
-    //   card     light #ffffff   dark #383838
-    //   popover  light #ffffff   dark #383838
-    //   muted    light #f1f1f1   dark #383838 — only gray in light mode
+    //   surface  light #ffffff   dark #2b2b2b — controls, dialogs, app shells
+    //   body     light #ffffff   dark #242424 — main canvas
+    //   card     light #ffffff   dark #333333
+    //   popover  light #ffffff   dark #333333
+    //   muted    light #f1f1f1   dark #333333 — only gray in light mode
     // =========================================================================
-    '--color-background-surface': ['#ffffff', '#454545'],
-    '--color-background-body': ['#ffffff', '#383838'],
-    '--color-background-card': ['#ffffff', '#383838'],
-    '--color-background-popover': ['#ffffff', '#383838'],
-    '--color-background-muted': ['#f1f1f1', '#383838'],
+    '--color-background-surface': ['#ffffff', '#2b2b2b'],
+    '--color-background-body': ['#ffffff', '#242424'],
+    '--color-background-card': ['#ffffff', '#333333'],
+    '--color-background-popover': ['#ffffff', '#333333'],
+    '--color-background-muted': ['#f1f1f1', '#333333'],
 
     // Accent — brand azul Alexandria (#034694): primary action, links, focus
-    // and information. Dark mode lifts for contrast on the chumbo canvas.
+    // and information. Dark mode lifts for contrast on the dark canvas.
     '--color-accent': ['#034694', '#6BA3F5'],
     '--color-accent-muted': ['#D6E4F5', '#6BA3F524'],
     '--color-neutral': ['#3838380F', '#FFFFFF14'],
 
     // Overlays (modal scrims, hover/pressed tints) — tinted with chumbo, not
-    // absolute black.
-    '--color-overlay': ['#38383880', '#242424CC'],
+    // absolute black. The dark scrim stays below the #242424 canvas so it
+    // still dims the page behind a dialog.
+    '--color-overlay': ['#38383880', '#171717CC'],
     '--color-overlay-hover': ['#3838380D', '#FFFFFF0D'],
     '--color-overlay-pressed': ['#3838381A', '#FFFFFF1A'],
 
@@ -209,9 +216,10 @@ export const pharosTheme = defineTheme({
     //   16% alpha = '29' suffix. Hue values match --color-icon-{X} dark
     //   slots (palette T70). The tint composites onto whatever sits behind
     //   it, and the text on it has to clear AA (4.5:1) on every dark base —
-    //   body #383838 and the lighter surface #454545 that dialogs and the app
-    //   shell use. At the earlier 24% the pastel text fell to ~4.2:1 on the
-    //   surface (axe flagged the destructive Button), so the tint is lighter.
+    //   body #242424, surface #2b2b2b (dialogs, app shell) and the #333333
+    //   cards, popovers and muted areas. At the earlier 24% the pastel text
+    //   fell to ~4.2:1 on the old, lighter surface (axe flagged the
+    //   destructive Button), so the tint stays at 16%.
     '--color-success': ['#007004', '#9fe59b'],
     '--color-error': ['#a50c25', '#ffc6c1'],
     '--color-warning': ['#745b00', '#fdcf4f'],

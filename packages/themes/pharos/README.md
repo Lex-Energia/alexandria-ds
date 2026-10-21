@@ -2,7 +2,7 @@
 
 Tema oficial e **padrão** do Pharos (marca Alexandria). Todo app Pharos deve usá-lo; os demais pacotes `@pharos-ds/theme-*` (neutral, butter, chocolate, gothic, matcha, stone, y2k) são apenas temas de exemplo para quem está autorando um tema próprio.
 
-Traz a identidade Alexandria: tipografia Figtree, ação primária e links em azul `#034694`, destaques em roxo `#7C51A1`, laranja `#F26641` e amarelos da marca, texto chumbo `#383838`, fundo branco no claro, dark mode derivado do chumbo e ícones [Lucide](https://lucide.dev) (todos outline).
+Traz a identidade Alexandria: tipografia Figtree, ação primária e links em azul `#034694`, destaques em roxo `#7C51A1`, laranja `#F26641` e amarelos da marca, texto chumbo `#383838`, fundo branco no claro, dark mode em neutros mais fundos derivados do chumbo (página `#242424`, superfície `#2b2b2b`, cards `#333333`) e ícones [Lucide](https://lucide.dev) (todos outline).
 
 ## Install
 
@@ -69,7 +69,7 @@ import {AlexandriaLogo} from '@pharos-ds/theme-pharos/logo';
 <AlexandriaLogo kind="symbol" height={24} />    {/* símbolo "A": sidebar recolhida, avatar, favicon */}
 ```
 
-O símbolo "A" é para redução extrema (o brandbook manda usá-lo quando o logotipo não cabe; tamanho mínimo de 16 px). Os tons dele descrevem o fundo: `gradiente` (A branco sobre o quadrado em degradê), `transparente` (A em degradê, sem fundo) e `branco` (A em degradê sobre quadrado branco). No `auto`, o claro usa `transparente` e o escuro usa `gradiente`, porque o azul do degradê some sobre o chumbo.
+O símbolo "A" é para redução extrema (o brandbook manda usá-lo quando o logotipo não cabe; tamanho mínimo de 16 px). Os tons dele descrevem o fundo: `gradiente` (A branco sobre o quadrado em degradê), `transparente` (A em degradê, sem fundo) e `branco` (A em degradê sobre quadrado branco). No `auto`, o claro usa `transparente` e o escuro usa `gradiente`, porque o azul do degradê some sobre o fundo escuro.
 
 O subpath `/logo` é um módulo cliente (`'use client'`); o tema em si continua seguro para Server Components. As logos vêm embutidas no pacote (data URI), sem configurar loader de imagem. `tone="auto"` segue o tema; precisa de um `<Theme>` acima. Os SVGs de origem ficam em `brand/logo`, `brand/slogan` e `brand/symbol`; depois de alterá-los, rode `pnpm -F @pharos-ds/theme-pharos build:logos`.
 

@@ -109,8 +109,25 @@ describe('Pharos theme brand fidelity', () => {
     expect(light['--color-background-muted']).toBe('#f1f1f1');
   });
 
-  it('derives the dark canvas from chumbo #383838', () => {
-    expect(dark['--color-background-body']).toBe('#383838');
+  // Dark mode keeps neutrals derived from chumbo #383838 (no hue cast), but
+  // darker: the canvas sits well below chumbo and cards rise one step under it.
+  it('derives a darker neutral dark canvas from chumbo #383838', () => {
+    expect(dark['--color-background-body']).toBe('#242424');
+    expect(dark['--color-background-surface']).toBe('#2b2b2b');
+    expect(dark['--color-background-card']).toBe('#333333');
+    expect(dark['--color-background-popover']).toBe('#333333');
+    expect(dark['--color-background-muted']).toBe('#333333');
+    for (const name of [
+      '--color-background-body',
+      '--color-background-surface',
+      '--color-background-card',
+    ]) {
+      const hex = dark[name];
+      expect(
+        new Set([hex.slice(1, 3), hex.slice(3, 5), hex.slice(5, 7)]).size,
+      ).toBe(1);
+      expect(luminance(hex)).toBeLessThan(luminance('#383838'));
+    }
   });
 
   it('uses brand azul as the primary action in light mode', () => {
@@ -208,8 +225,9 @@ const STATUSES = ['success', 'error', 'warning'] as const;
 
 // Tinted backgrounds (banners, badges, tokens, the destructive Button) are
 // translucent in dark mode, so what the text sits on depends on the surface
-// underneath: body #383838, or the lighter surface #454545 of dialogs and the
-// app shell. axe caught the destructive Button at 4.24:1 on the surface once.
+// underneath: body #242424, the surface #2b2b2b of dialogs and the app shell,
+// or the #333333 cards and muted areas. axe caught the destructive Button at
+// 4.24:1 on the old, lighter surface once.
 describe.each<Mode>(['light', 'dark'])(
   'Pharos theme contrast of tinted surfaces (%s)',
   mode => {
