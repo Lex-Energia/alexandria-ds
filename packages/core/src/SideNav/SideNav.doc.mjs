@@ -22,7 +22,7 @@ export const docs = {
       {className: 'pharos-side-nav', visualProps: ['mode']},
       {className: 'pharos-side-nav-heading'},
       {className: 'pharos-side-nav-item', visualProps: ['size'], states: ['selected']},
-      {className: 'pharos-side-nav-section'},
+      {className: 'pharos-side-nav-section', states: ['collapsed']},
     ],
   },
   description: 'Container with five zones: header, topContent, children (scrollable), footer, and footerIcons. Supports collapsible mode.',

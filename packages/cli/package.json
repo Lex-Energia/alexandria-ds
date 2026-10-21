@@ -1,6 +1,6 @@
 {
   "name": "@pharos-ds/cli",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "displayName": "Pharos CLI",
   "description": "Scaffold projects, browse templates, generate themes, and get agent-ready docs from the command line.",
   "author": "Caio Silvestre",
