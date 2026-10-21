@@ -24,8 +24,10 @@ const THUMBNAIL_BLOCK_DIR = path.resolve(
   '../packages/cli/templates/blocks/components/Thumbnail',
 );
 
-// Cross-origin demo CDN that cannot be CORS-sampled by useImageMode.
-const CROSS_ORIGIN_MEDIA = 'lookaside.facebook.com';
+// Cross-origin demo hosts that cannot be CORS-sampled by useImageMode: Meta's
+// lookaside CDN and the docs-host marker URLs (swapped for an inline
+// placeholder only when a template is scaffolded or previewed).
+const CROSS_ORIGIN_MEDIA = ['lookaside.facebook.com', 'pharos-ds.vercel.app/assets'];
 
 const errors = [];
 let checked = 0;
@@ -43,11 +45,13 @@ for (const file of files) {
   if (!source.includes('src=') && !source.includes('src:')) continue;
   checked++;
 
-  if (source.includes(CROSS_ORIGIN_MEDIA)) {
-    errors.push({
-      file,
-      issue: `references cross-origin ${CROSS_ORIGIN_MEDIA} media — useImageMode cannot CORS-sample it for the remove-button overlay`,
-    });
+  for (const host of CROSS_ORIGIN_MEDIA) {
+    if (source.includes(host)) {
+      errors.push({
+        file,
+        issue: `references cross-origin ${host} media — useImageMode cannot CORS-sample it for the remove-button overlay`,
+      });
+    }
   }
 }
 
