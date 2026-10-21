@@ -71,14 +71,17 @@ layout change → full structure pass`.
    missing fields, a wrong `aspectRatio`, `componentsUsed` drift, and missing
    `scale` for tiny components (Badge/StatusDot/single Icon/Spinner → `2` or
    `3`).
-6. **Image handling (5)** — images only from the pharos CDN via the permanent
-   lookaside URL (`https://pharos-ds.vercel.app/assets/<asset>.png`)
-   with an asset-name comment. Flag external URLs (unsplash/placehold/picsum),
-   checked-in image files, data URIs, and expiring signed `scontent…fbcdn.net`
-   URLs.
+6. **Image handling (5)** — demo images only through the marker URL
+   (`https://pharos-ds.vercel.app/assets/<asset>.png`) with an asset-name
+   comment. Nothing is served from that host: the CLI swaps every marker for an
+   inline placeholder when it scaffolds a template, and the sandbox and
+   template-viewer apply the same swap at build time (see
+   `packages/cli/api/template/demo-assets.mjs`). Flag external URLs
+   (unsplash/placehold/picsum), checked-in image files, data URIs, and expiring
+   signed `scontent…fbcdn.net` URLs.
 7. **Code quality (10)** — `'use client';` first line; `export default`;
-   self-contained imports (`@pharos-ds/core/*`, `@heroicons/react/*`, or
-   local only); realistic mock data (real names/values, never
+   self-contained imports (`@pharos-ds/core/*`, `@heroicons/react/*`,
+   `@pharos-ds/theme-pharos/logo` for the brand mark, or local only); realistic mock data (real names/values, never
    "Lorem ipsum"/"Item 1"/"foo"); no dead code.
 
 ## Reporting

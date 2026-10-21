@@ -44,6 +44,10 @@ const SCOPE_THEMES = [
   {pkg: '@pharos-ds/theme-matcha', name: 'matchaTheme', subpath: '/built'},
 ];
 
+// Brand logo — the login templates import it from the theme package, so the
+// playground needs to resolve it too.
+const SCOPE_LOGO = {pkg: '@pharos-ds/theme-pharos/logo', alias: 'PharosLogo'};
+
 // Heroicons variants — exposed alongside Lucide so playground snippets
 // and shared template code that still imports from '@heroicons/react/*'
 // keeps rendering. New docsite code authors against Lucide; these entries
@@ -201,6 +205,7 @@ lines.push('');
 for (const t of SCOPE_THEMES) {
   lines.push(`import {${t.name}} from '${t.pkg}${t.subpath}';`);
 }
+lines.push(`import * as ${SCOPE_LOGO.alias} from '${SCOPE_LOGO.pkg}';`);
 lines.push('');
 
 // ── Theme + tokens ──────────────────────────────────────────────────
@@ -272,6 +277,9 @@ for (const t of SCOPE_THEMES) {
   lines.push(`  '${t.pkg}': {default: ${t.name}, ${t.name}},`);
   lines.push(`  '${t.pkg}/built': {default: ${t.name}, ${t.name}},`);
 }
+
+// Alexandria logo (theme package subpath)
+lines.push(`  '${SCOPE_LOGO.pkg}': ${SCOPE_LOGO.alias},`);
 
 // Theme (controlled wrapper)
 lines.push("  '@pharos-ds/core/theme': {Theme: ControlledTheme},");

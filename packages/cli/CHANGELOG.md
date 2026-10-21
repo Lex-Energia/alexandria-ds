@@ -1,5 +1,19 @@
 # @xds/cli
 
+# 1.0.5
+
+#### Fixes
+
+- template scaffolding replaces the demo image marker URLs with an inline placeholder again (the CLI still looked for Meta's lookaside host), the root command reports unknown commands with suggestions under Commander 15, and the login and login-card templates show the Alexandria logo through @pharos-ds/theme-pharos/logo
+
+#### Contributors
+
+Thanks to everyone who contributed to this release:
+
+- @Caio-Silvestre
+
+---
+
 # 1.0.4
 
 #### Fixes

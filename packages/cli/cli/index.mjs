@@ -157,6 +157,10 @@ export async function createProgram() {
       'Output as typed JSON. Success envelope: { type, data }. Error envelope: { error, suggestions? }.',
     )
     .addHelpCommand('help', 'Show all commands')
+    // Commander 13+ rejects excess arguments by default ("too many arguments")
+    // before the action runs. The root action below owns the unknown-command
+    // report (suggestions, JSON envelope), so let the positional reach it.
+    .allowExcessArguments()
     .action((options, cmd) => {
       // If Commander handed us a positional that didn't match any subcommand,
       // treat it as "unknown command" — exit 1 with a helpful suggestion.

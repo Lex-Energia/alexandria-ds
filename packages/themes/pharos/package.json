@@ -1,6 +1,6 @@
 {
   "name": "@pharos-ds/theme-pharos",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "displayName": "Pharos Theme",
   "private": false,
   "description": "Official Pharos theme for the Alexandria brand — the default theme for every Pharos app.",
@@ -39,6 +39,20 @@
     "./theme.css": {
       "types": "./theme.css.d.ts",
       "default": "./dist/theme.css"
+    },
+    "./brand": {
+      "types": "./dist/brand.d.ts",
+      "import": "./dist/brand.mjs",
+      "require": "./dist/brand.js"
+    },
+    "./logo": {
+      "types": "./dist/logo.d.ts",
+      "import": "./dist/logo.mjs",
+      "require": "./dist/logo.js"
+    },
+    "./fonts.css": {
+      "types": "./theme.css.d.ts",
+      "default": "./dist/fonts.css"
     }
   },
   "files": [
@@ -46,17 +60,19 @@
     "src"
   ],
   "scripts": {
-    "build": "rm -rf dist && pharos theme build src/pharosTheme.ts -o dist/theme.css && tsup && tsc --project tsconfig.build.json"
+    "build:logos": "node scripts/build-logos.mjs",
+    "build": "rm -rf dist && pharos theme build src/pharosTheme.ts -o dist/theme.css && cp src/fonts.css dist/fonts.css && tsup && tsc --project tsconfig.build.json"
   },
   "dependencies": {
+    "@fontsource/figtree": "^5.3.0",
     "lucide-react": "^1.26.0"
   },
   "peerDependencies": {
-    "@pharos-ds/core": "1.0.4",
+    "@pharos-ds/core": "1.0.5",
     "react": ">=19"
   },
   "devDependencies": {
-    "@pharos-ds/cli": "1.0.4"
+    "@pharos-ds/cli": "1.0.5"
   },
   "module": "./dist/source.mjs"
 }

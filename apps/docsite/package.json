@@ -26,6 +26,7 @@
     "@pharos-ds/theme-gothic": "*",
     "@pharos-ds/theme-matcha": "*",
     "@pharos-ds/theme-neutral": "*",
+    "@pharos-ds/theme-pharos": "*",
     "@pharos-ds/theme-stone": "*",
     "@pharos-ds/theme-y2k": "*",
     "fflate": "^0.8.2",

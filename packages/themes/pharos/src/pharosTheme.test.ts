@@ -3,6 +3,7 @@
 import {describe, expect, it} from 'vitest';
 import {resolveThemeTokens} from '@pharos-ds/core/theme/tokens';
 import {pharosTheme} from './pharosTheme';
+import {brandGradient, brandGradientStops, brandSlogan} from './brand';
 
 /** WCAG 2.x relative luminance of a #rrggbb color. */
 function luminance(hex: string): number {
@@ -59,6 +60,19 @@ describe.each<Mode>(['light', 'dark'])('Pharos theme contrast (%s)', mode => {
     ).toBeGreaterThanOrEqual(AA_TEXT);
   });
 
+  it.each(SURFACES)('secondary text on %s meets AA', surface => {
+    expect(
+      contrast(color('--color-text-secondary'), color(surface)),
+    ).toBeGreaterThanOrEqual(AA_TEXT);
+  });
+
+  it('never uses absolute black or the old #1b1b1b for surfaces and text', () => {
+    for (const name of [...SURFACES, '--color-text-primary']) {
+      expect(color(name).toLowerCase()).not.toBe('#000000');
+      expect(color(name).toLowerCase()).not.toBe('#1b1b1b');
+    }
+  });
+
   it.each(SURFACES)('primary text on %s meets AA', surface => {
     expect(
       contrast(color('--color-text-primary'), color(surface)),
@@ -78,5 +92,70 @@ describe('Pharos theme contrast (light, categorical orange)', () => {
         tokens['--color-background-orange'],
       ),
     ).toBeGreaterThanOrEqual(AA_TEXT);
+  });
+});
+
+describe('Pharos theme brand fidelity', () => {
+  const light = resolveThemeTokens(pharosTheme, {mode: 'light'});
+  const dark = resolveThemeTokens(pharosTheme, {mode: 'dark'});
+
+  it('page and cards are absolute white in light mode', () => {
+    expect(light['--color-background-body']).toBe('#ffffff');
+    expect(light['--color-background-card']).toBe('#ffffff');
+  });
+
+  it('keeps light gray for muted surfaces only', () => {
+    expect(light['--color-background-muted']).toBe('#f1f1f1');
+  });
+
+  it('derives the dark canvas from chumbo #383838', () => {
+    expect(dark['--color-background-body']).toBe('#383838');
+  });
+
+  it('uses brand azul as the primary action in light mode', () => {
+    expect(light['--color-accent']).toBe('#034694');
+    expect(
+      contrast(light['--color-on-accent'], light['--color-accent']),
+    ).toBeGreaterThanOrEqual(AA_TEXT);
+  });
+
+  it('starts chart series with azul, roxo, laranja, amarelo, chumbo', () => {
+    expect(
+      [
+        '--color-data-categorical-blue',
+        '--color-data-categorical-purple',
+        '--color-data-categorical-orange',
+        '--color-data-categorical-yellow',
+        '--color-data-categorical-gray',
+      ].map(name => light[name].toUpperCase()),
+    ).toEqual(['#034694', '#7C51A1', '#F26641', '#FAA61A', '#383838']);
+  });
+});
+
+describe('Pharos brand constants', () => {
+  it('exposes the five official gradient stops', () => {
+    expect(brandGradientStops).toEqual([
+      '#034694',
+      '#7C51A1',
+      '#F26641',
+      '#FAA61A',
+      '#FFF200',
+    ]);
+    expect(brandGradient).toContain('#034694');
+  });
+
+  it('keeps the slogan without a trailing period', () => {
+    expect(brandSlogan).toBe('tecnologia que move o futuro');
+    expect(brandSlogan.endsWith('.')).toBe(false);
+  });
+});
+
+describe('Pharos icon registry', () => {
+  it('has no filled icons (brand rule: outline only)', async () => {
+    const {pharosIconRegistry} = await import('./icons');
+    for (const [name, icon] of Object.entries(pharosIconRegistry)) {
+      const props = (icon as {props?: Record<string, unknown>}).props ?? {};
+      expect(props.fill, name).toBeUndefined();
+    }
   });
 });

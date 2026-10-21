@@ -47,8 +47,10 @@ describe('pageMetadata', () => {
   });
 
   it('re-states the branded social image on both cards', () => {
-    expect(JSON.stringify(meta.openGraph?.images)).toContain('Pharos-Banner');
-    expect(JSON.stringify(meta.twitter?.images)).toContain('Pharos-Banner');
+    expect(JSON.stringify(meta.openGraph?.images)).toContain(
+      'isolada_colorido',
+    );
+    expect(JSON.stringify(meta.twitter?.images)).toContain('isolada_colorido');
   });
 
   it('defaults the OpenGraph type to website', () => {

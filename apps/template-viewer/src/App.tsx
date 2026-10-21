@@ -4,7 +4,7 @@ import {Suspense, lazy} from 'react';
 import type {ComponentType} from 'react';
 import {Theme} from '@pharos-ds/core/theme';
 import {LayerProvider} from '@pharos-ds/core/Layer';
-import {neutralTheme} from '@pharos-ds/theme-neutral/built';
+import {pharosTheme} from '@pharos-ds/theme-pharos/built';
 
 // Every renderable template, keyed by its path relative to this file, e.g.
 // "../../../packages/cli/templates/pages/ai-chat/page.tsx".
@@ -29,7 +29,7 @@ export default function App() {
   );
 
   return (
-    <Theme theme={neutralTheme}>
+    <Theme theme={pharosTheme}>
       <LayerProvider>
         <Suspense fallback={null}>
           <Template />

@@ -128,8 +128,10 @@ export function buildVegaLiteConfig(token: TokenResolver): VegaLiteConfig {
     range: {
       category: [
         token('--color-data-categorical-blue'),
-        token('--color-data-categorical-orange'),
         token('--color-data-categorical-purple'),
+        token('--color-data-categorical-orange'),
+        token('--color-data-categorical-yellow'),
+        token('--color-data-categorical-gray'),
         token('--color-data-categorical-green'),
         token('--color-data-categorical-pink'),
         token('--color-data-categorical-cyan'),
