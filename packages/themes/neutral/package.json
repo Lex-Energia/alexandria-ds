@@ -1,6 +1,6 @@
 {
   "name": "@pharos-ds/theme-neutral",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "displayName": "Neutral Theme",
   "private": true,
   "description": "Restrained warm grays. Minimal and quiet, so the content stays the focus.",
@@ -52,11 +52,11 @@
     "lucide-react": "^1.26.0"
   },
   "peerDependencies": {
-    "@pharos-ds/core": "1.0.6",
+    "@pharos-ds/core": "1.0.7",
     "react": ">=19"
   },
   "devDependencies": {
-    "@pharos-ds/cli": "1.0.6"
+    "@pharos-ds/cli": "1.0.7"
   },
   "module": "./dist/source.mjs"
 }

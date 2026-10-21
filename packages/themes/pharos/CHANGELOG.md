@@ -1,5 +1,19 @@
 # @xds/theme-neutral
 
+# 1.0.7
+
+#### Fixes
+
+- Badge de erro, status dot e progress bar de erro usam #d32f3c no claro: o branco sobre #e33f4a ficava em 4,13:1, abaixo do AA.
+
+#### Contributors
+
+Thanks to everyone who contributed to this release:
+
+- @Caio-Silvestre
+
+---
+
 # 1.0.6
 
 #### New Features
