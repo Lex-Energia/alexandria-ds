@@ -298,3 +298,66 @@ describe.each<Mode>(['light', 'dark'])(
     );
   },
 );
+
+// Form controls get a 3:1 boundary (WCAG 1.4.11) through per-component
+// overrides. The global --color-border-emphasized must stay a hairline: Divider,
+// Tooltip, Blockquote, chart grids and the ProgressBar track use it too.
+const CONTROLS = [
+  'text-input',
+  'number-input',
+  'date-input',
+  'date-time-input',
+  'date-range-input',
+  'time-input',
+  'textarea',
+  'selector',
+  'multi-selector',
+  'typeahead',
+  'tokenizer',
+  'file-input',
+  'checkbox',
+  'radio-list',
+  'switch',
+] as const;
+
+describe('Pharos theme control borders', () => {
+  const light = resolveThemeTokens(pharosTheme, {mode: 'light'});
+  const dark = resolveThemeTokens(pharosTheme, {mode: 'dark'});
+  const surfaces = [
+    '--color-background-body',
+    '--color-background-muted',
+    '--color-background-surface',
+  ];
+
+  function borderPair(control: string): [string, string] {
+    const value = String(
+      pharosTheme.components?.[control]?.base?.['--color-border-emphasized'],
+    );
+    const match = /^light-dark\((#[0-9a-f]{6}), (#[0-9a-f]{6})\)$/i.exec(value);
+    if (!match)
+      {throw new Error(`${control}: not a light-dark() pair: ${value}`);}
+    return [match[1], match[2]];
+  }
+
+  it.each(CONTROLS)(
+    '%s border has 3:1 on every surface it sits on',
+    control => {
+      const [lightBorder, darkBorder] = borderPair(control);
+      for (const surface of surfaces) {
+        expect(contrast(lightBorder, light[surface])).toBeGreaterThanOrEqual(
+          AA_NON_TEXT,
+        );
+        expect(contrast(darkBorder, dark[surface])).toBeGreaterThanOrEqual(
+          AA_NON_TEXT,
+        );
+      }
+    },
+  );
+
+  it('keeps the global emphasized border a hairline', () => {
+    const body = '--color-background-body';
+    const name = '--color-border-emphasized';
+    expect(contrast(light[name], light[body])).toBeLessThan(2);
+    expect(contrast(dark[name], dark[body])).toBeLessThan(2);
+  });
+});
