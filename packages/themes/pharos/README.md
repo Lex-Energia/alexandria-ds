@@ -2,7 +2,7 @@
 
 Tema oficial e **padrão** do Pharos (marca Alexandria). Todo app Pharos deve usá-lo; os demais pacotes `@pharos-ds/theme-*` (neutral, butter, chocolate, gothic, matcha, stone, y2k) são apenas temas de exemplo para quem está autorando um tema próprio.
 
-Traz a identidade Alexandria: tipografia Figtree, accent laranja `#F26641`, azul `#034694`, roxo `#7C51A1`, amarelos da marca, texto chumbo `#383838`, dark mode e ícones [Lucide](https://lucide.dev).
+Traz a identidade Alexandria: tipografia Figtree, ação primária e links em azul `#034694`, destaques em roxo `#7C51A1`, laranja `#F26641` e amarelos da marca, texto chumbo `#383838`, fundo branco no claro, dark mode derivado do chumbo e ícones [Lucide](https://lucide.dev) (todos outline).
 
 ## Install
 
@@ -17,8 +17,11 @@ Importe o CSS na ordem reset → base → tema e envolva o app com `<Theme>`:
 ```css
 @import '@pharos-ds/core/reset.css';
 @import '@pharos-ds/core/pharos.css';
+@import '@pharos-ds/theme-pharos/fonts.css';
 @import '@pharos-ds/theme-pharos/theme.css';
 ```
+
+`fonts.css` carrega a Figtree (400, 500, 600 e 700) a partir de `@fontsource/figtree`; sem ele o tema cai nas fontes do sistema.
 
 ```tsx
 import {Theme} from '@pharos-ds/core/theme';
@@ -50,8 +53,17 @@ import {pharosTheme} from '@pharos-ds/theme-pharos';
 export const meuTema = defineTheme({
   name: 'meu-tema',
   extends: pharosTheme,
-  tokens: {'--color-accent': ['#F26641', '#FF8A5C']},
+  tokens: {'--color-accent': ['#7C51A1', '#A67BC4']},
 });
 ```
 
 Gere o CSS com `npx @pharos-ds/cli theme build src/meuTema.ts --out src/meuTema.css`.
+
+## Marca
+
+- **Gradiente**: `brandGradient` e `brandGradientStops` (as 5 paradas oficiais: azul, roxo, laranja, amarelo #1, amarelo #2) são só decorativos, como em login e estados vazios. Nunca como filtro de cor nem com borda aparente.
+- **Slogan**: `brandSlogan` é "tecnologia que move o futuro", sem ponto final em login, rodapés ou qualquer outro lugar.
+- **Fundos abstratos**: formas arredondadas e suaves, só em branco com nuances de cinza claro.
+- **Séries de gráfico**: começam por azul, roxo, laranja, amarelo e chumbo. Os slots seguintes repetem os mesmos tons em versão clara, sem cor fora da paleta. Os nomes dos slots (`-blue`, `-orange`...) são posicionais, não indicam a cor.
+- **Tons de acessibilidade**: os derivados das cores da marca estão documentados no cabeçalho de `src/pharosTheme.ts`. Os valores oficiais do brandbook não são alterados.
+- **Preto absoluto**: só na cor da sombra (restrição técnica).

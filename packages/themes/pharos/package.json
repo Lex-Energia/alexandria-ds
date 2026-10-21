@@ -39,6 +39,10 @@
     "./theme.css": {
       "types": "./theme.css.d.ts",
       "default": "./dist/theme.css"
+    },
+    "./fonts.css": {
+      "types": "./theme.css.d.ts",
+      "default": "./dist/fonts.css"
     }
   },
   "files": [
@@ -46,9 +50,10 @@
     "src"
   ],
   "scripts": {
-    "build": "rm -rf dist && pharos theme build src/pharosTheme.ts -o dist/theme.css && tsup && tsc --project tsconfig.build.json"
+    "build": "rm -rf dist && pharos theme build src/pharosTheme.ts -o dist/theme.css && cp src/fonts.css dist/fonts.css && tsup && tsc --project tsconfig.build.json"
   },
   "dependencies": {
+    "@fontsource/figtree": "^5.3.0",
     "lucide-react": "^1.26.0"
   },
   "peerDependencies": {
