@@ -1,5 +1,19 @@
 # @xds/cli
 
+# 1.0.9
+
+#### New Features
+
+- Template kanban-board anuncia "<card> moved to <coluna>" numa região status educada ao mover pelo menu do card e devolve o foco ao gatilho do menu quando o card reaparece na nova coluna.
+
+#### Contributors
+
+Thanks to everyone who contributed to this release:
+
+- @Caio-Silvestre
+
+---
+
 # 1.0.8
 
 ---

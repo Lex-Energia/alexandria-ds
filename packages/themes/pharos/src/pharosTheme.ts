@@ -229,7 +229,9 @@ export const pharosTheme = defineTheme({
 
     // Border
     '--color-border': ['#00000014', '#FFFFFF1A'],
-    '--color-border-emphasized': ['#d4d4d4', '#5e5e5e'],
+    // Dark #4d4d4d keeps the hairline ratio of the old #5e5e5e on #383838
+    // (~1.8:1 on the body) now that the canvas is #242424.
+    '--color-border-emphasized': ['#d4d4d4', '#4d4d4d'],
 
     // Effects
     '--color-skeleton': ['#ebebeb', '#4d4d4d'],
