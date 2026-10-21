@@ -66,9 +66,12 @@ import {AlexandriaLogo} from '@pharos-ds/theme-pharos/logo';
 
 <AlexandriaLogo height={32} />                  {/* degradê no claro, branco no escuro */}
 <AlexandriaLogo kind="slogan" tone="azul" />    {/* caso a caso: azul ou chumbo */}
+<AlexandriaLogo kind="symbol" height={24} />    {/* símbolo "A": sidebar recolhida, avatar, favicon */}
 ```
 
-O subpath `/logo` é um módulo cliente (`'use client'`); o tema em si continua seguro para Server Components. As logos vêm embutidas no pacote (data URI), sem configurar loader de imagem. `tone="auto"` segue o tema; precisa de um `<Theme>` acima. Os SVGs de origem ficam em `brand/logo` e `brand/slogan`; depois de alterá-los, rode `pnpm -F @pharos-ds/theme-pharos build:logos`.
+O símbolo "A" é para redução extrema (o brandbook manda usá-lo quando o logotipo não cabe; tamanho mínimo de 16 px). Os tons dele descrevem o fundo: `gradiente` (A branco sobre o quadrado em degradê), `transparente` (A em degradê, sem fundo) e `branco` (A em degradê sobre quadrado branco). No `auto`, o claro usa `transparente` e o escuro usa `gradiente`, porque o azul do degradê some sobre o chumbo.
+
+O subpath `/logo` é um módulo cliente (`'use client'`); o tema em si continua seguro para Server Components. As logos vêm embutidas no pacote (data URI), sem configurar loader de imagem. `tone="auto"` segue o tema; precisa de um `<Theme>` acima. Os SVGs de origem ficam em `brand/logo`, `brand/slogan` e `brand/symbol`; depois de alterá-los, rode `pnpm -F @pharos-ds/theme-pharos build:logos`.
 
 ## Marca
 

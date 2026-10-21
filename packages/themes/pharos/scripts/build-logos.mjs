@@ -4,7 +4,7 @@
  * Generates src/logos.generated.ts from the brand SVGs in /brand, so the logos
  * ship inside the theme package as data URIs and work in any bundler with no
  * asset-loader setup. Run with `pnpm -F @pharos-ds/theme-pharos build:logos`
- * after changing a file in /brand/logo or /brand/slogan.
+ * after changing a file in /brand/logo, /brand/slogan or /brand/symbol.
  */
 
 import fs from 'node:fs';
@@ -13,17 +13,44 @@ import {fileURLToPath} from 'node:url';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const brand = path.resolve(here, '../../../../brand');
-const tones = ['colorido', 'white', 'azul', 'chumbo'];
+// Each kind maps a tone to the SVG file that carries it. For the symbol, the
+// tone names describe the background: gradiente = white "A" on the gradient
+// tile, transparente = gradient "A" with no background, branco = gradient "A"
+// on a white tile.
 const kinds = {
-  logo: {dir: 'logo', file: tone => `isolada_${tone}.svg`},
-  slogan: {dir: 'slogan', file: tone => `slogan_horizontal_${tone}.svg`},
+  logo: {
+    dir: 'logo',
+    files: {
+      colorido: 'isolada_colorido.svg',
+      white: 'isolada_white.svg',
+      azul: 'isolada_azul.svg',
+      chumbo: 'isolada_chumbo.svg',
+    },
+  },
+  slogan: {
+    dir: 'slogan',
+    files: {
+      colorido: 'slogan_horizontal_colorido.svg',
+      white: 'slogan_horizontal_white.svg',
+      azul: 'slogan_horizontal_azul.svg',
+      chumbo: 'slogan_horizontal_chumbo.svg',
+    },
+  },
+  symbol: {
+    dir: 'symbol',
+    files: {
+      gradiente: 'A_bg_gradiente.svg',
+      transparente: 'A_bg_transparent.svg',
+      branco: 'A_bg_wt.svg',
+    },
+  },
 };
 
 const entries = [];
-for (const [kind, {dir, file}] of Object.entries(kinds)) {
-  const rows = tones.map(tone => {
+for (const [kind, {dir, files}] of Object.entries(kinds)) {
+  const rows = Object.entries(files).map(([tone, file]) => {
     const svg = fs
-      .readFileSync(path.join(brand, dir, file(tone)), 'utf8')
+      .readFileSync(path.join(brand, dir, file), 'utf8')
       .replace(/<\?xml[^>]*\?>\s*/, '')
       .replace(/\s*\n\s*/g, ' ')
       .trim();
