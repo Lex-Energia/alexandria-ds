@@ -1,4 +1,5 @@
 // Copyright (c) Meta Platforms, Inc. and affiliates.
+/* eslint-disable @typescript-eslint/no-require-imports, no-undef */
 
 /**
  * @file Webpack loader that swaps template demo-image marker URLs for the
