@@ -9,6 +9,7 @@ import {
   useState,
   type PointerEvent as ReactPointerEvent,
   type ReactNode,
+  type Ref,
 } from 'react';
 import * as stylex from '@stylexjs/stylex';
 
@@ -33,6 +34,7 @@ import {Tooltip} from '@pharos-ds/core/Tooltip';
 import {Divider} from '@pharos-ds/core/Divider';
 import {Toolbar} from '@pharos-ds/core/Toolbar';
 import {Section} from '@pharos-ds/core/Section';
+import {VisuallyHidden} from '@pharos-ds/core/VisuallyHidden';
 
 import {
   PlusIcon,
@@ -289,9 +291,11 @@ const styles = stylex.create({
 function BoardCardBody({
   item,
   onMove,
+  menuRef,
 }: {
   item: WorkItem;
   onMove: (id: string, to: ColumnId) => void;
+  menuRef?: Ref<HTMLButtonElement>;
 }) {
   const priority = PRIORITY_META[item.priority];
   const moveTargets = COLUMNS.filter(c => c.id !== item.column).map(c => ({
@@ -307,6 +311,7 @@ function BoardCardBody({
           <Badge label={priority.label} variant={priority.variant} />
         </HStack>
         <MoreMenu
+          ref={menuRef}
           label="Work item actions"
           size="sm"
           items={[
@@ -339,19 +344,32 @@ function BoardCard({
   cardRef,
   onPointerDown,
   onMove,
+  isMoveTarget,
 }: {
   item: WorkItem;
   cardRef: (el: HTMLDivElement | null) => void;
   onPointerDown: (e: ReactPointerEvent, id: string) => void;
   onMove: (id: string, to: ColumnId) => void;
+  isMoveTarget: boolean;
 }) {
+  const menuRef = useRef<HTMLButtonElement>(null);
+
+  // A card moved from its menu re-mounts in the new column, and the menu
+  // trigger that had focus goes away with the old node. Put focus back on the
+  // same trigger so keyboard users keep their place.
+  useEffect(() => {
+    if (isMoveTarget) {
+      menuRef.current?.focus();
+    }
+  }, [isMoveTarget]);
+
   return (
     <Card
       ref={cardRef}
       padding={3}
       xstyle={styles.card}
       onPointerDown={e => onPointerDown(e, item.id)}>
-      <BoardCardBody item={item} onMove={onMove} />
+      <BoardCardBody item={item} onMove={onMove} menuRef={menuRef} />
     </Card>
   );
 }
@@ -422,6 +440,10 @@ export default function KanbanBoardTemplate() {
   const [items, setItems] = useState<WorkItem[]>(INITIAL_ITEMS);
   const [sprint, setSprint] = useState('003');
   const [drag, setDrag] = useState<DragState | null>(null);
+  // Polite announcement for moves made from the card menu, and the card whose
+  // menu trigger takes focus back once it lands in the new column.
+  const [announcement, setAnnouncement] = useState('');
+  const [movedId, setMovedId] = useState<string | null>(null);
 
   // Live element registries for pointer hit-testing (kept out of render state).
   const columnEls = useRef(new Map<ColumnId, HTMLElement>());
@@ -479,9 +501,13 @@ export default function KanbanBoardTemplate() {
   }, [items]);
 
   const moveItem = (id: string, to: ColumnId) => {
-    setItems(prev =>
-      prev.map(item => (item.id === id ? {...item, column: to} : item)),
-    );
+    const item = items.find(it => it.id === id);
+    const column = COLUMNS.find(c => c.id === to);
+    setItems(prev => prev.map(it => (it.id === id ? {...it, column: to} : it)));
+    if (item && column) {
+      setAnnouncement(`${item.title} moved to ${column.title}`);
+    }
+    setMovedId(id);
   };
 
   // Resolve the pointer position to a column + insertion index, ignoring the
@@ -576,6 +602,10 @@ export default function KanbanBoardTemplate() {
       ) {
         return;
       }
+      if (!started) {
+        // A dragged card re-mounts on drop; it should not pull focus then.
+        setMovedId(null);
+      }
       started = true;
       target = computeTarget(ev.clientX, ev.clientY, id);
       setDrag({
@@ -645,6 +675,7 @@ export default function KanbanBoardTemplate() {
         cardRef={getCardRef(it.id)}
         onPointerDown={onCardPointerDown}
         onMove={moveItem}
+        isMoveTarget={it.id === movedId}
       />
     ));
 
@@ -748,6 +779,9 @@ export default function KanbanBoardTemplate() {
           <BoardCardBody item={draggedItem} onMove={() => {}} />
         </Card>
       ) : null}
+      <VisuallyHidden role="status" aria-live="polite">
+        {announcement}
+      </VisuallyHidden>
     </Section>
   );
 }
