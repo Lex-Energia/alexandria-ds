@@ -1,6 +1,6 @@
 {
   "name": "@pharos-ds/theme-chocolate",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "displayName": "Chocolate Theme",
   "private": true,
   "description": "Warm chocolate theme for Pharos — rich brown palette with Fraunces headings, Albert Sans body, and Lucide icons",
@@ -52,11 +52,11 @@
     "lucide-react": "^1.26.0"
   },
   "peerDependencies": {
-    "@pharos-ds/core": "1.0.7",
+    "@pharos-ds/core": "1.0.8",
     "react": ">=19"
   },
   "devDependencies": {
-    "@pharos-ds/cli": "1.0.7"
+    "@pharos-ds/cli": "1.0.8"
   },
   "module": "./dist/source.mjs"
 }

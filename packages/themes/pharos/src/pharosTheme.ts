@@ -32,6 +32,8 @@
  *                      surfaces in dark mode (banner, badge backgrounds)
  *   #616161 / #cccccc  chumbo-derived grays — secondary text and icons on
  *                      light / dark (AA on every surface, tinted or neutral)
+ *   #858585 / #999999  control border — 3:1 boundary of fields, checkboxes,
+ *                      radios and switches on light / dark (WCAG 1.4.11)
  * Status colors (green, red, amber) are technical colors outside the brand
  * palette, allowed for success / error / warning only.
  *
@@ -63,6 +65,23 @@ const pharosSyntax = defineSyntaxTheme({
     punctuation: ['#a3a3a3', '#7a7a7a'], // neutral
     background: ['#fafafa', '#2e2e2e'],
   },
+});
+
+/**
+ * Border of a form control: the box of a field, checkbox, radio and the off
+ * track of a switch. WCAG 1.4.11 asks 3:1 for the boundary that identifies a
+ * control, and on a white page the old #d4d4d4 gave 1.48:1, so a white field
+ * almost vanished. #858585 gives 3.7:1 on white and 3.3:1 on the muted gray of
+ * headers and sidebars; in dark, #999999 gives 4.1:1 on body and 3.4:1 on the
+ * lighter surface of dialogs.
+ *
+ * It is applied per control, not by changing --color-border-emphasized: that
+ * token also draws Divider, Tooltip, Blockquote, chart grids and the
+ * ProgressBar track, which would turn heavy at 3:1.
+ */
+const CONTROL_BORDER = 'light-dark(#858585, #999999)';
+const controlBorder = () => ({
+  base: {'--color-border-emphasized': CONTROL_BORDER},
 });
 
 export const pharosTheme = defineTheme({
@@ -585,9 +604,30 @@ export const pharosTheme = defineTheme({
     // =========================================================================
     switch: {
       base: {
+        // Off track is the control border tone, so it reads against the page.
+        '--color-border-emphasized': CONTROL_BORDER,
         '--color-background-gray': 'var(--color-border-emphasized)',
       },
     },
+
+    // =========================================================================
+    // Form controls — boundary at 3:1 (see CONTROL_BORDER). Each key is the
+    // stable class of the element that carries the border, or of an ancestor.
+    // =========================================================================
+    'text-input': controlBorder(),
+    'number-input': controlBorder(),
+    'date-input': controlBorder(),
+    'date-time-input': controlBorder(),
+    'date-range-input': controlBorder(),
+    'time-input': controlBorder(),
+    textarea: controlBorder(),
+    selector: controlBorder(),
+    'multi-selector': controlBorder(),
+    typeahead: controlBorder(),
+    tokenizer: controlBorder(),
+    'file-input': controlBorder(),
+    checkbox: controlBorder(),
+    'radio-list': controlBorder(),
 
     progressbar: {
       base: {
