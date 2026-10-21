@@ -438,10 +438,11 @@ export const pharosTheme = defineTheme({
         color: '#171717',
       },
       'variant:error': {
-        // Light: T55 #e33f4a (palette saturated stop)
+        // Light: #d32f3c, a shade under the T55 #e33f4a stop: white on
+        //        #e33f4a was 4.13:1 and axe flagged the badge text.
         // Dark : T60 stop from dark-mode tonal palette of Tailwind red-600
         //        source #dc2626 (kept on H=27 alarm-red rather than coral)
-        backgroundColor: 'light-dark(#e33f4a, #ff705d)',
+        backgroundColor: 'light-dark(#d32f3c, #ff705d)',
         color: 'light-dark(#ffffff, #171717)',
       },
 
@@ -519,7 +520,7 @@ export const pharosTheme = defineTheme({
     statusdot: {
       'variant:success': {backgroundColor: 'light-dark(#198100, #64af4c)'},
       'variant:warning': {backgroundColor: '#ffce2f'},
-      'variant:error': {backgroundColor: 'light-dark(#e33f4a, #ff705d)'},
+      'variant:error': {backgroundColor: 'light-dark(#d32f3c, #ff705d)'},
       'variant:accent': {backgroundColor: 'light-dark(#034694, #6BA3F5)'},
     },
 
@@ -613,8 +614,8 @@ export const pharosTheme = defineTheme({
         '--color-warning': '#ffce2f',
       },
       'variant:error': {
-        // Red T55 saturated stop (= variant:error badge bg)
-        '--color-error': '#e33f4a',
+        // Same red as the variant:error badge bg
+        '--color-error': '#d32f3c',
       },
     },
 

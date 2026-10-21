@@ -166,9 +166,13 @@ type Rgba = {r: number; g: number; b: number; a: number};
 
 function parseRgba(tokens: Record<string, string>, value: string): Rgba {
   const alias = /^var\((--[\w-]+)\)$/.exec(value.trim());
-  if (alias) {return parseRgba(tokens, tokens[alias[1]]);}
+  if (alias) {
+    return parseRgba(tokens, tokens[alias[1]]);
+  }
   let hex = value.trim().replace('#', '');
-  if (hex.length === 3) {hex = [...hex].map(c => c + c).join('');}
+  if (hex.length === 3) {
+    hex = [...hex].map(c => c + c).join('');
+  }
   const channel = (i: number) => parseInt(hex.slice(i, i + 2), 16);
   return {
     r: channel(0),
@@ -266,5 +270,31 @@ describe.each<Mode>(['light', 'dark'])(
         );
       }
     });
+  },
+);
+
+// Filled status badges carry their own colors as component overrides, outside
+// the token pairs above; axe caught white on the old error red at 4.13:1.
+describe.each<Mode>(['light', 'dark'])(
+  'Pharos theme contrast of filled badges (%s)',
+  mode => {
+    const pick = (value: string) => {
+      const pair = /^light-dark\((#[0-9a-f]{6}), (#[0-9a-f]{6})\)$/i.exec(
+        value,
+      );
+      return pair ? pair[mode === 'light' ? 1 : 2] : value;
+    };
+
+    it.each(['info', 'success', 'warning', 'error'])(
+      'badge %s label on its fill meets AA',
+      variant => {
+        const style = pharosTheme.components?.badge?.[`variant:${variant}`] as
+          {backgroundColor: string; color: string} | undefined;
+        expect(style).toBeDefined();
+        expect(
+          contrast(pick(style!.color), pick(style!.backgroundColor)),
+        ).toBeGreaterThanOrEqual(AA_TEXT);
+      },
+    );
   },
 );
