@@ -1,5 +1,23 @@
 # @xds/theme-neutral
 
+# 1.0.6
+
+#### New Features
+
+- AlexandriaLogo gains kind="symbol": the "A" in three versions (gradient tile, transparent, white tile) for the collapsed sidebar, avatars and favicons; auto picks the transparent "A" on light and the gradient tile on dark
+
+#### Fixes
+
+- dark theme passes WCAG AA on the lighter surface (axe flagged the destructive Button at 4.24:1 on dialogs and the app shell): tinted backgrounds go from 24% to 16% alpha, accent text and icons lift to #A9CBFA, secondary text and icons become #cccccc, the neutral wash 8%; light theme secondary text darkens to #616161 and yellow text to #946000 so they clear AA on the muted gray and the pastel; a new test checks every tinted pair over body, surface, card and muted in both modes
+
+#### Contributors
+
+Thanks to everyone who contributed to this release:
+
+- @Caio-Silvestre
+
+---
+
 # 1.0.5
 
 #### New Features
