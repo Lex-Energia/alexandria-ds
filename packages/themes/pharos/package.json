@@ -40,6 +40,16 @@
       "types": "./theme.css.d.ts",
       "default": "./dist/theme.css"
     },
+    "./brand": {
+      "types": "./dist/brand.d.ts",
+      "import": "./dist/brand.mjs",
+      "require": "./dist/brand.js"
+    },
+    "./logo": {
+      "types": "./dist/logo.d.ts",
+      "import": "./dist/logo.mjs",
+      "require": "./dist/logo.js"
+    },
     "./fonts.css": {
       "types": "./theme.css.d.ts",
       "default": "./dist/fonts.css"

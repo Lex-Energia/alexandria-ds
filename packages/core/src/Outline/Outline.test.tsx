@@ -39,7 +39,7 @@ describe('parseOutlineFromMarkdown', () => {
       ),
     ).toEqual([
       {
-        id: 'install-pharosdesign-core',
+        id: 'install-pharos-ds-core',
         label: 'Install @pharos-ds/core',
         level: 2,
       },

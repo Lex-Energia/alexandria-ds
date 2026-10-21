@@ -1,6 +1,11 @@
 // Copyright (c) Meta Platforms, Inc. and affiliates.
 
+import path from 'node:path';
+import {fileURLToPath} from 'node:url';
 import {withPharos} from '@pharos-ds/build/next';
+
+const here = path.dirname(fileURLToPath(import.meta.url));
+const templatesDir = path.resolve(here, '../../packages/cli/templates');
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -30,6 +35,15 @@ const nextConfig = {
       // alive across requests.
       config.cache = false;
     }
+    // Template sources point demo images at marker URLs on the docs host,
+    // where nothing is served. Swap them for the inline placeholder, as the CLI
+    // does when it scaffolds a template.
+    config.module.rules.push({
+      test: /\.tsx$/,
+      include: templatesDir,
+      enforce: 'pre',
+      loader: path.join(here, 'scripts/demo-assets-loader.cjs'),
+    });
     return config;
   },
 };

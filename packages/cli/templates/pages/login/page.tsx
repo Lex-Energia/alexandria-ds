@@ -9,9 +9,8 @@ import {Text, Heading} from '@pharos-ds/core/Text';
 import {TextInput} from '@pharos-ds/core/TextInput';
 import {Button} from '@pharos-ds/core/Button';
 import {Card} from '@pharos-ds/core/Card';
-import {Icon} from '@pharos-ds/core/Icon';
 import {Banner} from '@pharos-ds/core/Banner';
-import {CubeIcon} from '@heroicons/react/24/outline';
+import {AlexandriaLogo} from '@pharos-ds/theme-pharos/logo';
 
 // Standalone auth page paints its own body background (no host shell).
 const pageStyle: CSSProperties = {
@@ -45,13 +44,8 @@ export default function LoginPage() {
   return (
     <Center axis="both" style={pageStyle}>
       <VStack gap={4} hAlign="center" style={contentStyle}>
-        {/* Logo */}
-        <VStack gap={2} hAlign="center">
-          <Icon icon={CubeIcon} size="lg" />
-          <Text type="body" weight="bold" size="lg">
-            Product Inc.
-          </Text>
-        </VStack>
+        {/* Logo — gradient on light, white on dark. Swap for your own mark. */}
+        <AlexandriaLogo height={32} />
 
         {/* Card */}
         <Card padding={8} width="100%">
@@ -63,9 +57,7 @@ export default function LoginPage() {
               </Text>
             </VStack>
 
-            {error && (
-              <Banner status="error" title={error} container="card" />
-            )}
+            {error && <Banner status="error" title={error} container="card" />}
 
             <TextInput
               label="Email"

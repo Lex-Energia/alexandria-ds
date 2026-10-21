@@ -148,6 +148,9 @@ importers:
       '@pharos-ds/theme-neutral':
         specifier: '*'
         version: link:../../packages/themes/neutral
+      '@pharos-ds/theme-pharos':
+        specifier: '*'
+        version: link:../../packages/themes/pharos
       '@pharos-ds/theme-stone':
         specifier: '*'
         version: link:../../packages/themes/stone
@@ -388,9 +391,9 @@ importers:
       '@pharos-ds/core':
         specifier: '*'
         version: link:../../packages/core
-      '@pharos-ds/theme-neutral':
+      '@pharos-ds/theme-pharos':
         specifier: '*'
-        version: link:../../packages/themes/neutral
+        version: link:../../packages/themes/pharos
       '@stylexjs/stylex':
         specifier: ^0.19.0
         version: 0.19.0

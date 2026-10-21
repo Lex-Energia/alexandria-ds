@@ -3,7 +3,7 @@
 'use client';
 
 import {useState, type CSSProperties} from 'react';
-import {CubeIcon} from '@heroicons/react/24/outline';
+import {AlexandriaLogo} from '@pharos-ds/theme-pharos/logo';
 import {VStack} from '@pharos-ds/core/Layout';
 import {Center} from '@pharos-ds/core/Center';
 import {Text, Heading} from '@pharos-ds/core/Text';
@@ -12,7 +12,6 @@ import {Button} from '@pharos-ds/core/Button';
 import {Card} from '@pharos-ds/core/Card';
 import {Link} from '@pharos-ds/core/Link';
 import {Divider} from '@pharos-ds/core/Divider';
-import {Icon} from '@pharos-ds/core/Icon';
 
 // Brand sign-in marks — no heroicons or template-assets equivalent.
 const AppleIcon = (props: React.SVGProps<SVGSVGElement>) => (
@@ -89,13 +88,8 @@ export default function LoginSimple() {
   return (
     <Center axis="both" style={pageStyle}>
       <VStack gap={4} hAlign="center" style={contentStyle}>
-        {/* Logo */}
-        <VStack gap={2} hAlign="center">
-          <Icon icon={CubeIcon} size="lg" />
-          <Text type="body" weight="bold" size="lg">
-            Product Inc.
-          </Text>
-        </VStack>
+        {/* Logo — gradient on light, white on dark. Swap for your own mark. */}
+        <AlexandriaLogo height={32} />
 
         {/* Card */}
         <Card padding={8} width="100%">

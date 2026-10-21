@@ -4,31 +4,47 @@ import {describe, it, expect} from 'vitest';
 import {stripTemplateAssetRefs, template} from './template.mjs';
 
 describe('stripTemplateAssetRefs', () => {
-  it('replaces a lookaside pharos image URL with an inline data URI', () => {
+  it('replaces a Pharos demo image URL with an inline data URI', () => {
     const src =
       "const hero = 'https://pharos-ds.vercel.app/assets/colorful-home-horizontal-1.png';";
     const out = stripTemplateAssetRefs(src);
-    expect(out).not.toContain('lookaside.facebook.com');
+    expect(out).not.toContain('pharos-ds.vercel.app');
     expect(out).toContain('data:image/svg+xml,');
   });
 
-  it('replaces a lookaside block-avatar image URL', () => {
+  it('replaces a block-avatar demo image URL', () => {
     const src =
       'src="https://pharos-ds.vercel.app/assets/avatar-profile-05.jpg"';
     const out = stripTemplateAssetRefs(src);
-    expect(out).not.toContain('lookaside.facebook.com');
+    expect(out).not.toContain('pharos-ds.vercel.app');
     expect(out).toContain('data:image/svg+xml,');
   });
 
-  it('replaces every lookaside reference, not just the first', () => {
+  it('replaces every demo image reference, not just the first', () => {
     const src = [
       "'https://pharos-ds.vercel.app/assets/colorful-home-horizontal-1.png'",
       "'https://pharos-ds.vercel.app/assets/illustrative-horizontal-3.png'",
       "'https://pharos-ds.vercel.app/assets/moody-scene-horizontal-1.png'",
     ].join('\n');
     const out = stripTemplateAssetRefs(src);
-    expect(out).not.toContain('lookaside.facebook.com');
+    expect(out).not.toContain('pharos-ds.vercel.app');
     expect(out.match(/data:image\/svg\+xml,/g)).toHaveLength(3);
+  });
+
+  it('replaces a demo image URL that carries a query string', () => {
+    const src =
+      "const bg = 'https://pharos-ds.vercel.app/assets/?set=pharos&name=Nature-1&density=1';";
+    const out = stripTemplateAssetRefs(src);
+    expect(out).not.toContain('pharos-ds.vercel.app');
+    expect(out).toContain('data:image/svg+xml,');
+    expect(out.endsWith("';")).toBe(true);
+  });
+
+  it('still replaces Meta lookaside URLs from external templates', () => {
+    const src = "const hero = 'https://lookaside.facebook.com/pharos/hero.png';";
+    const out = stripTemplateAssetRefs(src);
+    expect(out).not.toContain('lookaside.facebook.com');
+    expect(out).toContain('data:image/svg+xml,');
   });
 
   it('preserves surrounding source structure', () => {

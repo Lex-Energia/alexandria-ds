@@ -3,9 +3,3 @@
 export {pharosTheme} from './pharosTheme';
 export {pharosIconRegistry} from './icons';
 export {brandGradient, brandGradientStops, brandSlogan} from './brand';
-export {AlexandriaLogo} from './AlexandriaLogo';
-export type {
-  AlexandriaLogoKind,
-  AlexandriaLogoProps,
-  AlexandriaLogoTone,
-} from './AlexandriaLogo';

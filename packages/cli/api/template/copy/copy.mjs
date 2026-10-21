@@ -75,8 +75,8 @@ export function templateCopy(match, {targetPath, cwd}) {
 
   fs.mkdirSync(outputDir, {recursive: true});
 
-  // Strip demo image references so the scaffolded file renders without a
-  // Meta-only network dependency.
+  // Strip demo image references (marker URLs on the docs host, where nothing
+  // is served) so the scaffolded file renders without a network dependency.
   const source = fs.readFileSync(match.filePath, 'utf-8');
   const outputSource = stripTemplateAssetRefs(source);
   fs.writeFileSync(outputFilePath, outputSource);

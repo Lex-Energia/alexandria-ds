@@ -62,17 +62,17 @@ Gere o CSS com `npx @pharos-ds/cli theme build src/meuTema.ts --out src/meuTema.
 ## Logos
 
 ```tsx
-import {AlexandriaLogo} from '@pharos-ds/theme-pharos';
+import {AlexandriaLogo} from '@pharos-ds/theme-pharos/logo';
 
 <AlexandriaLogo height={32} />                  {/* degradê no claro, branco no escuro */}
 <AlexandriaLogo kind="slogan" tone="azul" />    {/* caso a caso: azul ou chumbo */}
 ```
 
-As logos vêm embutidas no pacote (data URI), sem configurar loader de imagem. `tone="auto"` segue o tema; precisa de um `<Theme>` acima. Os SVGs de origem ficam em `brand/logo` e `brand/slogan`; depois de alterá-los, rode `pnpm -F @pharos-ds/theme-pharos build:logos`.
+O subpath `/logo` é um módulo cliente (`'use client'`); o tema em si continua seguro para Server Components. As logos vêm embutidas no pacote (data URI), sem configurar loader de imagem. `tone="auto"` segue o tema; precisa de um `<Theme>` acima. Os SVGs de origem ficam em `brand/logo` e `brand/slogan`; depois de alterá-los, rode `pnpm -F @pharos-ds/theme-pharos build:logos`.
 
 ## Marca
 
-- **Gradiente**: `brandGradient` e `brandGradientStops` (as 5 paradas oficiais: azul, roxo, laranja, amarelo #1, amarelo #2) são só decorativos, como em login e estados vazios. Nunca como filtro de cor nem com borda aparente.
+- **Gradiente**: `brandGradient` e `brandGradientStops` (de `@pharos-ds/theme-pharos` ou `/brand`) (as 5 paradas oficiais: azul, roxo, laranja, amarelo #1, amarelo #2) são só decorativos, como em login e estados vazios. Nunca como filtro de cor nem com borda aparente.
 - **Slogan**: `brandSlogan` é "tecnologia que move o futuro", sem ponto final em login, rodapés ou qualquer outro lugar.
 - **Fundos abstratos**: formas arredondadas e suaves, só em branco com nuances de cinza claro.
 - **Séries de gráfico**: os slots seguem a cor: `blue` (azul), `purple` (roxo), `orange` (laranja), `yellow` (amarelo) e `gray` (chumbo), nessa ordem. Depois deles vêm as cores extras (verde, rosa, ciano, vermelho, verde-azulado, marrom, índigo), com os valores padrão do core.
