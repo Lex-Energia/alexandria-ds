@@ -43,7 +43,11 @@ export default function AppShellTopNavWithSideNav() {
         />
       }
       sideNav={
-        <SideNav>
+        <SideNav
+          // `collapsible` folds the nav into an icon rail; every item needs an
+          // icon to stay visible there. Apps can control the state with
+          // collapsible={{isCollapsed, onCollapsedChange}} (e.g. to persist it).
+          collapsible>
           <SideNavSection title="Main" isHeaderHidden>
             <SideNavItem
               label="Dashboard"
