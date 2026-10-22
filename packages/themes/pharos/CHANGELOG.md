@@ -1,5 +1,9 @@
 # @xds/theme-neutral
 
+# 1.0.10
+
+---
+
 # 1.0.9
 
 #### New Features
