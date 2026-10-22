@@ -79,7 +79,7 @@ export function getTarget() {
  *
  * Packages that never reach the stable tag are EXCLUDED from `latest`:
  *   - `private` packages, and
- *   - `pharos.canaryOnly` packages (e.g. @pharos-ds/charts, @pharos-ds/lab)
+ *   - `pharos.canaryOnly` packages (e.g. @pharos-ds/lab, @pharos-ds/vega)
  *     — these publish only as canaries, so no stable version exists to document.
  * This mirrors the publishable predicate in .github/workflows/release.yml's
  * stable-publish step, so production documents exactly the stable release set.

@@ -106,3 +106,62 @@ export const NegativeValues: StoryObj = {
     />
   ),
 };
+
+const leadsByChannel = [
+  {channel: 'Instagram', leads: 120},
+  {channel: 'Google Ads', leads: 96},
+  {channel: 'Referral', leads: 64},
+  {channel: 'LinkedIn', leads: 41},
+  {channel: 'Events', leads: 18},
+];
+
+/** Categories on the y-axis, values growing right. Grid follows the value axis. */
+export const Horizontal: StoryObj = {
+  render: () => (
+    <Chart
+      data={leadsByChannel}
+      xKey="channel"
+      orientation="horizontal"
+      title="Leads by channel"
+      description="Instagram leads with 120 leads, more than double LinkedIn."
+      series={[bar('leads', {label: 'Leads'})]}
+      margin={{left: 88}}
+      tooltip
+      grid={<ChartGrid />}
+      axes={
+        <>
+          <ChartAxis position="left" />
+          <ChartAxis position="bottom" />
+        </>
+      }
+      dataTable={{xLabel: 'Channel'}}
+      height={260}
+    />
+  ),
+};
+
+/**
+ * Accessible by default: `role="img"` named by `title` (or `aria-label`),
+ * `description` as the image description, and a visually hidden data table.
+ * Theme palette colors (no `color`) follow light/dark mode.
+ */
+export const Accessible: StoryObj = {
+  render: () => (
+    <Chart
+      data={monthlyData}
+      xKey="month"
+      aria-label="Revenue and costs per month"
+      description="Revenue stays above costs every month."
+      series={[
+        bar('revenue', {group: 'compare', label: 'Revenue'}),
+        bar('costs', {group: 'compare', label: 'Costs'}),
+      ]}
+      dataTable={{xLabel: 'Month', formatValue: currency()}}
+      legend
+      tooltip
+      grid={<ChartGrid />}
+      axes={axes}
+      height={300}
+    />
+  ),
+};

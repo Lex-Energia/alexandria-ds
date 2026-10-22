@@ -161,8 +161,22 @@ export interface ChartPointerEvent {
   active: boolean;
 }
 
+/**
+ * Which way the chart reads. `'vertical'` (default): categories along x, values
+ * grow up. `'horizontal'`: categories along y, values grow right (horizontal
+ * bars). Marks always resolve in the vertical "plot space"; the chart root
+ * transposes them on screen.
+ */
+export type ChartOrientation = 'vertical' | 'horizontal';
+
 /** Context provided by Chart to interaction children */
 export interface ChartContext {
+  /**
+   * Chart orientation. Chrome (axes, grid) receives display-space scales: for
+   * `'horizontal'`, `xScale` is the value scale and `yBandScale` the category
+   * scale. `resolved` points stay in plot space (see `ChartOrientation`).
+   */
+  orientation?: ChartOrientation;
   width: number;
   height: number;
   margin: ChartMargin;

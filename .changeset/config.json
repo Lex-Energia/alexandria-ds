@@ -5,6 +5,7 @@
   "fixed": [
     [
       "@pharos-ds/build",
+      "@pharos-ds/charts",
       "@pharos-ds/cli",
       "@pharos-ds/core",
       "@pharos-ds/theme-pharos"
