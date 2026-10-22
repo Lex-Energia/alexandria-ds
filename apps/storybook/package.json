@@ -16,12 +16,12 @@
     "@pharos-ds/theme-stone": "*",
     "@pharos-ds/theme-y2k": "*",
     "@pharos-ds/vega": "*",
-    "react": "^19.2.8",
-    "react-dom": "^19.2.8",
-    "unplugin": "^3.0.0",
-    "vega": "^6.3.1",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "unplugin": "^3.4.0",
+    "vega": "^6.4.0",
     "vega-datasets": "^3.2.1",
-    "vega-lite": "^6.4.3"
+    "vega-lite": "^6.5.0"
   },
   "devDependencies": {
     "@storybook/addon-docs": "^10.4.6",
