@@ -183,6 +183,71 @@ describe('SideNav', () => {
     expect(nav.children).toHaveLength(1);
   });
 
+  describe('footer in the collapsed rail', () => {
+    it('hides footer but keeps footerIcons and the collapse button when collapsed', () => {
+      render(
+        <SideNav
+          collapsible={{defaultIsCollapsed: true}}
+          footer={<span data-testid="footer">Footer</span>}
+          footerIcons={<span data-testid="icons">Icons</span>}>
+          <SideNavItem label="Dashboard" icon={StubIcon} />
+        </SideNav>,
+      );
+
+      expect(screen.queryByTestId('footer')).not.toBeInTheDocument();
+      expect(screen.getByTestId('icons')).toBeInTheDocument();
+      expect(
+        screen.getByRole('button', {name: 'Expand sidebar'}),
+      ).toBeInTheDocument();
+    });
+
+    it('shows footer again after expanding the rail', async () => {
+      const user = userEvent.setup();
+      render(
+        <SideNav
+          collapsible={{defaultIsCollapsed: true}}
+          footer={<span data-testid="footer">Footer</span>}>
+          <SideNavItem label="Dashboard" icon={StubIcon} />
+        </SideNav>,
+      );
+
+      expect(screen.queryByTestId('footer')).not.toBeInTheDocument();
+      await user.click(screen.getByRole('button', {name: 'Expand sidebar'}));
+      expect(screen.getByTestId('footer')).toBeInTheDocument();
+    });
+
+    it('does not leave an empty footer container when only footer is set and the rail has no button', () => {
+      render(
+        <SideNav
+          data-testid="nav"
+          collapsible={{isCollapsed: true, hasButton: false}}
+          footer={<span data-testid="footer">Footer</span>}>
+          Content
+        </SideNav>,
+      );
+
+      expect(screen.queryByTestId('footer')).not.toBeInTheDocument();
+      expect(screen.getByTestId('nav').children).toHaveLength(1);
+    });
+
+    it('keeps rendering footer when the SideNav is expanded or not collapsible', () => {
+      const {unmount} = render(
+        <SideNav collapsible footer={<span data-testid="footer">Footer</span>}>
+          Content
+        </SideNav>,
+      );
+      expect(screen.getByTestId('footer')).toBeInTheDocument();
+      unmount();
+
+      render(
+        <SideNav footer={<span data-testid="footer">Footer</span>}>
+          Content
+        </SideNav>,
+      );
+      expect(screen.getByTestId('footer')).toBeInTheDocument();
+    });
+  });
+
   it('fires a consumer onClick on the collapse button in addition to toggling', async () => {
     const user = userEvent.setup();
     const onClick = vi.fn();

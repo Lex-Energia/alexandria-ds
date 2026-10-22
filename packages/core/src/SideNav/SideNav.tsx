@@ -10,6 +10,8 @@
  *
  * Sidebar navigation container with five zones: header + topContent (sticky together),
  * children (scrollable), footer, and footerIcons (sticky bottom).
+ * When collapsed to the icon rail, `footer` is hidden; `footerIcons` and the
+ * collapse button remain.
  *
  * Supports optional resize via drag handle at the inline-end edge.
  *
@@ -212,7 +214,9 @@ export interface SideNavProps extends BaseProps<HTMLElement> {
    */
   children: ReactNode;
   /**
-   * Footer area above icon bar (e.g., promo cards).
+   * Footer area above icon bar (e.g., promo cards). Not rendered while the
+   * sidebar is collapsed to the icon rail (full-width content doesn't fit);
+   * use `footerIcons` for actions that must stay visible in the rail.
    */
   footer?: ReactNode;
   /**
@@ -484,7 +488,11 @@ export function SideNav({
   // Default mode — full sidebar
   // =========================================================================
   const hasStickyTop = !!(header || topContent);
-  const hasStickyBottom = !!(footer || footerIcons);
+  // In the collapsed rail, `footer` is not rendered: its content is laid out
+  // full-width (promo cards, segmented controls, account blocks) and doesn't
+  // fit the icon-only rail. `footerIcons` and the collapse button stay.
+  const visibleFooter = collapsed ? null : footer;
+  const hasStickyBottom = !!(visibleFooter || footerIcons);
   // The built-in collapse button only renders when collapse is enabled and it
   // hasn't been opted out via `collapsible.hasButton: false` (e.g. when the
   // consumer places a SideNavCollapseButton in the header instead).
@@ -537,7 +545,7 @@ export function SideNav({
             styles.stickyBottom,
             collapsed && styles.stickyBottomCollapsed,
           )}>
-          {footer}
+          {visibleFooter}
           <div
             {...stylex.props(
               styles.footerRow,

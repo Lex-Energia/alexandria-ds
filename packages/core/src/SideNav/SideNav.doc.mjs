@@ -25,7 +25,7 @@ export const docs = {
       {className: 'pharos-side-nav-section', states: ['collapsed']},
     ],
   },
-  description: 'Container with five zones: header, topContent, children (scrollable), footer, and footerIcons. Supports collapsible mode.',
+  description: 'Container with five zones: header, topContent, children (scrollable), footer, and footerIcons. Supports collapsible mode: the collapsed rail shows only item icons, footerIcons, and the collapse button (footer is hidden).',
   props: [
     {
       name: 'header',
@@ -71,7 +71,7 @@ export const docs = {
     {
       name: 'footer',
       type: 'ReactNode',
-      description: 'Footer area above the icon bar.',
+      description: 'Footer area above the icon bar. Hidden while the SideNav is collapsed to the icon rail, since full-width content does not fit; put actions that must stay reachable in footerIcons.',
       slotElements: [
         {
           __element: 'Text',
@@ -85,7 +85,7 @@ export const docs = {
     {
       name: 'footerIcons',
       type: 'ReactNode',
-      description: 'Footer icon bar.',
+      description: 'Footer icon bar. Stays visible in the collapsed rail, next to the collapse button.',
       slotElements: [
         {
           __element: 'Icon',
@@ -99,7 +99,7 @@ export const docs = {
     {
       name: 'collapsible',
       type: 'boolean | { defaultIsCollapsed?: boolean; isCollapsed?: boolean; onCollapsedChange?: (isCollapsed: boolean) => void; hasButton?: boolean; buttonLabel?: string }',
-      description: 'Enables collapse behavior. true for uncontrolled with default toggle button, or an object for controlled mode and advanced config (defaultIsCollapsed, isCollapsed + onCollapsedChange, hasButton, buttonLabel).',
+      description: 'Enables collapse behavior. true for uncontrolled with default toggle button, or an object for controlled mode and advanced config (defaultIsCollapsed, isCollapsed + onCollapsedChange, hasButton, buttonLabel). When collapsed, the rail shows item icons only (items without icons are hidden), keeps footerIcons and the collapse button, and does not render footer. Read the state inside the nav with useSideNavCollapse().',
       default: 'false',
     },
     {
