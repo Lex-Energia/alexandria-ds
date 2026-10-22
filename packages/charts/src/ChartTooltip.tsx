@@ -7,6 +7,14 @@
  *         to take full control of props.
  * @position Reads from ChartContext — must render inside an <Chart>.
  *
+ * Pointer-only: the card is portaled with `pointer-events: none` and holds no
+ * focusable content, so it never traps keyboard focus. Keyboard/screen-reader
+ * users get the same values from the chart's hidden data table instead.
+ *
+ * In a horizontal chart the tooltip renders in the vertical plot space (Chart
+ * wraps it in the same transpose as the marks), so only the screen position of
+ * the card needs to know about `orientation`.
+ *
  * @example
  * ```
  * // Default — declarative on Chart
@@ -170,7 +178,9 @@ export function ChartTooltip({
     xScale,
     width,
     height,
+    orientation,
   } = useChart();
+  const isHorizontal = orientation === 'horizontal';
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const cardRef = useRef<HTMLDivElement>(null);
   // Whether the card is currently suppressed (no content, or a custom `render`
@@ -198,10 +208,19 @@ export function ChartTooltip({
         return;
       }
       const svgRect = svg.getBoundingClientRect();
-      const screenX = svgRect.left + margin.left + e.nearest.px;
-      const screenY = svgRect.top + margin.top;
       const cardWidth = card.offsetWidth;
       const cardHeight = card.offsetHeight;
+      // Plot space → screen. Horizontal charts are transposed: the category
+      // (px) runs down the y-axis and the value end of the mark (py) maps to
+      // x = plot height − py, so the card sits beside the hovered row.
+      const screenX = isHorizontal
+        ? svgRect.left +
+          margin.left +
+          (Number.isFinite(e.nearest.py) ? height - e.nearest.py : 0)
+        : svgRect.left + margin.left + e.nearest.px;
+      const screenY = isHorizontal
+        ? svgRect.top + margin.top + e.nearest.px - cardHeight / 2
+        : svgRect.top + margin.top;
       const viewportWidth = window.innerWidth;
       const viewportHeight = window.innerHeight;
       const gap = 8;
@@ -239,7 +258,7 @@ export function ChartTooltip({
       card.style.top = `${y}px`;
       card.style.display = 'block';
     },
-    [svgRef, margin, placement],
+    [svgRef, margin, placement, isHorizontal, height],
   );
 
   // ─── Subscribe to pointer events ───────────────────────────────────────
@@ -327,7 +346,8 @@ export function ChartTooltip({
       const rectX = Math.max(0, x - pad);
       const rectRight = Math.min(width, x + bw + pad);
       const rectWidth = rectRight - rectX;
-      const topPad = Math.min(pad, margin.top);
+      // Plot-space "top" is the display's right edge when horizontal.
+      const topPad = Math.min(pad, isHorizontal ? margin.right : margin.top);
       return (
         <rect
           x={rectX}
@@ -370,6 +390,8 @@ export function ChartTooltip({
     width,
     height,
     margin.top,
+    margin.right,
+    isHorizontal,
   ]);
 
   // Single source of truth for whether the card has anything to show. It's

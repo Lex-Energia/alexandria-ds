@@ -71,8 +71,9 @@ Then: `npm run pharos -- component --list`.
 | [`@pharos-ds/cli`](packages/cli)                    | CLI: component docs, templates, scaffolding, themes, codemods | [README](packages/cli/README.md)           |
 | [`@pharos-ds/build`](packages/build)                | Build plugins for StyleX source builds                        | [README](packages/build/README.md)         |
 | [`@pharos-ds/theme-pharos`](packages/themes/pharos) | Official Alexandria / Pharos theme                            | [README](packages/themes/pharos/README.md) |
+| [`@pharos-ds/charts`](packages/charts)              | Charts (bar, line, area…) themed by Pharos tokens             | [README](packages/charts/README.md)        |
 
-> Other themes under `packages/themes/` are kept for internal experiments and are not part of the public v1 publish set. `@pharos-ds/lab`, `@pharos-ds/vega`, and `@pharos-ds/charts` remain private / canary.
+> Other themes under `packages/themes/` are kept for internal experiments and are not part of the public v1 publish set. `@pharos-ds/lab` and `@pharos-ds/vega` remain private / canary; `@pharos-ds/charts` is public and versions together with core.
 
 ## Project Structure
 

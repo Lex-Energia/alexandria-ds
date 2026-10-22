@@ -55,6 +55,10 @@ export default defineConfig({
     }),
   ],
   resolve: {
+    // One React for every package under test: a workspace package can end up
+    // with its own nested react copy (charts declares react as a peer), and a
+    // second copy breaks hooks ("Cannot read properties of null (useId)").
+    dedupe: ['react', 'react-dom'],
     alias: [
       // Map @pharos-ds/core subpath imports to source for lab package tests.
       // Must use regex to match subpaths like @pharos-ds/core/Dialog, @pharos-ds/core/theme/tokens.stylex
@@ -62,6 +66,13 @@ export default defineConfig({
       {
         find: /^@pharos-ds\/core\/(.*)$/,
         replacement: path.join(coreSrc, '$1'),
+      },
+      // The bare entry too (charts/lab import `{Text} from '@pharos-ds/core'`),
+      // so tests never depend on a built dist and share one copy of core's
+      // contexts with the subpath imports above.
+      {
+        find: /^@pharos-ds\/core$/,
+        replacement: path.join(coreSrc, 'index.ts'),
       },
     ],
   },
@@ -82,7 +93,7 @@ export default defineConfig({
     execArgv: ['--max-old-space-size=4096'],
     // Test projects (migrated from vitest.workspace.ts). Partitioning rule
     // (nothing can fall through):
-    //   - `ui`   = packages/core + packages/lab — need jsdom, the StyleX babel
+    //   - `ui`   = packages/core + packages/lab + packages/charts — need jsdom, the StyleX babel
     //              transform, and the jest-dom setup; inherit all of that from
     //              the root config via `extends: true`.
     //   - `node` = everything else (CLI, build tooling, scripts, internal
@@ -100,6 +111,8 @@ export default defineConfig({
           include: [
             'packages/core/src/**/*.test.{ts,tsx,mjs}',
             'packages/lab/src/**/*.test.{ts,tsx,mjs}',
+            // Charts render SVG through core components and read theme tokens.
+            'packages/charts/src/**/*.test.{ts,tsx,mjs}',
             // Theme contrast tests import the theme source, which needs the
             // same @pharos-ds/core → src alias + StyleX transform as core.
             'packages/themes/*/src/**/*.test.{ts,tsx}',
@@ -141,6 +154,7 @@ export default defineConfig({
             ...configDefaults.exclude,
             'packages/core/**',
             'packages/lab/**',
+            'packages/charts/**',
           ],
         },
       },

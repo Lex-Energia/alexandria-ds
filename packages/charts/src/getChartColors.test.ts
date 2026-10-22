@@ -1,7 +1,12 @@
 // Copyright (c) Meta Platforms, Inc. and affiliates.
 
 import {describe, expect, it} from 'vitest';
-import {getChartColorsFromResolver, type TokenResolver} from './getChartColors';
+import {
+  getChartColors,
+  getChartColorsFromResolver,
+  type TokenResolver,
+} from './getChartColors';
+import {pharosTheme} from '../../themes/pharos/src/pharosTheme';
 
 // A fake resolver with a hand-picked greyscale ramp so interpolated values are
 // easy to verify by hand: 0x00, 0x40, 0x80, 0xC0, 0xFF from step 5 → 1.
@@ -85,5 +90,25 @@ describe('getChartColorsFromResolver', () => {
         'var(--color-accent)',
       );
     });
+  });
+});
+
+describe('getChartColors with the Pharos theme', () => {
+  // Brand order: azul, roxo, laranja, amarelo, chumbo. Dark mode lifts azul,
+  // roxo and chumbo for contrast on the dark surfaces.
+  it.each([
+    ['light', ['#034694', '#7C51A1', '#F26641', '#FAA61A', '#383838']],
+    ['dark', ['#6BA3F5', '#A67BC4', '#F26641', '#FAA61A', '#D4D4D4']],
+  ] as const)('follows the brand categorical order (%s)', (mode, expected) => {
+    const colors = getChartColors(pharosTheme, mode);
+    expect(colors.categorical(5).map(c => c.toUpperCase())).toEqual(expected);
+  });
+
+  it('only reaches the core extra slots after the five brand series', () => {
+    const light = getChartColors(pharosTheme, 'light').categorical(6);
+    expect(light[5]).not.toBe(light[0]);
+    expect(light.slice(0, 5).map(c => c.toUpperCase())).not.toContain(
+      light[5].toUpperCase(),
+    );
   });
 });

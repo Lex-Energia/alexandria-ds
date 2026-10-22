@@ -4,6 +4,10 @@
  * @file ChartGrid.tsx (v2)
  * @output Grid lines behind chart marks
  * @position Child of Chart v2; reads scales from chart context
+ *
+ * Defaults follow the value axis: horizontal lines for vertical charts,
+ * vertical lines for `orientation="horizontal"` charts. In a horizontal chart
+ * with categorical rows, explicit `horizontal` lines sit on the row centers.
  */
 
 import {useMemo} from 'react';
@@ -14,9 +18,9 @@ import {isBandScale} from './utils';
 import type {ScaleLinear, ScaleTime} from 'd3-scale';
 
 export interface ChartGridProps {
-  /** Show horizontal grid lines. Default: `true`. */
+  /** Show horizontal grid lines. Default: `true` (`false` in horizontal charts). */
   horizontal?: boolean;
-  /** Show vertical grid lines. Default: `false`. */
+  /** Show vertical grid lines. Default: `false` (`true` in horizontal charts). */
   vertical?: boolean;
   /**
    * Approximate number of grid lines per axis. Match your `<ChartAxis>`
@@ -46,11 +50,14 @@ const styles = stylex.create({
  * ```
  */
 export function ChartGrid({
-  horizontal = true,
-  vertical = false,
+  horizontal: horizontalProp,
+  vertical: verticalProp,
   tickCount = 5,
 }: ChartGridProps) {
-  const {width, height, xScale, yScale} = useChart();
+  const {width, height, xScale, yScale, yBandScale, orientation} = useChart();
+  const isHorizontalChart = orientation === 'horizontal';
+  const horizontal = horizontalProp ?? !isHorizontalChart;
+  const vertical = verticalProp ?? isHorizontalChart;
 
   // Sanitize the tick count before it reaches d3's `.ticks()`: it targets ~N
   // ticks and allocates an array that large, so a huge N throws `RangeError:
@@ -70,11 +77,17 @@ export function ChartGrid({
     if (!horizontal) {
       return [];
     }
+    if (isHorizontalChart && yBandScale) {
+      return yBandScale.domain().map(d => ({
+        value: d,
+        pos: (yBandScale(d) ?? 0) + yBandScale.bandwidth() / 2,
+      }));
+    }
     return yScale
       .ticks(safeTickCount)
       .filter(tick => tick !== 0)
       .map(tick => ({value: tick, pos: yScale(tick)}));
-  }, [horizontal, yScale, safeTickCount]);
+  }, [horizontal, yScale, yBandScale, isHorizontalChart, safeTickCount]);
 
   const vLines = useMemo(() => {
     if (!vertical) {
@@ -87,10 +100,14 @@ export function ChartGrid({
     }
     const linear = xScale as
       ScaleLinear<number, number> | ScaleTime<number, number>;
-    return linear
-      .ticks(safeTickCount)
-      .map(d => ({value: String(d), pos: linear(d as number & Date)}));
-  }, [vertical, xScale, safeTickCount]);
+    return (
+      linear
+        .ticks(safeTickCount)
+        // Horizontal charts draw value zero with the left axis line.
+        .filter(d => !(isHorizontalChart && Number(d) === 0))
+        .map(d => ({value: String(d), pos: linear(d as number & Date)}))
+    );
+  }, [vertical, xScale, safeTickCount, isHorizontalChart]);
 
   return (
     <g>

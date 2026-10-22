@@ -1,7 +1,7 @@
 // Copyright (c) Meta Platforms, Inc. and affiliates.
 
 /**
- * @file babel.config.js
+ * @file babel.config.cjs
  * @input Uses @babel/preset-react, @babel/preset-typescript, the local
  *   add-extensions plugin, and @stylexjs/babel-plugin
  * @output Babel config for compiling charts src -> dist (ESM .js with StyleX)

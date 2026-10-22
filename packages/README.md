@@ -12,6 +12,6 @@ Published npm packages for the Pharos design system.
 | `themes/pharos/` | `@pharos-ds/theme-pharos` | Official Alexandria / Pharos theme (public v1)                |
 | `themes/*`       | `@pharos-ds/theme-*`      | Extra themes (private / experimental)                         |
 | `vega/`          | `@pharos-ds/vega`         | Vega/Vega-Lite chart wrapper (private / canary)               |
-| `charts/`        | `@pharos-ds/charts`       | Chart components (private / canary)                           |
+| `charts/`        | `@pharos-ds/charts`       | Chart components (public, versioned with core)                |
 | `lab/`           | `@pharos-ds/lab`          | Experimental components (not published)                       |
 | `richtext/`      | `@pharos-ds/richtext`     | Rich text (private)                                           |

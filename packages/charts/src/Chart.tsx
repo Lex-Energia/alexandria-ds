@@ -9,6 +9,17 @@
  *   1. Runs the layout engine (scales + stacking + grouping)
  *   2. Calls each series' resolve() and render() methods
  *   3. Provides a single event layer for interaction children
+ *   4. Exposes the text alternative (WCAG 1.1.1): the SVG is `role="img"` with
+ *      an accessible name (`aria-label` → `title` → series labels), optional
+ *      `<desc>` from `subtitle`/`description`, and a visually hidden data table
+ *      built from `data` (opt out with `dataTable={false}`). Plot internals are
+ *      `aria-hidden`.
+ *   5. Transposes the plot for `orientation="horizontal"`: marks resolve in the
+ *      vertical plot space and are drawn through a 90° transform, while axes
+ *      and grid read display-space scales from context.
+ *
+ * SYNC: When modified, update /packages/charts/src/Chart.doc.mjs and
+ *   /packages/charts/README.md
  */
 
 'use client';
@@ -22,13 +33,21 @@ import {
   useCallback,
   useLayoutEffect,
 } from 'react';
-import type {SeriesDef, YBaseline} from './types';
+import type {SeriesDef, YBaseline, ChartOrientation} from './types';
 import type {ChartContext, ChartMargin, ChartPointerEvent} from './types';
 import {computeLayout} from './layout';
 import {ChartProvider} from './ChartContext';
 import {Text} from '@pharos-ds/core';
 import {VStack, HStack} from '@pharos-ds/core';
+import {VisuallyHidden} from '@pharos-ds/core';
 import * as stylex from '@stylexjs/stylex';
+import {scaleLinear} from 'd3-scale';
+import {
+  buildDataTable,
+  fallbackChartLabel,
+  type ChartDataTableOptions,
+} from './dataTable';
+import {isBandScale} from './utils';
 import {ChartLegend, type ChartLegendProps} from './ChartLegend';
 import {deriveLegendItems} from './legend';
 import {ChartTooltip, type ChartTooltipProps} from './ChartTooltip';
@@ -56,8 +75,38 @@ export interface ChartProps {
   tooltip?: boolean | Omit<ChartTooltipProps, 'series'>;
   interactions?: ReactNode;
   children?: ReactNode;
+  /**
+   * Visible heading above the chart. Also the chart's accessible name and the
+   * hidden data table's caption, unless `aria-label` is given.
+   */
   title?: string;
+  /** Visible supporting line under the title; exposed as the SVG description. */
   subtitle?: string;
+  /**
+   * Accessible name for the chart (`role="img"`). Defaults to `title`, then to
+   * the data series labels. Use it when the visible title lives outside the
+   * chart (e.g. a Card header).
+   */
+  'aria-label'?: string;
+  /**
+   * Text alternative summarizing what the chart shows (trend, highlights). Not
+   * rendered visibly; exposed via `aria-describedby` alongside `subtitle`.
+   */
+  description?: string;
+  /**
+   * Visually hidden `<table>` with the chart's data, for screen readers
+   * (caption = accessible name, header row = x label + series labels, one row
+   * per x value). Default `true`. Pass `false` to opt out (e.g. when the same
+   * data is already on the page as a table) or an object to customize labels
+   * and formatting.
+   */
+  dataTable?: boolean | ChartDataTableOptions;
+  /**
+   * `'vertical'` (default) or `'horizontal'` — categories on the y-axis and
+   * values growing right (horizontal bars). Axes and grid follow automatically;
+   * for the tooltip use the `tooltip` prop (not a `ChartTooltip` child).
+   */
+  orientation?: ChartOrientation;
 }
 
 const DEFAULT_MARGIN: ChartMargin = {top: 24, right: 24, bottom: 32, left: 48};
@@ -93,9 +142,14 @@ export function Chart({
   children,
   title,
   subtitle,
+  'aria-label': ariaLabel,
+  description,
+  dataTable = true,
+  orientation = 'vertical',
 }: ChartProps) {
   const chartId = useId();
   const descId = `${chartId}-desc`;
+  const isHorizontal = orientation === 'horizontal';
   // useId() can contain ':' which is invalid in an SVG url(#id) reference.
   const clipId = `plot-${chartId.replace(/:/g, '')}`;
   const containerRef = useRef<HTMLDivElement>(null);
@@ -136,6 +190,11 @@ export function Chart({
   const innerHeight = Number.isFinite(rawInnerHeight)
     ? Math.max(0, rawInnerHeight)
     : 0;
+  // Plot space: marks always resolve as if the chart were vertical. For a
+  // horizontal chart the category axis runs along the display height and the
+  // value axis along the display width, so the plot box is transposed.
+  const plotWidth = isHorizontal ? innerHeight : innerWidth;
+  const plotHeight = isHorizontal ? innerWidth : innerHeight;
 
   // ─── Color assignment ─────────────────────────────────────────────────
   // Give every primary series that doesn't supply a static color (auto-colored
@@ -160,13 +219,13 @@ export function Chart({
         data,
         xKey,
         series,
-        width: innerWidth,
-        height: innerHeight,
+        width: plotWidth,
+        height: plotHeight,
         yBaseline,
         yDomain,
         xDomain,
       }),
-    [data, xKey, series, innerWidth, innerHeight, yBaseline, yDomain, xDomain],
+    [data, xKey, series, plotWidth, plotHeight, yBaseline, yDomain, xDomain],
   );
 
   const seriesCtx = useMemo(
@@ -176,10 +235,10 @@ export function Chart({
       xScale: layout.xScale,
       yScale: layout.yScale,
       yBandScale: layout.yBandScale,
-      width: innerWidth,
-      height: innerHeight,
+      width: plotWidth,
+      height: plotHeight,
     }),
-    [data, xKey, layout, innerWidth, innerHeight],
+    [data, xKey, layout, plotWidth, plotHeight],
   );
 
   // ─── Event dispatch ───────────────────────────────────────────────────
@@ -211,12 +270,15 @@ export function Chart({
       }
       const cursor = point.matrixTransform(ctm);
 
-      // Find nearest point by x-distance only (full vertical column is the hover zone)
+      // Find nearest point by category distance only (the full column — or
+      // row, when horizontal — is the hover zone). Resolved points live in
+      // plot space, where the category position is always `px`.
+      const cursorCategory = isHorizontal ? cursor.y : cursor.x;
       let nearest: ChartPointerEvent['nearest'] = null;
       let bestXDist = Infinity;
       for (const [seriesKey, points] of layout.resolved) {
         for (const p of points) {
-          const xDist = Math.abs(p.px - cursor.x);
+          const xDist = Math.abs(p.px - cursorCategory);
           if (xDist < bestXDist) {
             bestXDist = xDist;
             nearest = {...p, seriesKey};
@@ -225,7 +287,7 @@ export function Chart({
       }
       dispatch({x: cursor.x, y: cursor.y, nearest, active: e.buttons > 0});
     },
-    [layout.resolved, dispatch],
+    [layout.resolved, dispatch, isHorizontal],
   );
 
   const handlePointerLeave = useCallback(() => {
@@ -233,10 +295,15 @@ export function Chart({
   }, [dispatch]);
 
   // ─── Context for interactions + v1 chrome ─────────────────────────────
-  const ctx: ChartContext = useMemo(
+  // `plotCtx` is the vertical plot space marks resolve in (it is also the
+  // display space for vertical charts). For horizontal charts, chrome gets a
+  // display-space view: the value scale runs along x (left → right) and the
+  // category scale along y (top → bottom).
+  const plotCtx: ChartContext = useMemo(
     () => ({
-      width: innerWidth,
-      height: innerHeight,
+      orientation,
+      width: plotWidth,
+      height: plotHeight,
       margin,
       data,
       xKey,
@@ -247,8 +314,75 @@ export function Chart({
       onPointer,
       svgRef,
     }),
-    [innerWidth, innerHeight, margin, data, xKey, layout, onPointer],
+    [orientation, plotWidth, plotHeight, margin, data, xKey, layout, onPointer],
   );
+
+  const ctx: ChartContext = useMemo(() => {
+    if (!isHorizontal) {
+      return plotCtx;
+    }
+    const valueScale = layout.yScale.copy().range([0, innerWidth]);
+    const plotX = layout.xScale;
+    return {
+      ...plotCtx,
+      width: innerWidth,
+      height: innerHeight,
+      xScale: valueScale,
+      ...(isBandScale(plotX)
+        ? {
+            yBandScale: plotX.copy().range([0, innerHeight]),
+            // Unused for a categorical y; kept so `yScale` stays a valid scale.
+            yScale: scaleLinear().range([innerHeight, 0]),
+          }
+        : {
+            yBandScale: undefined,
+            yScale: plotX.copy().range([0, innerHeight]),
+          }),
+    };
+  }, [plotCtx, isHorizontal, layout, innerWidth, innerHeight]);
+
+  // ─── Accessibility ────────────────────────────────────────────────────
+  const accessibleName =
+    ariaLabel || title || fallbackChartLabel(series) || undefined;
+  const descriptionText = [subtitle, description].filter(Boolean).join('. ');
+  const tableModel = useMemo(
+    () =>
+      dataTable === false
+        ? null
+        : buildDataTable(
+            data,
+            xKey,
+            series,
+            dataTable === true ? {} : dataTable,
+          ),
+    [data, xKey, series, dataTable],
+  );
+  const tableElement = tableModel ? (
+    <VisuallyHidden as="div">
+      <table>
+        {accessibleName && <caption>{accessibleName}</caption>}
+        <thead>
+          <tr>
+            {tableModel.headers.map((h, i) => (
+              <th key={i} scope="col">
+                {h}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {tableModel.rows.map(row => (
+            <tr key={row.key}>
+              <th scope="row">{row.header}</th>
+              {row.cells.map((cell, i) => (
+                <td key={i}>{cell}</td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </VisuallyHidden>
+  ) : null;
 
   // ─── Legend ────────────────────────────────────────────────────────────
   const legendConfig = legend === true ? {} : legend || null;
@@ -266,13 +400,17 @@ export function Chart({
     legendPosition === 'start' || legendPosition === 'end';
 
   // ─── Render ───────────────────────────────────────────────────────────
+  // Before the first measurement (and during SSR) only the sized placeholder
+  // renders — plus the hidden data table, which doesn't depend on width, so
+  // the text alternative is in the server HTML too.
   if (containerWidth === 0) {
     return (
       <div
         ref={containerRef}
         {...stylex.props(styles.container)}
-        style={{height: safeHeight}}
-      />
+        style={{height: safeHeight}}>
+        {tableElement}
+      </div>
     );
   }
 
@@ -309,42 +447,57 @@ export function Chart({
           </VStack>
         )}
       </ChartProvider>
+      {tableElement}
     </div>
   );
 
   function renderSvg() {
+    const plotTransform = isHorizontal
+      ? `matrix(0,1,-1,0,${innerWidth},0)`
+      : undefined;
     return (
       <svg
         ref={svgRef}
         width="100%"
         height={safeHeight}
-        aria-label={title ?? undefined}
-        aria-describedby={subtitle ? descId : undefined}>
-        {title && <title>{title}</title>}
-        {subtitle && <desc id={descId}>{subtitle}</desc>}
+        role="img"
+        aria-label={accessibleName}
+        aria-describedby={descriptionText ? descId : undefined}>
+        {descriptionText && <desc id={descId}>{descriptionText}</desc>}
         <defs>
           <clipPath id={clipId}>
             <rect x={0} y={0} width={innerWidth} height={innerHeight} />
           </clipPath>
         </defs>
         <g transform={`translate(${margin.left},${margin.top})`}>
-          {/* 1. Grid */}
-          {grid}
+          {/* 1-3. Decorative plot internals — the text alternative is the
+              accessible name + hidden data table, so these stay out of the
+              accessibility tree. */}
+          <g aria-hidden="true">
+            {/* 1. Grid */}
+            {grid}
 
-          {/* 2. Marks — each series renders itself. Clipped to the plot area so
-              curve overshoot (monotone/natural) can't escape into the margins. */}
-          <g clipPath={`url(#${clipId})`}>
-            {series.map(s => {
-              const resolved = s._uid ? layout.resolved.get(s._uid) : undefined;
-              if (!resolved) {
-                return null;
-              }
-              return <g key={s._uid}>{s.render(resolved, seriesCtx)}</g>;
-            })}
+            {/* 2. Marks — each series renders itself. Clipped to the plot area
+                so curve overshoot (monotone/natural) can't escape into the
+                margins. Horizontal charts draw the vertical plot space through
+                a transpose: plot (px, py) → display (innerWidth − py, px). */}
+            <g clipPath={`url(#${clipId})`}>
+              <g transform={plotTransform}>
+                {series.map(s => {
+                  const resolved = s._uid
+                    ? layout.resolved.get(s._uid)
+                    : undefined;
+                  if (!resolved) {
+                    return null;
+                  }
+                  return <g key={s._uid}>{s.render(resolved, seriesCtx)}</g>;
+                })}
+              </g>
+            </g>
+
+            {/* 3. Axes */}
+            {axes}
           </g>
-
-          {/* 3. Axes */}
-          {axes}
 
           {/* 4. Event capture + interactions */}
           <rect
@@ -359,12 +512,18 @@ export function Chart({
           {interactions}
 
           {/* 5. Tooltip — declarative shortcut. For full control, render
-              <ChartTooltip> directly via the `children` slot. */}
+              <ChartTooltip> directly via the `children` slot. Pointer-only
+              and never focusable (the card is pointer-events: none), so it
+              can't trap keyboard focus; its hover marks are decorative. */}
           {tooltip && (
-            <ChartTooltip
-              series={series}
-              {...(tooltip === true ? {} : tooltip)}
-            />
+            <g aria-hidden="true" transform={plotTransform}>
+              <ChartProvider value={plotCtx}>
+                <ChartTooltip
+                  series={series}
+                  {...(tooltip === true ? {} : tooltip)}
+                />
+              </ChartProvider>
+            </g>
           )}
 
           {/* 6. Escape hatch */}

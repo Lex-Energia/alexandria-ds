@@ -15,6 +15,11 @@
  * available width (horizontal) or height (vertical) to avoid overlap.
  *
  * Ticks use CSS transitions for smooth sliding during streaming updates.
+ *
+ * Orientation-aware: in a horizontal chart the context hands over display-space
+ * scales (values on x, categories on y), so `position="bottom"` shows values and
+ * `position="left"` shows categories. The default edge line follows the value
+ * baseline: bottom for vertical charts, left for horizontal ones.
  */
 
 import {useCallback, useMemo} from 'react';
@@ -38,8 +43,9 @@ export interface ChartAxisProps {
   /** Enable smooth transitions for streaming (default: true) */
   animated?: boolean;
   /**
-   * Show the axis edge line. Defaults to `true` for `position="bottom"`,
-   * `false` otherwise. Forced to `true` when `showTicks` is enabled.
+   * Show the axis edge line. Defaults to `true` for the category axis
+   * (`position="bottom"`, or `position="left"` in a horizontal chart), `false`
+   * otherwise. Forced to `true` when `showTicks` is enabled.
    * Pair with `<ChartGrid vertical />` and pass `showAxisLine` on the
    * corresponding side axis to keep the visual edge grounded.
    */
@@ -79,13 +85,16 @@ export function ChartAxis({
   tickFormat,
   truncate,
   animated = true,
-  showAxisLine = position === 'bottom',
+  showAxisLine,
   showTicks = false,
 }: ChartAxisProps) {
+  const {width, height, xScale, yScale, yBandScale, orientation} = useChart();
+  const isHorizontalChart = orientation === 'horizontal';
   // Tick marks need an axis line to anchor against; force it on when ticks
   // are enabled so the two visuals stay coherent.
-  const renderAxisLine = showAxisLine || showTicks;
-  const {width, height, xScale, yScale, yBandScale} = useChart();
+  const renderAxisLine =
+    (showAxisLine ?? position === (isHorizontalChart ? 'left' : 'bottom')) ||
+    showTicks;
 
   const isHorizontal = position === 'top' || position === 'bottom';
   // A categorical y-axis (e.g. heatmap rows) is exposed as `yBandScale`; prefer
@@ -185,12 +194,25 @@ export function ChartAxis({
     // Categorical y (e.g. heatmap rows): there is no meaningful zero, and the
     // linear yScale is degenerate — anchor the bottom edge line to the plot edge
     // so it frames the grid instead of cutting across the cells.
-    if (position !== 'bottom' || yBandScale) {
+    if (position !== 'bottom' || yBandScale || isHorizontalChart) {
       return 0;
     }
     const domain = yScale.domain();
     if (domain[0] < 0 && domain[1] > 0) {
       return yScale(0) - height;
+    }
+    return 0;
+  })();
+
+  // Horizontal charts: the left edge line marks value zero when the value
+  // domain spans negative values (mirror of `axisLineY` above).
+  const axisLineX = (() => {
+    if (position !== 'left' || !isHorizontalChart || isBandScale(xScale)) {
+      return 0;
+    }
+    const domain = (xScale as ScaleLinear<number, number>).domain();
+    if (domain[0] < 0 && domain[1] > 0) {
+      return (xScale as ScaleLinear<number, number>)(0);
     }
     return 0;
   })();
@@ -203,8 +225,8 @@ export function ChartAxis({
     <g transform={transform} role="group" aria-label={`${position} axis`}>
       {renderAxisLine && (
         <line
-          x1={0}
-          x2={isHorizontal ? width : 0}
+          x1={isHorizontal ? 0 : axisLineX}
+          x2={isHorizontal ? width : axisLineX}
           y1={isHorizontal ? axisLineY : 0}
           y2={isHorizontal ? axisLineY : height}
           {...stylex.props(styles.axisLine)}
