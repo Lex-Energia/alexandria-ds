@@ -4,6 +4,7 @@
 
 import {useState} from 'react';
 import {AppShell} from '@pharos-ds/core/AppShell';
+import {Button} from '@pharos-ds/core/Button';
 import {Divider} from '@pharos-ds/core/Divider';
 import {Layout, LayoutContent, LayoutFooter} from '@pharos-ds/core/Layout';
 import {
@@ -165,6 +166,10 @@ export default function ShellSideNav() {
       contentPadding={0}
       sideNav={
         <SideNav
+          // `collapsible` folds the nav into an icon rail; every top-level item
+          // has an icon so it stays reachable there. Apps can control the state
+          // with collapsible={{isCollapsed, onCollapsedChange}} (e.g. to
+          // persist it per browser).
           collapsible
           resizable={{defaultWidth: 300, minWidth: 220, maxWidth: 420}}
           header={
@@ -174,11 +179,25 @@ export default function ShellSideNav() {
               headingHref="#"
             />
           }
-          footer={
-            <SideNavSection title="Account" isHeaderHidden>
-              <SideNavItem label="Settings" icon={Cog6ToothIcon} href="#" />
-              <SideNavItem label="Sarah Chen" icon={UserCircleIcon} href="#" />
-            </SideNavSection>
+          // Account actions live in footerIcons: unlike `footer`, they stay
+          // visible in the collapsed rail.
+          footerIcons={
+            <>
+              <Button
+                label="Settings"
+                icon={<Icon icon={Cog6ToothIcon} size="md" />}
+                variant="ghost"
+                size="sm"
+                isIconOnly
+              />
+              <Button
+                label="Sarah Chen"
+                icon={<Icon icon={UserCircleIcon} size="md" />}
+                variant="ghost"
+                size="sm"
+                isIconOnly
+              />
+            </>
           }>
           <SideNavSection title="Menu" isHeaderHidden>
             <SideNavItem label="New chat" icon={PlusIcon} href="#" />

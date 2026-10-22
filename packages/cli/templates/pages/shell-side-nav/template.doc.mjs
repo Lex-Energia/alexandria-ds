@@ -6,7 +6,7 @@ export const doc = {
   name: 'Side Nav',
   displayName: 'Side Nav',
   description:
-    'A side-nav app shell with a collapsible, resizable SideNav (new chat, search, library, and workspace-grouped conversations with status dots) over static grey-card conversation and composer placeholders.',
+    'A side-nav app shell with a collapsible, resizable SideNav (new chat, search, library, workspace-grouped conversations with status dots, and settings/account icon buttons that stay in the collapsed rail) over static grey-card conversation and composer placeholders.',
   isReady: true,
   category: 'Shell - Left Sidebar',
 };

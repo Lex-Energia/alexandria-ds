@@ -617,6 +617,11 @@ export const CollapsibleSections: Story = {
 // Collapsible Sidebar
 // =============================================================================
 
+/**
+ * Every item has an icon so the collapsed rail stays navigable. `footer` is
+ * hidden in the rail (full-width content doesn't fit); `footerIcons` and the
+ * collapse button stay visible.
+ */
 export const CollapsibleSidebar: Story = {
   name: 'Collapsible Sidebar',
   render: () => (
@@ -628,6 +633,11 @@ export const CollapsibleSidebar: Story = {
           heading="My App"
           headingHref="/"
         />
+      }
+      footer={
+        <Text type="supporting" color="secondary">
+          Free plan · 3 of 5 projects
+        </Text>
       }
       footerIcons={
         <>

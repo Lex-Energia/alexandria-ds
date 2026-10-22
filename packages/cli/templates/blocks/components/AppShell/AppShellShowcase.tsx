@@ -27,6 +27,10 @@ export default function AppShellShowcase() {
       style={{height: '100%', minHeight: 0, width: '100%'}}
       sideNav={
         <SideNav
+          // `collapsible` folds the nav into an icon rail; every item needs an
+          // icon to stay visible there. Apps can control the state with
+          // collapsible={{isCollapsed, onCollapsedChange}} (e.g. to persist it).
+          collapsible
           header={
             <SideNavHeading
               icon={

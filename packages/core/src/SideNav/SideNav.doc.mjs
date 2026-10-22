@@ -25,7 +25,7 @@ export const docs = {
       {className: 'pharos-side-nav-section', states: ['collapsed']},
     ],
   },
-  description: 'Container with five zones: header, topContent, children (scrollable), footer, and footerIcons. Supports collapsible mode.',
+  description: 'Container with five zones: header, topContent, children (scrollable), footer, and footerIcons. Supports collapsible mode: the collapsed rail shows only item icons, footerIcons, and the collapse button (footer is hidden).',
   props: [
     {
       name: 'header',
@@ -71,7 +71,7 @@ export const docs = {
     {
       name: 'footer',
       type: 'ReactNode',
-      description: 'Footer area above the icon bar.',
+      description: 'Footer area above the icon bar. Hidden while the SideNav is collapsed to the icon rail, since full-width content does not fit; put actions that must stay reachable in footerIcons.',
       slotElements: [
         {
           __element: 'Text',
@@ -85,7 +85,7 @@ export const docs = {
     {
       name: 'footerIcons',
       type: 'ReactNode',
-      description: 'Footer icon bar.',
+      description: 'Footer icon bar. Stays visible in the collapsed rail, next to the collapse button.',
       slotElements: [
         {
           __element: 'Icon',
@@ -99,7 +99,7 @@ export const docs = {
     {
       name: 'collapsible',
       type: 'boolean | { defaultIsCollapsed?: boolean; isCollapsed?: boolean; onCollapsedChange?: (isCollapsed: boolean) => void; hasButton?: boolean; buttonLabel?: string }',
-      description: 'Enables collapse behavior. true for uncontrolled with default toggle button, or an object for controlled mode and advanced config (defaultIsCollapsed, isCollapsed + onCollapsedChange, hasButton, buttonLabel).',
+      description: 'Enables collapse behavior. true for uncontrolled with default toggle button, or an object for controlled mode and advanced config (defaultIsCollapsed, isCollapsed + onCollapsedChange, hasButton, buttonLabel). When collapsed, the rail shows item icons only (items without icons are hidden), keeps footerIcons and the collapse button, and does not render footer. Read the state inside the nav with useSideNavCollapse().',
       default: 'false',
     },
     {
@@ -131,6 +131,9 @@ export const docs = {
     bestPractices: [
       {guidance: true, description: 'Use sections to group related navigation items and help users scan for their destination.'},
       {guidance: true, description: 'Pair outline and filled icon variants so the selected state is visually distinct.'},
+      {guidance: true, description: 'Make the SideNav of an app shell collapsible so users can fold it into an icon rail; control it with collapsible={{isCollapsed, onCollapsedChange}} to persist the choice.'},
+      {guidance: true, description: 'Give every top-level SideNavItem an icon: the collapsed rail hides items without one. Swap the header for a compact mark (e.g. a symbol logo) by reading useSideNavCollapse().isCollapsed.'},
+      {guidance: true, description: 'Put actions that must stay reachable in the rail (settings, account, theme, sign out) in footerIcons as icon buttons; footer is hidden while collapsed, so use it only for full-width extras such as promo cards or density controls.'},
       {guidance: false, description: 'Include a SideNavHeading when a TopNav is already providing app identity; this duplicates branding.'},
       {guidance: false, description: 'Use for filtering content; use tabs or filter buttons instead.'},
     ],
@@ -150,6 +153,9 @@ export const docsZh = {
     bestPractices: [
       {guidance: true, description: 'Use sections to group related navigation items and help users scan for their destination.'},
       {guidance: true, description: 'Pair outline and filled icon variants so the selected state is visually distinct.'},
+      {guidance: true, description: 'Make the SideNav of an app shell collapsible so users can fold it into an icon rail; control it with collapsible={{isCollapsed, onCollapsedChange}} to persist the choice.'},
+      {guidance: true, description: 'Give every top-level SideNavItem an icon: the collapsed rail hides items without one. Swap the header for a compact mark (e.g. a symbol logo) by reading useSideNavCollapse().isCollapsed.'},
+      {guidance: true, description: 'Put actions that must stay reachable in the rail (settings, account, theme, sign out) in footerIcons as icon buttons; footer is hidden while collapsed, so use it only for full-width extras such as promo cards or density controls.'},
       {guidance: false, description: 'Include a SideNavHeading when a TopNav is already providing app identity; this duplicates branding.'},
       {guidance: false, description: 'Use for filtering content; use tabs or filter buttons instead.'},
     ],
@@ -169,6 +175,9 @@ export const docsDense = {
     bestPractices: [
       {guidance: true, description: 'Use sections to group related navigation items and help users scan for their destination.'},
       {guidance: true, description: 'Pair outline and filled icon variants so the selected state is visually distinct.'},
+      {guidance: true, description: 'Make the SideNav of an app shell collapsible so users can fold it into an icon rail; control it with collapsible={{isCollapsed, onCollapsedChange}} to persist the choice.'},
+      {guidance: true, description: 'Give every top-level SideNavItem an icon: the collapsed rail hides items without one. Swap the header for a compact mark (e.g. a symbol logo) by reading useSideNavCollapse().isCollapsed.'},
+      {guidance: true, description: 'Put actions that must stay reachable in the rail (settings, account, theme, sign out) in footerIcons as icon buttons; footer is hidden while collapsed, so use it only for full-width extras such as promo cards or density controls.'},
       {guidance: false, description: 'Include a SideNavHeading when a TopNav is already providing app identity; this duplicates branding.'},
       {guidance: false, description: 'Use for filtering content; use tabs or filter buttons instead.'},
     ],
