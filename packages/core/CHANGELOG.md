@@ -1,5 +1,20 @@
 # @xds/core
 
+# 1.0.11
+
+#### New Features
+
+- `SideNav` recolhido (trilho de ícones) deixa de renderizar `footer`: o conteúdo de largura cheia não cabe no trilho. `footerIcons` e o botão de recolher continuam visíveis; ações que precisam ficar no trilho (configurações, conta, tema, sair) vão em `footerIcons` como botões de ícone. Os templates de app shell da CLI (AppShell Showcase, SideNavOnly, TopNavWithSideNav, WithBanner e a página Side Nav) passam a usar `collapsible`, e a página Side Nav move configurações e conta de `footer` para `footerIcons`. Docs do `SideNav` recomendam `collapsible` em app shells e ícone em todo item.
+- `TextInput` com `type="password"` mostra um botão de olho que revela e esconde a senha. O botão tem um rótulo fixo ("Mostrar senha" / "Show password") e informa o estado com `aria-pressed`; ao clicar, o foco volta para o campo. Some com o campo desabilitado e pode ser desligado com `hasPasswordToggle={false}`. Novo ícone semântico `eye`, também nos registros dos temas e nos templates de tema da CLI.
+
+#### Contributors
+
+Thanks to everyone who contributed to this release:
+
+- @Caio-Silvestre
+
+---
+
 # 1.0.10
 
 ---
