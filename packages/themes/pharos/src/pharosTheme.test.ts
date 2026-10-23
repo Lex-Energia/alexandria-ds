@@ -100,41 +100,46 @@ describe('Pharos theme brand fidelity', () => {
   const light = resolveThemeTokens(pharosTheme, {mode: 'light'});
   const dark = resolveThemeTokens(pharosTheme, {mode: 'dark'});
 
-  it('page and cards are absolute white in light mode', () => {
-    expect(light['--color-background-body']).toBe('#ffffff');
-    expect(light['--color-background-card']).toBe('#ffffff');
+  // Neutrals carry a faint tint of the orange hue: never pure gray, never
+  // absolute white or black. The light page is warm and surfaces rise from it.
+  it('uses a warm page with near-white cards in light mode', () => {
+    expect(light['--color-background-body']).toBe('#f4f0ee');
+    expect(light['--color-background-surface']).toBe('#fffffe');
+    expect(light['--color-background-card']).toBe('#fffffe');
+    expect(light['--color-background-muted']).toBe('#f4f0ee');
   });
 
-  it('keeps light gray for muted surfaces only', () => {
-    expect(light['--color-background-muted']).toBe('#f1f1f1');
-  });
-
-  // Dark mode keeps neutrals derived from chumbo #383838 (no hue cast), but
-  // darker: the canvas sits well below chumbo and cards rise one step under it.
-  it('derives a darker neutral dark canvas from chumbo #383838', () => {
-    expect(dark['--color-background-body']).toBe('#242424');
-    expect(dark['--color-background-surface']).toBe('#2b2b2b');
-    expect(dark['--color-background-card']).toBe('#333333');
-    expect(dark['--color-background-popover']).toBe('#333333');
-    expect(dark['--color-background-muted']).toBe('#333333');
+  // Dark mode keeps the lightness of the neutrals derived from chumbo
+  // #383838, tinted warm: the canvas sits well below chumbo and cards rise
+  // one step under it.
+  it('derives a warm dark canvas below chumbo #383838', () => {
+    expect(dark['--color-background-body']).toBe('#262321');
+    expect(dark['--color-background-surface']).toBe('#2e2a28');
+    expect(dark['--color-background-card']).toBe('#363230');
+    expect(dark['--color-background-popover']).toBe('#363230');
+    expect(dark['--color-background-muted']).toBe('#363230');
     for (const name of [
       '--color-background-body',
       '--color-background-surface',
       '--color-background-card',
     ]) {
       const hex = dark[name];
-      expect(
-        new Set([hex.slice(1, 3), hex.slice(3, 5), hex.slice(5, 7)]).size,
-      ).toBe(1);
+      // Warm: red channel above blue, never a pure gray.
+      expect(parseInt(hex.slice(1, 3), 16)).toBeGreaterThan(
+        parseInt(hex.slice(5, 7), 16),
+      );
       expect(luminance(hex)).toBeLessThan(luminance('#383838'));
     }
   });
 
-  it('uses brand azul as the primary action in light mode', () => {
-    expect(light['--color-accent']).toBe('#034694');
-    expect(
-      contrast(light['--color-on-accent'], light['--color-accent']),
-    ).toBeGreaterThanOrEqual(AA_TEXT);
+  it('uses the action orange with light text as the primary action', () => {
+    for (const tokens of [light, dark]) {
+      expect(tokens['--color-accent']).toBe('#cd431c');
+      expect(tokens['--color-on-accent']).toBe('#fffffe');
+      expect(
+        contrast(tokens['--color-on-accent'], tokens['--color-accent']),
+      ).toBeGreaterThanOrEqual(AA_TEXT);
+    }
   });
 
   it('starts chart series with azul, roxo, laranja, amarelo, chumbo', () => {
@@ -225,8 +230,8 @@ const STATUSES = ['success', 'error', 'warning'] as const;
 
 // Tinted backgrounds (banners, badges, tokens, the destructive Button) are
 // translucent in dark mode, so what the text sits on depends on the surface
-// underneath: body #242424, the surface #2b2b2b of dialogs and the app shell,
-// or the #333333 cards and muted areas. axe caught the destructive Button at
+// underneath: body #262321, the surface #2e2a28 of dialogs and the app shell,
+// or the #363230 cards and muted areas. axe caught the destructive Button at
 // 4.24:1 on the old, lighter surface once.
 describe.each<Mode>(['light', 'dark'])(
   'Pharos theme contrast of tinted surfaces (%s)',
@@ -352,8 +357,9 @@ describe('Pharos theme control borders', () => {
       pharosTheme.components?.[control]?.base?.['--color-border-emphasized'],
     );
     const match = /^light-dark\((#[0-9a-f]{6}), (#[0-9a-f]{6})\)$/i.exec(value);
-    if (!match)
-      {throw new Error(`${control}: not a light-dark() pair: ${value}`);}
+    if (!match) {
+      throw new Error(`${control}: not a light-dark() pair: ${value}`);
+    }
     return [match[1], match[2]];
   }
 

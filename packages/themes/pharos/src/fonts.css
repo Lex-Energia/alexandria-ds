@@ -1,9 +1,15 @@
 /* Copyright (c) Meta Platforms, Inc. and affiliates. */
 
-/* Figtree, the Pharos theme font. Import once in the app entry:
+/* Fonts of the Pharos theme. Import once in the app entry:
  *   @import '@pharos-ds/theme-pharos/fonts.css';
- * Weights match the ones the theme uses (regular, medium, semibold, bold). */
+ * Figtree for body, labels, tables and fields; Glory for headings and display
+ * sizes. Weights match the ones the theme uses (regular, medium, semibold,
+ * bold). */
 @import '@fontsource/figtree/400.css';
 @import '@fontsource/figtree/500.css';
 @import '@fontsource/figtree/600.css';
 @import '@fontsource/figtree/700.css';
+@import '@fontsource/glory/400.css';
+@import '@fontsource/glory/500.css';
+@import '@fontsource/glory/600.css';
+@import '@fontsource/glory/700.css';
