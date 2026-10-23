@@ -65,6 +65,7 @@
   },
   "dependencies": {
     "@fontsource/figtree": "^5.3.0",
+    "@fontsource/glory": "^5.3.0",
     "lucide-react": "^1.26.0"
   },
   "peerDependencies": {

@@ -4,21 +4,23 @@
  * Pharos Theme — Alexandria brand
  *
  * Brandbook (Março/2026) as source of truth for palette:
- *   Azul             #034694  (brand primary: Button primary fill, links,
- *                              focus, info)
+ *   Laranja          #F26641  (logo). The interface accent is #CD431C, a
+ *                              deeper step, so light text on it clears AA
+ *                              (#FFFFFE, 4.8:1): Button primary fill, focus,
+ *                              selection
+ *   Azul             #034694  (information, categorical series)
  *   Roxo destaque    #7C51A1  (secondary highlight)
- *   Laranja          #F26641  (moderate highlight: icons, accents, series)
  *   Amarelo #1/#2    #FAA61A / #FFF200
  *   Chumbo texto     #383838  (text; the dark theme uses darker neutrals
  *                              derived from it)
  *
- * Surfaces: absolute white is the page background in light mode; light gray
- * only appears on sidebars, headers and zebra rows (--color-background-muted),
- * and cards separate from the page with a thin border, not a tint. Dark mode
- * uses darker neutrals derived from chumbo #383838 (canvas #242424, cards
- * #333333). Absolute black is avoided for text and
- * backgrounds; it survives only as the shadow color, a technical constraint
- * of rendering shadows.
+ * Surfaces: neutrals carry a faint tint of the orange hue (OKLCH hue 55,
+ * chroma 0.005-0.008), never pure gray. Light mode: warm page #f4f0ee and
+ * near-white surfaces and cards (#fffffe) that rise from it. Dark mode uses
+ * the same lightness as the chumbo-derived neutrals, tinted (canvas #262321,
+ * cards #363230). Absolute black and white are avoided for text and
+ * backgrounds; black survives only as the shadow color, a technical
+ * constraint of rendering shadows.
  *
  * Accessibility tones (approved derivatives of brand colors, used where the
  * vivid brand value fails WCAG AA; the brandbook values themselves are never
@@ -32,9 +34,12 @@
  *   #FFD066 / #FFE08A  amarelo lifted — yellow on dark
  *   <hue>29            16% alpha overlays of the lifted tones — tinted
  *                      surfaces in dark mode (banner, badge backgrounds)
- *   #616161 / #cccccc  chumbo-derived grays — secondary text and icons on
- *                      light / dark (AA on every surface, tinted or neutral)
- *   #858585 / #999999  control border — 3:1 boundary of fields, checkboxes,
+ *   #CD431C            laranja de ação — accent fill and focus in both modes;
+ *                      light text #FFFFFE on it is 4.8:1, and it is 4.2:1 on
+ *                      the light page
+ *   #65605D / #D1CBC7  warm grays — secondary text and icons on light / dark
+ *                      (5.5:1 on the light page, 7.9:1 on dark cards)
+ *   #898481 / #9D9895  control border — 3:1 boundary of fields, checkboxes,
  *                      radios and switches on light / dark (WCAG 1.4.11)
  * Status colors (green, red, amber) are technical colors outside the brand
  * palette, allowed for success / error / warning only.
@@ -54,7 +59,7 @@ const pharosSyntax = defineSyntaxTheme({
   tokens: {
     keyword: ['#7C51A1', '#C4A3E0'], // brand purple
     string: ['#005600', '#a6d2a2'], // green
-    comment: ['#737373', '#a3a3a3'], // neutral
+    comment: ['#737373', '#a7a29e'], // neutral
     number: ['#C44A28', '#FFA07A'], // brand orange
     function: ['#034694', '#8BB8F8'], // brand azul
     type: ['#7C51A1', '#C4A3E0'], // brand purple
@@ -64,10 +69,10 @@ const pharosSyntax = defineSyntaxTheme({
     tag: ['#89001a', '#ffaeaa'], // red
     attribute: ['#B87400', '#FFD066'], // brand yellow
     property: ['#005348', '#83dac9'], // teal
-    punctuation: ['#a3a3a3', '#7a7a7a'], // neutral
-    // Dark: a step below the #242424 canvas, so code reads inset on the page
-    // and on #333333 cards alike.
-    background: ['#fafafa', '#1e1e1e'],
+    punctuation: ['#a7a29e', '#7e7976'], // neutral
+    // Dark: a step below the #262321 canvas, so code reads inset on the page
+    // and on #363230 cards alike.
+    background: ['#fdf9f7', '#201d1b'],
   },
 });
 
@@ -75,15 +80,15 @@ const pharosSyntax = defineSyntaxTheme({
  * Border of a form control: the box of a field, checkbox, radio and the off
  * track of a switch. WCAG 1.4.11 asks 3:1 for the boundary that identifies a
  * control, and on a white page the old #d4d4d4 gave 1.48:1, so a white field
- * almost vanished. #858585 gives 3.7:1 on white and 3.3:1 on the muted gray of
- * headers and sidebars; in dark, #999999 gives 4.1:1 on body and 3.4:1 on the
- * lighter surface of dialogs.
+ * almost vanished. #898481 (warm gray) gives 3.7:1 on the #fffffe surface and
+ * 3.3:1 on the #f4f0ee page; in dark, #9d9895 gives 5.5:1 on body and 5.0:1 on
+ * the lighter surface of dialogs.
  *
  * It is applied per control, not by changing --color-border-emphasized: that
  * token also draws Divider, Tooltip, Blockquote, chart grids and the
  * ProgressBar track, which would turn heavy at 3:1.
  */
-const CONTROL_BORDER = 'light-dark(#858585, #999999)';
+const CONTROL_BORDER = 'light-dark(#898481, #9d9895)';
 const controlBorder = () => ({
   base: {'--color-border-emphasized': CONTROL_BORDER},
 });
@@ -91,10 +96,13 @@ const controlBorder = () => ({
 export const pharosTheme = defineTheme({
   name: 'pharos',
 
-  // Typography: Figtree across body, heading, and display sizes (display
-  // size tokens inherit from heading.family). Monospace stays as the
-  // platform default for code. The font files ship with this package: import
-  // '@pharos-ds/theme-pharos/fonts.css' once in the app entry.
+  // Typography: Glory on headings and display sizes (display size tokens
+  // inherit from heading.family), the typeface of the Alexandria invoice
+  // site; Figtree on body, labels, tables and fields, where text is small and
+  // dense (Glory is narrow with a low x-height and gets tight at 12-14px).
+  // Monospace stays as the platform default for code. The font files ship
+  // with this package: import '@pharos-ds/theme-pharos/fonts.css' once in the
+  // app entry.
   // Scale: base=14, ratio=1.2. Bold weights on h3/h4 for subsection hierarchy.
   typography: {
     scale: {base: 14, ratio: 1.2},
@@ -104,9 +112,9 @@ export const pharosTheme = defineTheme({
         '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
     },
     heading: {
-      family: 'Figtree',
+      family: 'Glory',
       fallbacks:
-        '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
+        'Figtree, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
       weights: {3: 'bold', 4: 'bold'},
     },
     code: {
@@ -131,64 +139,71 @@ export const pharosTheme = defineTheme({
     // =========================================================================
 
     // =========================================================================
-    // Backgrounds — flat, white page in light mode.
+    // Backgrounds — warm neutrals: the gray spine tinted toward the orange
+    // hue (OKLCH hue 55, chroma 0.005-0.008) at the same lightness, so every
+    // contrast ratio holds.
     //
-    // Light: the page (body) and cards are absolute white; cards separate by a
-    // thin border (see components.card). Light gray (#f1f1f1) is reserved for
-    // --color-background-muted: sidebars, table/section headers, zebra rows.
+    // Light: a warm page (#f4f0ee); surfaces and cards rise from it in
+    // near-white #fffffe and cards still carry a thin border (see
+    // components.card). Muted shares the page tone: sidebars, table/section
+    // headers, zebra rows.
     //
-    // Dark: darker neutrals derived from chumbo #383838. The canvas sits well
-    // below chumbo; cards, popovers and muted rise to #333333 (one step under
-    // chumbo) and also lift via shadow + inset highlight (see --shadow-*).
-    // Surface sits between canvas and cards: lighter than body so controls on
-    // the page read as foreground.
+    // Dark: darker neutrals derived from chumbo #383838, tinted. The canvas
+    // sits well below chumbo; cards, popovers and muted rise one step and also
+    // lift via shadow + inset highlight (see --shadow-*). Surface sits between
+    // canvas and cards: lighter than body so controls on the page read as
+    // foreground.
     //
-    //   surface  light #ffffff   dark #2b2b2b — controls, dialogs, app shells
-    //   body     light #ffffff   dark #242424 — main canvas
-    //   card     light #ffffff   dark #333333
-    //   popover  light #ffffff   dark #333333
-    //   muted    light #f1f1f1   dark #333333 — only gray in light mode
+    //   surface  light #fffffe   dark #2e2a28 — controls, dialogs, app shells
+    //   body     light #f4f0ee   dark #262321 — main canvas
+    //   card     light #fffffe   dark #363230
+    //   popover  light #fffffe   dark #363230
+    //   muted    light #f4f0ee   dark #363230
     // =========================================================================
-    '--color-background-surface': ['#ffffff', '#2b2b2b'],
-    '--color-background-body': ['#ffffff', '#242424'],
-    '--color-background-card': ['#ffffff', '#333333'],
-    '--color-background-popover': ['#ffffff', '#333333'],
-    '--color-background-muted': ['#f1f1f1', '#333333'],
+    '--color-background-surface': ['#fffffe', '#2e2a28'],
+    '--color-background-body': ['#f4f0ee', '#262321'],
+    '--color-background-card': ['#fffffe', '#363230'],
+    '--color-background-popover': ['#fffffe', '#363230'],
+    '--color-background-muted': ['#f4f0ee', '#363230'],
 
-    // Accent — brand azul Alexandria (#034694): primary action, links, focus
-    // and information. Dark mode lifts for contrast on the dark canvas.
-    '--color-accent': ['#034694', '#6BA3F5'],
-    '--color-accent-muted': ['#D6E4F5', '#6BA3F524'],
+    // Accent — laranja de ação (#CD431C), a deeper step of the logo orange
+    // #F26641 so the light text on it clears AA (#FFFFFE, 4.8:1): primary
+    // action, focus and selection. Same value in both modes, so the button
+    // keeps its light text. Information stays brand azul (badge info, banner
+    // info). Known gap: in dark mode the focus ring is 3.3:1 on body but
+    // 2.7:1 on the #363230 cards.
+    '--color-accent': '#cd431c',
+    '--color-accent-muted': ['#fde0d6', '#f2664129'],
     '--color-neutral': ['#3838380F', '#FFFFFF14'],
 
     // Overlays (modal scrims, hover/pressed tints) — tinted with chumbo, not
-    // absolute black. The dark scrim stays below the #242424 canvas so it
+    // absolute black. The dark scrim stays below the #262321 canvas so it
     // still dims the page behind a dialog.
     '--color-overlay': ['#38383880', '#171717CC'],
     '--color-overlay-hover': ['#3838380D', '#FFFFFF0D'],
     '--color-overlay-pressed': ['#3838381A', '#FFFFFF1A'],
 
     // Text — chumbo #383838 (brandbook); avoid absolute black
-    '--color-text-primary': ['#383838', '#fafafa'],
-    '--color-text-secondary': ['#616161', '#cccccc'],
-    '--color-text-disabled': ['#a3a3a3', '#7a7a7a'],
-    // Brand azul clears AA as text on white (9.1:1) and on muted #f1f1f1; dark
-    // mode uses the lifted stop (5.8:1 on body, 4.7:1 on surface).
-    '--color-text-accent': ['#034694', '#A9CBFA'],
+    '--color-text-primary': ['#383838', '#fdf9f7'],
+    '--color-text-secondary': ['#65605d', '#d1cbc7'],
+    '--color-text-disabled': ['#a7a29e', '#7e7976'],
+    // Links and brand-colored text use the darkened orange on light (5.1:1 on
+    // the page, 4.6:1 on accent-muted) and the lifted orange on dark (7.9:1
+    // on body, 5.2:1 on accent-muted over the cards).
+    '--color-text-accent': ['#b04324', '#ffa07a'],
     '--color-on-dark': '#ffffff',
     '--color-on-light': '#383838',
-    // White on brand azul is 9.1:1; dark text on the lifted dark-mode azul
-    // (#6BA3F5) is 7.0:1.
-    '--color-on-accent': ['#ffffff', '#171717'],
+    // Light text on the action orange: 4.8:1 in both modes.
+    '--color-on-accent': '#fffffe',
     '--color-on-success': ['#ffffff', '#171717'],
     '--color-on-error': ['#ffffff', '#171717'],
     '--color-on-warning': '#383838',
 
     // Icon
-    '--color-icon-accent': ['#034694', '#A9CBFA'],
-    '--color-icon-primary': ['#383838', '#fafafa'],
-    '--color-icon-secondary': ['#616161', '#cccccc'],
-    '--color-icon-disabled': ['#a3a3a3', '#7a7a7a'],
+    '--color-icon-accent': ['#b04324', '#ffa07a'],
+    '--color-icon-primary': ['#383838', '#fdf9f7'],
+    '--color-icon-secondary': ['#65605d', '#d1cbc7'],
+    '--color-icon-disabled': ['#a7a29e', '#7e7976'],
 
     // Status / Sentiment — dark mode follows the issue #2150 rubric:
     //
@@ -216,7 +231,7 @@ export const pharosTheme = defineTheme({
     //   16% alpha = '29' suffix. Hue values match --color-icon-{X} dark
     //   slots (palette T70). The tint composites onto whatever sits behind
     //   it, and the text on it has to clear AA (4.5:1) on every dark base —
-    //   body #242424, surface #2b2b2b (dialogs, app shell) and the #333333
+    //   body #262321, surface #2e2a28 (dialogs, app shell) and the #363230
     //   cards, popovers and muted areas. At the earlier 24% the pastel text
     //   fell to ~4.2:1 on the old, lighter surface (axe flagged the
     //   destructive Button), so the tint stays at 16%.
@@ -229,12 +244,12 @@ export const pharosTheme = defineTheme({
 
     // Border
     '--color-border': ['#00000014', '#FFFFFF1A'],
-    // Dark #4d4d4d keeps the hairline ratio of the old #5e5e5e on #383838
-    // (~1.8:1 on the body) now that the canvas is #242424.
-    '--color-border-emphasized': ['#d4d4d4', '#4d4d4d'],
+    // Dark #504c4a keeps the hairline ratio of the old #5e5e5e on #383838
+    // (~1.8:1 on the body) now that the canvas is #262321.
+    '--color-border-emphasized': ['#d9d3cf', '#504c4a'],
 
     // Effects
-    '--color-skeleton': ['#ebebeb', '#4d4d4d'],
+    '--color-skeleton': ['#eeeae8', '#504c4a'],
     // Shadows are the one place absolute black stays: a technical constraint.
     '--color-shadow': ['#0000001A', '#0000004D'],
     '--color-tint-hover': ['#383838', 'white'],
@@ -398,10 +413,8 @@ export const pharosTheme = defineTheme({
       '0 4px 6px light-dark(oklch(0 0 0 / 10%), oklch(0 0 0 / 50%)), ' +
       '0 12px 24px light-dark(oklch(0 0 0 / 15%), oklch(0 0 0 / 70%)), ' +
       'inset 0 0 0 1px light-dark(transparent, oklch(1 0 0 / 15%))',
-    '--shadow-inset-hover':
-      'inset 0px 0px 0px 2px light-dark(#0346944D, #6BA3F54D)',
-    '--shadow-inset-selected':
-      'inset 0px 0px 0px 2px light-dark(#03469480, #6BA3F580)',
+    '--shadow-inset-hover': 'inset 0px 0px 0px 2px #cd431c4D',
+    '--shadow-inset-selected': 'inset 0px 0px 0px 2px #cd431c80',
     '--shadow-inset-success': 'inset 0px 0px 0px 2px #1981004D',
     '--shadow-inset-warning': 'inset 0px 0px 0px 2px #ffce2f4D',
     '--shadow-inset-error': 'inset 0px 0px 0px 2px #e33f4a4D',
@@ -537,8 +550,12 @@ export const pharosTheme = defineTheme({
     //   success → badge success bg  (green T45 / dark-ramp T60)
     //   warning → badge warning bg  (yellow T85, same hex both modes)
     //   error   → badge error bg    (red T55 / dark-ramp T60)
-    //   accent  → brand azul primary — StatusDot "accent" follows
+    //   accent  → action orange — StatusDot "accent" follows
     //             --color-accent (Button primary), not semantic info.
+    //
+    // Exception: the warning dot uses the yellow icon tone. The vivid
+    // #ffce2f is 1.5:1 on the page, so an 8px dot vanishes; the badge keeps
+    // the vivid fill, where the dark text carries the contrast.
     //
     // `neutral` is intentionally NOT overridden: the neutral badge bg is a
     // near-invisible light gray (--color-background-gray #e5e5e5 / 10% white
@@ -548,9 +565,9 @@ export const pharosTheme = defineTheme({
     // =========================================================================
     statusdot: {
       'variant:success': {backgroundColor: 'light-dark(#198100, #64af4c)'},
-      'variant:warning': {backgroundColor: '#ffce2f'},
+      'variant:warning': {backgroundColor: 'var(--color-icon-yellow)'},
       'variant:error': {backgroundColor: 'light-dark(#d32f3c, #ff705d)'},
-      'variant:accent': {backgroundColor: 'light-dark(#034694, #6BA3F5)'},
+      'variant:accent': {backgroundColor: 'var(--color-accent)'},
     },
 
     // =========================================================================
@@ -642,8 +659,8 @@ export const pharosTheme = defineTheme({
     progressbar: {
       base: {
         // Track uses --color-background-muted; override it to
-        // --color-border-emphasized (Neutral T85 #d4d4d4 in light mode) so
-        // the track is clearly darker than the body bg (Neutral T95 #f1f1f1)
+        // --color-border-emphasized (warm #d9d3cf in light mode) so the
+        // track is clearly darker than the body bg (warm #f4f0ee)
         // and reads as a defined channel rather than blending in. Dark
         // mode inherits T35 #525252 — same one-step-lighter behavior.
         '--color-background-muted': 'var(--color-border-emphasized)',
@@ -652,8 +669,8 @@ export const pharosTheme = defineTheme({
       // warning/error variants in the badge override above). Same hex
       // values; documented per role with palette provenance.
       'variant:accent': {
-        // Brand azul (= primary / Button primary)
-        '--color-accent': 'light-dark(#034694, #6BA3F5)',
+        // Action orange (= primary / Button primary)
+        '--color-accent': '#cd431c',
       },
       'variant:success': {
         // Green T45 saturated stop (= variant:success badge bg)
