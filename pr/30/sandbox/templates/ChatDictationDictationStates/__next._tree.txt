@@ -1,0 +1,7 @@
+:HL["/alexandria-ds/pr/30/sandbox/_next/static/css/dfcafa5ccb9da09f.css","style"]
+:HL["/alexandria-ds/pr/30/sandbox/_next/static/css/0f80e7fc0d1ac36f.css","style"]
+:HL["/alexandria-ds/pr/30/sandbox/_next/static/css/7842b6ebe4f627d0.css","style"]
+:HL["/alexandria-ds/pr/30/sandbox/_next/static/css/1f76ef1533cda2c2.css","style"]
+:HL["/alexandria-ds/pr/30/sandbox/_next/static/css/12f0798fff04cd23.css","style"]
+:HL["https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Fustat:wght@400;500;600;700&family=Manufacturing+Consent&family=Outfit:wght@400;500;600;700&family=Sarina&family=JetBrains+Mono:wght@400;500;600;700&display=swap","style"]
+0:{"tree":{"name":"","param":null,"prefetchHints":4176,"slots":{"children":{"name":"(fullscreen)","param":null,"prefetchHints":4192,"slots":{"children":{"name":"templates","param":null,"prefetchHints":4192,"slots":{"children":{"name":"ChatDictationDictationStates","param":null,"prefetchHints":4192,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":4256,"slots":null}}}}}}}}},"staleTime":300,"buildId":"DvZCHXtRff8kWEcKFMJB1"}

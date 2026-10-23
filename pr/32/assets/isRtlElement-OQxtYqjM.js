@@ -1,0 +1,1 @@
+import{n as e}from"./rolldown-runtime-DaJ6WEGw.js";function t(e){return!e||typeof window>`u`?!1:window.getComputedStyle(e).direction===`rtl`}var n=e((()=>{}));export{t as n,n as t};

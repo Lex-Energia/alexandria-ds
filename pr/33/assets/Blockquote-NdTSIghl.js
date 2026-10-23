@@ -1,0 +1,9 @@
+import{n as e}from"./rolldown-runtime-DaJ6WEGw.js";import{l as t,n,t as r,u as i}from"./themeProps-DnL3zvT_.js";import{t as a,x as o}from"./utils-BKdIRGqd.js";import{t as s}from"./jsx-runtime-cM__dR4X.js";function c({children:e,cite:t,xstyle:r,className:a,style:s,ref:c,...d}){return(0,l.jsxs)(`blockquote`,{ref:c,...o(n(`blockquote`),i(u.root,r),a,s),...d,children:[e,t!=null&&(0,l.jsx)(`footer`,{children:(0,l.jsx)(`cite`,{className:`pharos1lliihq pharostbrsbv pharos141an7d pharos1ltkj2j pharos1j61x8r`,children:t})})]})}var l,u,d=e((()=>{t(),a(),r(),l=s(),u={root:{k2ei4v:`pharostpqe59`,kVhnKS:`pharos1t7ytsu`,kGJrpR:`pharos14ydlgx`,kZCmMZ:`pharos1rey3nv`,kMwMTN:`pharosv1l7n4`,keTefX:`pharos1lziwak`,k71WvV:`pharos14z9mp`,keoZOQ:`pharosdj266r`,k1K539:`pharosat24cr`,$$css:!0}},c.displayName=`Blockquote`,c.__docgenInfo={description:`Blockquote component for displaying quoted content.
+
+Renders a semantic \`<blockquote>\` with an accent-colored left border
+and secondary text color, matching the Pharos visual language.
+
+@example
+\`\`\`
+<Blockquote>Design is not just what it looks like.</Blockquote>
+\`\`\``,methods:[],displayName:`Blockquote`,props:{xstyle:{required:!1,tsType:{name:`StyleXStyles`},description:"StyleX styles created via `stylex.create()`. Merged with the component's\nbase styles inside a single `stylex.props()` call for optimal deduplication.\n\n@example\n```\nconst overrides = stylex.create({ root: { marginBottom: 8 } });\n<Component xstyle={overrides.root} />\n```"},ref:{required:!1,tsType:{name:`ReactRef`,raw:`React.Ref<HTMLQuoteElement>`,elements:[{name:`HTMLQuoteElement`}]},description:`Ref forwarded to the root <blockquote> element`},children:{required:!0,tsType:{name:`ReactNode`},description:`Content of the blockquote`},cite:{required:!1,tsType:{name:`ReactNode`},description:`Optional attribution for the quote. Rendered in a <footer> with <cite>.`}},composes:[`Omit`]}}));export{d as n,c as t};
