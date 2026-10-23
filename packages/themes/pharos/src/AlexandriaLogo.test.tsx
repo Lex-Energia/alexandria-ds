@@ -36,6 +36,21 @@ describe('AlexandriaLogo', () => {
     );
   });
 
+  it('has the one-color symbol in azul and white', () => {
+    expect(html('light', {kind: 'symbol', tone: 'azul'})).toContain(
+      escaped(alexandriaLogoSources.symbol.azul),
+    );
+    expect(html('dark', {kind: 'symbol', tone: 'white'})).toContain(
+      escaped(alexandriaLogoSources.symbol.white),
+    );
+    expect(alexandriaLogoSources.symbol.azul).toContain(
+      encodeURIComponent('#034694'),
+    );
+    expect(alexandriaLogoSources.symbol.white).toContain(
+      encodeURIComponent('#FFFFFF'),
+    );
+  });
+
   it('honors an explicit symbol background', () => {
     expect(html('dark', {kind: 'symbol', tone: 'branco'})).toContain(
       escaped(alexandriaLogoSources.symbol.branco),

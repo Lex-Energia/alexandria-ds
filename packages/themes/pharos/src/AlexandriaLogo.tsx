@@ -27,10 +27,12 @@ export type AlexandriaLogoTone =
 /**
  * Symbol tones describe the background: `gradiente` is a white "A" on the
  * gradient tile, `transparente` is the gradient "A" with no background, and
- * `branco` is the gradient "A" on a white tile.
+ * `branco` is the gradient "A" on a white tile. `azul` and `white` are the
+ * one-color "A" with no background, for monochrome navigation (azul on light,
+ * white on dark), matching the `azul`/`white` logotype.
  */
 export type AlexandriaSymbolTone =
-  'auto' | 'gradiente' | 'transparente' | 'branco';
+  'auto' | 'gradiente' | 'transparente' | 'branco' | 'azul' | 'white';
 
 interface AlexandriaLogoBaseProps {
   /** CSS height of the image. Width follows the aspect ratio. Brand minimum is 16px. */

@@ -16,7 +16,7 @@ const brand = path.resolve(here, '../../../../brand');
 // Each kind maps a tone to the SVG file that carries it. For the symbol, the
 // tone names describe the background: gradiente = white "A" on the gradient
 // tile, transparente = gradient "A" with no background, branco = gradient "A"
-// on a white tile.
+// on a white tile; azul and white are the one-color "A" with no background.
 const kinds = {
   logo: {
     dir: 'logo',
@@ -42,6 +42,8 @@ const kinds = {
       gradiente: 'A_bg_gradiente.svg',
       transparente: 'A_bg_transparent.svg',
       branco: 'A_bg_wt.svg',
+      azul: 'A_azul.svg',
+      white: 'A_white.svg',
     },
   },
 };
