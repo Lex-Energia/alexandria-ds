@@ -855,6 +855,10 @@
     "defaultMessage": "Limpar {label}",
     "description": "Screen-reader-only label on the X that clears the value from a TextInput. Example: `Clear Email`, `Clear Name`."
   },
+  "@pharos.textInput.showPasswordLabel": {
+    "defaultMessage": "Mostrar senha",
+    "description": "Screen-reader-only label on the eye toggle that reveals or hides a password TextInput. The toggle's pressed state (aria-pressed) tells whether the password is visible, so the label stays the same."
+  },
   "@pharos.thumbnail.remove": {
     "defaultMessage": "Remover {accessibleName}",
     "description": "Screen-reader-only label on the \"×\" on a Thumbnail (image preview chip). `{accessibleName}` is the thumbnail's name — example: `Remove profile.jpg`."

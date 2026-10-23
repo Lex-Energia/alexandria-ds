@@ -44,6 +44,7 @@ export const docs = {
             ['arrowDown', 'Sort descending, move down'],
             ['arrowsUpDown', 'Sortable column indicator'],
             ['funnel', 'Filter controls'],
+            ['eye', 'Show a hidden value (reveal password)'],
             ['eyeSlash', 'Hidden/visibility toggle'],
             ['viewColumns', 'Column visibility settings'],
             ['copy', 'Copy to clipboard'],

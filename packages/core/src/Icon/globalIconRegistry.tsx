@@ -44,6 +44,7 @@ export type IconName =
   | 'arrowDown'
   | 'arrowsUpDown'
   | 'funnel'
+  | 'eye'
   | 'eyeSlash'
   | 'viewColumns'
   | 'copy'

@@ -129,6 +129,13 @@ export const docs = {
       default: 'false',
     },
     {
+      name: 'hasPasswordToggle',
+      type: 'boolean',
+      description:
+        "When type is 'password', shows an eye button that reveals and hides the value. The button keeps one label (\"Show password\") and reports the visible state with aria-pressed; clicking it returns focus to the input. Hidden while disabled.",
+      default: 'true',
+    },
+    {
       name: 'hasAutoFocus',
       type: 'boolean',
       description: 'Automatically focuses the input on mount.',
@@ -307,6 +314,12 @@ export const docsZh = {
       default: 'false',
     },
     {
+      name: 'hasPasswordToggle',
+      type: 'boolean',
+      description: "type 为 'password' 时显示眼睛按钮，用于显示或隐藏密码。按钮标签固定，以 aria-pressed 表示是否可见；点击后焦点返回输入框。禁用时隐藏。",
+      default: 'true',
+    },
+    {
       name: 'hasAutoFocus',
       type: 'boolean',
       description: '挂载时自动聚焦输入框。',
@@ -402,6 +415,7 @@ export const docsDense = {
     status: 'Validation status; colored border+icon. Message floats below. Error sets aria-invalid.',
     statusVariant: 'How status message is placed: attached overlaps below input; detached floats below w/ spacing; tooltip hides the box and shows it on the status icon.',
     hasClear: 'Shows clear button when input has value. Clears value on click.',
+    hasPasswordToggle: "type='password' only: eye button reveals/hides value (aria-pressed). Default true.",
     hasAutoFocus: 'Auto-focus input on mount.',
     htmlName: 'HTML name attr for form submissions.',
     autoComplete: "HTML autocomplete attr ('email', 'current-password'…) for browser/password-manager fill.",

@@ -22,6 +22,7 @@ import {
   useTransition,
   useCallback,
   useRef,
+  useState,
   type ChangeEvent,
   type KeyboardEvent,
   type ReactNode,
@@ -249,6 +250,13 @@ export interface TextInputProps extends Omit<
    */
   hasClear?: boolean;
   /**
+   * Whether a password input shows an eye button that reveals and hides the
+   * value. The button keeps one label and reports the visible state with
+   * `aria-pressed`. Only applies when `type` is `'password'`.
+   * @default true
+   */
+  hasPasswordToggle?: boolean;
+  /**
    * Whether to automatically focus the input on mount.
    * @default false
    */
@@ -302,6 +310,7 @@ export function TextInput({
   placeholder,
   labelTooltip,
   hasClear = false,
+  hasPasswordToggle = true,
   hasAutoFocus = false,
   htmlName,
   autoComplete,
@@ -390,6 +399,11 @@ export function TextInput({
     inputRef.current?.focus();
   }, [onChange]);
 
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const showsPasswordToggle =
+    type === 'password' && hasPasswordToggle && !isDisabled;
+  const inputType = showsPasswordToggle && isPasswordVisible ? 'text' : type;
+
   // Focus input when clicking anywhere on the wrapper (icons, padding, etc.)
   const {onClick: handleWrapperClick, onMouseUp: handleWrapperMouseUp} =
     useInputContainer({
@@ -432,7 +446,7 @@ export function TextInput({
         id={id}
         name={htmlName}
         autoComplete={autoComplete}
-        type={type}
+        type={inputType}
         value={optimisticValue}
         onChange={handleChange}
         onKeyDown={
@@ -468,6 +482,23 @@ export function TextInput({
           aria-label={t('@pharos.textInput.clearLabel', {label})}
           {...stylex.props(styles.clearButton)}>
           <Icon icon="close" size="sm" color="secondary" />
+        </button>
+      )}
+      {showsPasswordToggle && (
+        <button
+          type="button"
+          onClick={() => {
+            setIsPasswordVisible(visible => !visible);
+            inputRef.current?.focus();
+          }}
+          aria-label={t('@pharos.textInput.showPasswordLabel')}
+          aria-pressed={isPasswordVisible}
+          {...stylex.props(styles.clearButton)}>
+          <Icon
+            icon={isPasswordVisible ? 'eyeSlash' : 'eye'}
+            size="sm"
+            color="secondary"
+          />
         </button>
       )}
       {isBusy && <Spinner size="sm" />}
