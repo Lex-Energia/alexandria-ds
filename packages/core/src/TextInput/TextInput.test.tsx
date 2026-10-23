@@ -516,6 +516,87 @@ describe('TextInput', () => {
     });
   });
 
+  describe('password visibility toggle', () => {
+    const getInput = () => document.querySelector('input') as HTMLInputElement;
+
+    it('shows a toggle for password inputs that reveals and hides the value', async () => {
+      const user = userEvent.setup();
+      render(
+        <TextInput
+          type="password"
+          label="Password"
+          value="secret"
+          onChange={() => {}}
+        />,
+      );
+      const toggle = screen.getByRole('button', {name: 'Show password'});
+      expect(toggle).toHaveAttribute('aria-pressed', 'false');
+      expect(getInput()).toHaveAttribute('type', 'password');
+
+      await user.click(toggle);
+      expect(toggle).toHaveAttribute('aria-pressed', 'true');
+      expect(getInput()).toHaveAttribute('type', 'text');
+      expect(getInput()).toHaveFocus();
+
+      await user.click(toggle);
+      expect(toggle).toHaveAttribute('aria-pressed', 'false');
+      expect(getInput()).toHaveAttribute('type', 'password');
+    });
+
+    it('keeps the toggle accessible name stable while toggling', async () => {
+      const user = userEvent.setup();
+      render(
+        <TextInput
+          type="password"
+          label="Password"
+          value=""
+          onChange={() => {}}
+        />,
+      );
+      await user.click(screen.getByRole('button', {name: 'Show password'}));
+      expect(
+        screen.getByRole('button', {name: 'Show password'}),
+      ).toBeInTheDocument();
+    });
+
+    it('does not show the toggle when hasPasswordToggle is false', () => {
+      render(
+        <TextInput
+          type="password"
+          label="Password"
+          value="secret"
+          onChange={() => {}}
+          hasPasswordToggle={false}
+        />,
+      );
+      expect(
+        screen.queryByRole('button', {name: 'Show password'}),
+      ).not.toBeInTheDocument();
+    });
+
+    it('does not show the toggle for non-password inputs', () => {
+      render(<TextInput label="Name" value="x" onChange={() => {}} />);
+      expect(
+        screen.queryByRole('button', {name: 'Show password'}),
+      ).not.toBeInTheDocument();
+    });
+
+    it('does not show the toggle when disabled', () => {
+      render(
+        <TextInput
+          type="password"
+          label="Password"
+          value="secret"
+          onChange={() => {}}
+          isDisabled
+        />,
+      );
+      expect(
+        screen.queryByRole('button', {name: 'Show password'}),
+      ).not.toBeInTheDocument();
+    });
+  });
+
   describe('click-to-focus', () => {
     it('focuses input when clicking the start icon', () => {
       render(
