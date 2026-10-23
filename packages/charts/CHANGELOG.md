@@ -1,5 +1,9 @@
 # @pharos-ds/charts
 
+# 1.0.11
+
+---
+
 # 1.0.10
 
 #### New Features

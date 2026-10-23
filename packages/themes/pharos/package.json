@@ -1,6 +1,6 @@
 {
   "name": "@pharos-ds/theme-pharos",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "displayName": "Pharos Theme",
   "private": false,
   "description": "Official Pharos theme for the Alexandria brand — the default theme for every Pharos app.",
@@ -69,11 +69,11 @@
     "lucide-react": "^1.26.0"
   },
   "peerDependencies": {
-    "@pharos-ds/core": "1.0.10",
+    "@pharos-ds/core": "1.0.11",
     "react": ">=19"
   },
   "devDependencies": {
-    "@pharos-ds/cli": "1.0.10"
+    "@pharos-ds/cli": "1.0.11"
   },
   "module": "./dist/source.mjs"
 }
