@@ -266,6 +266,8 @@ const styles = stylex.create({
     position: 'absolute',
   },
   inputCompact: {
+    // WCAG 2.5.8: the field stays a 24px target next to the tokens.
+    minHeight: spacingVars['--spacing-6'],
     minWidth: '40px',
     flex: '1 1 40px',
     width: 0,

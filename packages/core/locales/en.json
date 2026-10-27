@@ -878,5 +878,45 @@
   "@pharos.token.remove": {
     "defaultMessage": "Remove {label}",
     "description": "Screen-reader-only label on the \"×\" on an individual Token/chip. Example: `Remove John Smith`, `Remove Active`. Imperative verb."
+  },
+  "@pharos.field.optional": {
+    "defaultMessage": "Optional",
+    "description": "Screen-visible suffix on a field label marking the field as not required. Single adjective, shown after a separator dot."
+  },
+  "@pharos.field.required": {
+    "defaultMessage": "Required",
+    "description": "Screen-visible suffix on a field label marking the field as mandatory. Single adjective, shown after a separator dot."
+  },
+  "@pharos.fileInput.chooseFile": {
+    "defaultMessage": "Choose file",
+    "description": "Default placeholder of a single-file FileInput before a file is chosen. Imperative verb."
+  },
+  "@pharos.fileInput.chooseFiles": {
+    "defaultMessage": "Choose files",
+    "description": "Default placeholder of a multiple-file FileInput before files are chosen. Imperative verb."
+  },
+  "@pharos.fileInput.selectedOne": {
+    "defaultMessage": "1 file selected: {name}",
+    "description": "Polite screen-reader announcement after one file is attached to a FileInput. {name} is the file name."
+  },
+  "@pharos.fileInput.selectedMany": {
+    "defaultMessage": "{count} files selected",
+    "description": "Polite screen-reader announcement after several files are attached to a FileInput. {count} is a number greater than 1."
+  },
+  "@pharos.fileInput.notAccepted": {
+    "defaultMessage": "\"{name}\" is not an accepted file type",
+    "description": "Validation error when a file's type is not in the FileInput `accept` list. {name} is the file name."
+  },
+  "@pharos.fileInput.exceedsLimit": {
+    "defaultMessage": "\"{name}\" exceeds {limit} limit",
+    "description": "Validation error when a file is larger than the FileInput `maxSize`. {name} is the file name, {limit} a formatted size such as `5 MB`."
+  },
+  "@pharos.fileInput.tooManyFiles": {
+    "defaultMessage": "Maximum {count} files allowed",
+    "description": "Validation error when more files than the FileInput `maxFiles` are chosen. {count} is the maximum."
+  },
+  "@pharos.appShell.skipToContent": {
+    "defaultMessage": "Skip to content",
+    "description": "Visible-on-focus link at the top of the AppShell that jumps keyboard users past the navigation to the main content."
   }
 }

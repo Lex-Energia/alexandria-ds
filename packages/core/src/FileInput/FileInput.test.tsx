@@ -135,6 +135,15 @@ describe('FileInput', () => {
     expect(ref).toHaveBeenCalledWith(expect.any(HTMLInputElement));
   });
 
+  it('focuses the trigger button when focus() is called on the forwarded ref', () => {
+    const ref = {current: null as HTMLInputElement | null};
+    render(
+      <FileInput ref={ref} label="Upload" value={null} onChange={() => {}} />,
+    );
+    ref.current?.focus();
+    expect(screen.getByRole('button', {name: 'Upload'})).toHaveFocus();
+  });
+
   it('visually hides label when isLabelHidden is true', () => {
     render(
       <FileInput
