@@ -802,7 +802,7 @@ export function AppShell({
           href={`#${MAIN_CONTENT_ID}`}
           {...stylex.props(styles.skipLink)}
           data-testid="skip-to-content">
-          Skip to content
+          {t('@pharos.appShell.skipToContent')}
         </a>
 
         <Layout

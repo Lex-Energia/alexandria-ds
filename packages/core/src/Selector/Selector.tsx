@@ -874,6 +874,7 @@ export function Selector<T extends SelectorOptionType>(
               : undefined
           }
           aria-label={t('@pharos.selector.searchOptions')}
+          aria-required={isRequired ? 'true' : undefined}
           type="text"
           value={searchQuery}
           onChange={handleSearchChange}
@@ -1077,7 +1078,9 @@ export function Selector<T extends SelectorOptionType>(
           }
           aria-describedby={ariaDescribedBy}
           aria-labelledby={ariaLabelledBy}
-          aria-required={isRequired ? 'true' : undefined}
+          // aria-required is not allowed on role=button (hasSearch); the
+          // search combobox that owns the field role carries it instead.
+          aria-required={!hasSearch && isRequired ? 'true' : undefined}
           aria-invalid={status?.type === 'error' ? 'true' : undefined}
           aria-busy={isBusy || undefined}
           // With a disabledMessage the trigger keeps focusability via

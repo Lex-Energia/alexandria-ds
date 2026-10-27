@@ -481,6 +481,27 @@ describe('Selector', () => {
       expect(screen.getByRole('combobox', h)).toBeInTheDocument();
     });
 
+    it('puts aria-required on the search combobox, not on the button', async () => {
+      const user = userEvent.setup();
+      render(
+        <Selector
+          label="Fruit"
+          options={OPTIONS}
+          value="Apple"
+          onChange={() => {}}
+          hasSearch
+          isRequired
+        />,
+      );
+      const trigger = screen.getByRole('button', {name: /Fruit/});
+      expect(trigger).not.toHaveAttribute('aria-required');
+      await user.click(trigger);
+      expect(screen.getByRole('combobox', h)).toHaveAttribute(
+        'aria-required',
+        'true',
+      );
+    });
+
     it('wires the search input as the combobox with activedescendant (comboboxes-4)', async () => {
       const user = userEvent.setup();
       render(

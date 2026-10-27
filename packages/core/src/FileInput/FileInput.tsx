@@ -58,7 +58,7 @@ import {mergeProps, mergeRefs} from '../utils';
 import type {BaseProps} from '../BaseProps';
 import type {SizeValue} from '../utils/types';
 import {themeProps} from '../utils/themeProps';
-import {useTranslator} from '../i18n';
+import {useTranslator, type TranslatorFn} from '../i18n';
 
 function formatFileSize(bytes: number): string {
   if (bytes < 1024) {
@@ -71,6 +71,7 @@ function formatFileSize(bytes: number): string {
 }
 
 function validateFiles(
+  t: TranslatorFn,
   files: File[],
   accept: string | undefined,
   maxSize: number | undefined,
@@ -93,7 +94,7 @@ function validateFiles(
         return file.type.toLowerCase() === type;
       });
       if (!matches) {
-        errors.push(`"${file.name}" is not an accepted file type`);
+        errors.push(t('@pharos.fileInput.notAccepted', {name: file.name}));
       }
       return matches;
     });
@@ -102,7 +103,12 @@ function validateFiles(
   if (maxSize != null) {
     valid = valid.filter(file => {
       if (file.size > maxSize) {
-        errors.push(`"${file.name}" exceeds ${formatFileSize(maxSize)} limit`);
+        errors.push(
+          t('@pharos.fileInput.exceedsLimit', {
+            name: file.name,
+            limit: formatFileSize(maxSize),
+          }),
+        );
         return false;
       }
       return true;
@@ -110,7 +116,7 @@ function validateFiles(
   }
 
   if (isMultiple && maxFiles != null && valid.length > maxFiles) {
-    errors.push(`Maximum ${maxFiles} files allowed`);
+    errors.push(t('@pharos.fileInput.tooManyFiles', {count: maxFiles}));
     valid = valid.slice(0, maxFiles);
   }
 
@@ -433,6 +439,22 @@ export function FileInput({
   const statusMessageID = useId();
   const requiredID = useId();
   const inputRef = useRef<HTMLInputElement | null>(null);
+  // The visible, focusable control is the visually hidden trigger button; the
+  // native input is aria-hidden and never focused.
+  const triggerRef = useRef<HTMLButtonElement | null>(null);
+  // Consumers (react-hook-form, focus-on-error code) call `ref.current.focus()`
+  // on the forwarded input ref. Point that at the trigger button so keyboard and
+  // screen-reader users do not lose focus to an aria-hidden element.
+  const forwardFocusToTrigger = useCallback((el: HTMLInputElement | null) => {
+    if (el) {
+      Object.defineProperty(el, 'focus', {
+        configurable: true,
+        value: (options?: FocusOptions) => {
+          triggerRef.current?.focus(options);
+        },
+      });
+    }
+  }, []);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [isDragOver, setIsDragOver] = useState(false);
   const [validationError, setValidationError] = useState<string | null>(null);
@@ -488,7 +510,9 @@ export function FileInput({
       .filter(Boolean)
       .join(' ') || undefined;
 
-  const defaultPlaceholder = isMultiple ? 'Choose files' : 'Choose file';
+  const defaultPlaceholder = isMultiple
+    ? t('@pharos.fileInput.chooseFiles')
+    : t('@pharos.fileInput.chooseFile');
   const displayPlaceholder = placeholder ?? defaultPlaceholder;
 
   const handleFiles = useCallback(
@@ -498,6 +522,7 @@ export function FileInput({
       }
 
       const {valid, errors} = validateFiles(
+        t,
         fileList,
         accept,
         maxSize,
@@ -526,8 +551,8 @@ export function FileInput({
       if (errors.length === 0) {
         announce(
           valid.length === 1
-            ? `1 file selected: ${valid[0].name}`
-            : `${valid.length} files selected`,
+            ? t('@pharos.fileInput.selectedOne', {name: valid[0].name})
+            : t('@pharos.fileInput.selectedMany', {count: valid.length}),
         );
       }
 
@@ -547,6 +572,7 @@ export function FileInput({
       changeAction,
       startTransition,
       announce,
+      t,
     ],
   );
 
@@ -568,7 +594,7 @@ export function FileInput({
       onChange(null);
       if (inputRef.current) {
         inputRef.current.value = '';
-        inputRef.current.focus();
+        triggerRef.current?.focus();
       }
     },
     [onChange],
@@ -780,6 +806,7 @@ export function FileInput({
             keyboard activation still fires here. */}
         <VisuallyHidden>
           <button
+            ref={triggerRef}
             type="button"
             // With a disabledMessage the trigger keeps focusability via
             // aria-disabled so the reason is focus-discoverable; opening the
@@ -807,7 +834,7 @@ export function FileInput({
         </VisuallyHidden>
         <input
           {...rest}
-          ref={mergeRefs(ref, inputRef)}
+          ref={mergeRefs(ref, inputRef, forwardFocusToTrigger)}
           id={id}
           type="file"
           accept={accept}

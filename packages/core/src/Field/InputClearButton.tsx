@@ -12,11 +12,15 @@
 import type {ReactNode} from 'react';
 import * as stylex from '@stylexjs/stylex';
 import {Button} from '../Button';
+import {spacingVars} from '../theme/tokens.stylex';
 import {Icon} from '../Icon';
 
 const styles = stylex.create({
   button: {
-    height: '20px',
+    // 24px keeps the target at the WCAG 2.5.8 minimum; callers that need a
+    // smaller visual box pass an xstyle.
+    height: spacingVars['--spacing-6'],
+    minWidth: spacingVars['--spacing-6'],
     flexShrink: 0,
   },
 });
