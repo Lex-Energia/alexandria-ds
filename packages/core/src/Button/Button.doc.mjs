@@ -41,7 +41,7 @@ export const docs = {
     },
     {
       name: 'variant',
-      type: "'primary' | 'secondary' | 'ghost' | 'destructive'",
+      type: "'primary' | 'secondary' | 'ghost' | 'destructive' | 'success' | 'destructive-outline'",
       description: 'Visual style variant.',
       default: "'secondary'",
     },
@@ -199,7 +199,7 @@ export const docsZh = {
     {name: 'label', type: 'string', description: '无障碍标签；纯图标按钮时用作 aria-label。', required: true},
     {
       name: 'variant',
-      type: "'primary' | 'secondary' | 'ghost' | 'destructive'",
+      type: "'primary' | 'secondary' | 'ghost' | 'destructive' | 'success' | 'destructive-outline'",
       description: '视觉样式变体。',
       default: "'secondary'",
     },

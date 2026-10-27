@@ -260,6 +260,53 @@ const variants = stylex.create({
       ':focus-visible': 'var(--button-focus-offset)',
     },
   },
+  // Filled success tone, the positive counterpart of `destructive` (approve,
+  // confirm). Same hover/pressed overlays; focus ring in the success colour.
+  success: {
+    backgroundColor: colorVars['--color-success'],
+    color: colorVars['--color-on-success'],
+    backgroundImage: {
+      default: null,
+      ':hover': {
+        '@media (hover: hover)': `linear-gradient(${colorVars['--color-overlay-hover']}, ${colorVars['--color-overlay-hover']})`,
+      },
+      ':active': `linear-gradient(${colorVars['--color-overlay-pressed']}, ${colorVars['--color-overlay-pressed']})`,
+    },
+    outline: {
+      default: null,
+      ':focus-visible': `2px solid ${colorVars['--color-success']}`,
+    },
+    '--button-focus-offset': '3px',
+    outlineOffset: {
+      default: '0',
+      ':focus-visible': 'var(--button-focus-offset)',
+    },
+  },
+  // Outlined error tone for the negative choice next to a filled `success`
+  // (reject, decline): transparent fill, error border and text.
+  'destructive-outline': {
+    backgroundColor: 'transparent',
+    color: colorVars['--color-error'],
+    borderWidth: borderVars['--border-width'],
+    borderStyle: 'solid',
+    borderColor: colorVars['--color-error'],
+    backgroundImage: {
+      default: null,
+      ':hover': {
+        '@media (hover: hover)': `linear-gradient(${colorVars['--color-overlay-hover']}, ${colorVars['--color-overlay-hover']})`,
+      },
+      ':active': `linear-gradient(${colorVars['--color-overlay-pressed']}, ${colorVars['--color-overlay-pressed']})`,
+    },
+    outline: {
+      default: null,
+      ':focus-visible': `2px solid ${colorVars['--color-error']}`,
+    },
+    '--button-focus-offset': '3px',
+    outlineOffset: {
+      default: '0',
+      ':focus-visible': 'var(--button-focus-offset)',
+    },
+  },
 });
 
 /**
@@ -280,6 +327,8 @@ export interface ButtonVariantMap {
   secondary: true;
   ghost: true;
   destructive: true;
+  success: true;
+  'destructive-outline': true;
 }
 
 /**
@@ -707,7 +756,9 @@ export function Button({
         ? groupStyles.horizontal
         : groupStyles.vertical),
     buttonGroup &&
-      (variant === 'primary' || variant === 'destructive') &&
+      (variant === 'primary' ||
+        variant === 'destructive' ||
+        variant === 'success') &&
       (buttonGroup.orientation === 'horizontal'
         ? groupStyles.onSolidHorizontal
         : groupStyles.onSolidVertical),

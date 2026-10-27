@@ -39,6 +39,12 @@ describe('Button', () => {
 
     rerender(<Button label="Destructive" variant="destructive" />);
     expect(screen.getByRole('button')).toBeInTheDocument();
+
+    rerender(<Button label="Approve" variant="success" />);
+    expect(screen.getByRole('button', {name: 'Approve'})).toBeInTheDocument();
+
+    rerender(<Button label="Reject" variant="destructive-outline" />);
+    expect(screen.getByRole('button', {name: 'Reject'})).toBeInTheDocument();
   });
 
   it('renders icon-only button with aria-label', () => {
