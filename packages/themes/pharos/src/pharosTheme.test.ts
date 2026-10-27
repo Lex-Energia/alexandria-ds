@@ -274,6 +274,27 @@ describe.each<Mode>(['light', 'dark'])(
       },
     );
 
+    // The Banner header repaints its text, and the Link inside it, in the
+    // status hue (the `banner` overrides); the issue #22 warning title sat at
+    // 3.94:1 and a link in the accent colour at 4.0-4.4:1 on these fills.
+    const bannerCases = (
+      [
+        ['blue', '--color-background-blue'],
+        ['green', '--color-success-muted'],
+        ['yellow', '--color-warning-muted'],
+        ['red', '--color-error-muted'],
+      ] as const
+    ).flatMap(([hue, bg]) => SURFACES.map(base => [hue, bg, base] as const));
+
+    it.each(bannerCases)(
+      'banner text and links (%s) on %s over %s meet AA',
+      (hue, bg, base) => {
+        expect(ratio(`--color-text-${hue}`, bg, base)).toBeGreaterThanOrEqual(
+          AA_TEXT,
+        );
+      },
+    );
+
     it.each(SURFACES)(
       'accent and primary text on accent-muted over %s',
       base => {

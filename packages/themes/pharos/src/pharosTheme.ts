@@ -30,7 +30,7 @@
  *   #6BA3F5 / #8BB8F8 / #A9CBFA / #C5DBFC  azul lifted — blue fill/text/icons on dark
  *   #A67BC4 / #C4A3E0 / #DCC8F0  roxo lifted — purple on dark
  *   #5C3A7A            roxo darkened — purple text on light pastel
- *   #B87400 / #946000  amarelo darkened — yellow icons / text on light
+ *   #B87400 / #7D5200  amarelo darkened — yellow icons / text on light
  *   #FFD066 / #FFE08A  amarelo lifted — yellow on dark
  *   <hue>29            16% alpha overlays of the lifted tones — tinted
  *                      surfaces in dark mode (banner, badge backgrounds)
@@ -302,7 +302,7 @@ export const pharosTheme = defineTheme({
     '--color-background-yellow': ['#FFF0CC', '#FAA61A29'],
     '--color-border-yellow': ['#F5D78A', '#FAA61A'],
     '--color-icon-yellow': ['#B87400', '#FFD066'],
-    '--color-text-yellow': ['#946000', '#FFE08A'],
+    '--color-text-yellow': ['#7D5200', '#FFE08A'],
 
     // Green  H=144 — source #358a3a
     '--color-background-green': ['#c5e5c0', '#84c98029'],
@@ -590,6 +590,7 @@ export const pharosTheme = defineTheme({
         '--color-accent-muted': 'transparent',
         '--color-text-primary': 'var(--color-text-blue)',
         '--color-text-secondary': 'var(--color-text-blue)',
+        '--color-text-accent': 'var(--color-text-blue)',
         '--color-accent': 'var(--color-text-blue)',
       },
       // success/warning/error banner bgs come from --color-{X}-muted, which
@@ -598,16 +599,19 @@ export const pharosTheme = defineTheme({
       'status:success': {
         '--color-text-primary': 'var(--color-text-green)',
         '--color-text-secondary': 'var(--color-text-green)',
+        '--color-text-accent': 'var(--color-text-green)',
         '--color-success': 'var(--color-text-green)',
       },
       'status:warning': {
         '--color-text-primary': 'var(--color-text-yellow)',
         '--color-text-secondary': 'var(--color-text-yellow)',
+        '--color-text-accent': 'var(--color-text-yellow)',
         '--color-warning': 'var(--color-text-yellow)',
       },
       'status:error': {
         '--color-text-primary': 'var(--color-text-red)',
         '--color-text-secondary': 'var(--color-text-red)',
+        '--color-text-accent': 'var(--color-text-red)',
         '--color-error': 'var(--color-text-red)',
       },
     },
