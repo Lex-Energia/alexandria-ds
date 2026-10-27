@@ -911,6 +911,7 @@ export function Selector<T extends SelectorOptionType>(
     popover.isOpen,
     highlightedIndex,
     getItemId,
+    isRequired,
     t,
   ]);
 
