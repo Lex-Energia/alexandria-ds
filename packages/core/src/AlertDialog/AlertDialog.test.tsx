@@ -10,7 +10,7 @@
  */
 
 import {describe, it, expect, vi, beforeEach} from 'vitest';
-import {render, screen, fireEvent} from '@testing-library/react';
+import {render, screen, fireEvent, within} from '@testing-library/react';
 import {AlertDialog} from './AlertDialog';
 
 beforeEach(() => {
@@ -33,6 +33,22 @@ describe('AlertDialog', () => {
     actionLabel: 'Delete',
     onAction: vi.fn(),
   };
+
+  it('announces errorMessage as an alert inside the dialog', () => {
+    const {rerender} = render(<AlertDialog {...defaultProps} />);
+    const dialog = screen.getByRole('alertdialog');
+    expect(within(dialog).queryByRole('alert')).not.toBeInTheDocument();
+
+    rerender(
+      <AlertDialog {...defaultProps} errorMessage="Role is still in use." />,
+    );
+    expect(within(dialog).getByRole('alert')).toHaveTextContent(
+      'Role is still in use.',
+    );
+
+    rerender(<AlertDialog {...defaultProps} />);
+    expect(within(dialog).queryByRole('alert')).not.toBeInTheDocument();
+  });
 
   it('renders with alertdialog role', () => {
     render(<AlertDialog {...defaultProps} />);
