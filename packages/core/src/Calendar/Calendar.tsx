@@ -468,7 +468,7 @@ export function Calendar({ref, ...props}: CalendarProps) {
         }
       }
     },
-    [mode, onChange, rangeSelectionStart, announce, t],
+    [mode, onChange, rangeSelectionStart, announce, t, formatLocale],
   );
 
   return (
