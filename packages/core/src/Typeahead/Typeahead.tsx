@@ -38,6 +38,7 @@ import {
   inputStatusFocusWithinStyles,
   type FieldStatusVariant,
 } from '../Field';
+import {Spinner} from '../Spinner';
 import {Token} from '../Token';
 import {useTooltip} from '../Tooltip';
 import {renderIconSlot, type IconType} from '../Icon';
@@ -114,6 +115,15 @@ export interface TypeaheadProps<T extends SearchableItem> extends Omit<
   emptySearchResultsText?: string;
   /** Whether the input is disabled. @default false */
   isDisabled?: boolean;
+  /**
+   * Shows a busy state while an action triggered by the selection is in
+   * flight (for example a request sent on `onChange`). The field is inert
+   * like `isDisabled`, sets `aria-busy`, and shows a spinner with a
+   * screen-reader status. Does not affect the suggestion search, which has
+   * its own loading indicator.
+   * @default false
+   */
+  isLoading?: boolean;
   /**
    * Explains why the input is disabled. When set together with `isDisabled`,
    * the input shows a tooltip with this text on hover and keyboard focus, and
@@ -245,7 +255,8 @@ export function Typeahead<T extends SearchableItem>({
   hasEntriesOnFocus,
   maxMenuItems,
   emptySearchResultsText,
-  isDisabled = false,
+  isDisabled: isDisabledProp = false,
+  isLoading = false,
   disabledMessage,
   hasClear = true,
   hasAutoFocus,
@@ -260,6 +271,8 @@ export function Typeahead<T extends SearchableItem>({
   'data-testid': testId,
 }: TypeaheadProps<T>) {
   const t = useTranslator();
+  // A pending action blocks editing and selection exactly like disabled does.
+  const isDisabled = isDisabledProp || isLoading;
   const size = useSize(sizeProp, 'md');
   const inputId = useId();
   const inputLabelId = useId();
@@ -277,7 +290,7 @@ export function Typeahead<T extends SearchableItem>({
   // disabled attribute. Editing and selection stay blocked by the isDisabled
   // guards (handleWrapperClick, handleEnterEditMode, and BaseTypeahead's own
   // focus/change guards).
-  const showsDisabledMessage = isDisabled && !!disabledMessage;
+  const showsDisabledMessage = isDisabledProp && !!disabledMessage;
   const disabledMessageTooltip = useTooltip({
     placement: 'above',
     // The wrapper div is not naturally focusable; focusin bubbles up from the
@@ -414,6 +427,7 @@ export function Typeahead<T extends SearchableItem>({
         data-testid={testId}
         onClick={handleWrapperClick}
         onBlur={handleBlur}
+        aria-busy={isLoading || undefined}
         {...mergeProps(
           themeProps('typeahead', {size, status: status?.type}),
           stylex.props(
@@ -469,6 +483,13 @@ export function Typeahead<T extends SearchableItem>({
           inputXStyle={showToken ? styles.inputHidden : undefined}
           size={size}
         />
+        {isLoading && (
+          <Spinner
+            size="sm"
+            aria-label={t('@pharos.typeahead.loading')}
+            xstyle={[styles.clearButton, size === 'sm' && styles.clearButtonSm]}
+          />
+        )}
         {hasClear && value && !isDisabled && (
           <InputClearButton
             label={t('@pharos.typeahead.clearSelection')}

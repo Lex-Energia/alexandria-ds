@@ -72,6 +72,13 @@ export const docs = {
       default: 'false',
     },
     {
+      name: 'isLoading',
+      type: 'boolean',
+      description:
+        'Busy state while an action triggered by the selection is in flight. The input is inert like isDisabled, the wrapper gets aria-busy, and a spinner with role="status" is shown. Separate from the suggestion search loading.',
+      default: 'false',
+    },
+    {
       name: 'disabledMessage',
       type: 'string',
       description:
