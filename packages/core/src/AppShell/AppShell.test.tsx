@@ -180,6 +180,18 @@ describe('AppShell', () => {
   });
 
   // ===========================================================================
+  // Elevated card also with only a SideNav (no TopNav)
+  it('draws the elevated content card when only a SideNav is present', () => {
+    render(
+      <AppShell sideNav={<TestSideNav />}>
+        <div>Content</div>
+      </AppShell>,
+    );
+    const backdrop = screen.getByRole('main').previousElementSibling;
+    expect(backdrop).toBeInTheDocument();
+    expect(backdrop).toBeEmptyDOMElement();
+  });
+
   // Skip-to-content link
   // ===========================================================================
 
