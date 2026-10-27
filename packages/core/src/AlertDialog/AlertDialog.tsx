@@ -24,6 +24,7 @@ import {LayoutFooter} from '../Layout/LayoutFooter';
 import {HStack} from '../Stack';
 import {Heading} from '../Heading/Heading';
 import {Text} from '../Text/Text';
+import {Banner} from '../Banner';
 import {Button, type ButtonVariant} from '../Button';
 import type {BaseProps} from '../BaseProps';
 import {mergeProps} from '../utils';
@@ -59,6 +60,15 @@ export interface AlertDialogProps extends BaseProps<HTMLDialogElement> {
    * Consequence description. Linked to the dialog via `aria-describedby`.
    */
   description: string;
+
+  /**
+   * Error message shown inside the dialog when the confirmed action fails
+   * (for example a server refusal). Rendered as an error Banner, which has
+   * `role="alert"`, so assistive technology announces it when it appears
+   * (WCAG 4.1.3), and it stays inside the modal where the rest of the page
+   * is inert. Clear it (`undefined`) to hide.
+   */
+  errorMessage?: string;
 
   /**
    * Label for the cancel button. Rendered as a ghost Button.
@@ -123,6 +133,7 @@ export function AlertDialog({
   onOpenChange,
   title,
   description,
+  errorMessage,
   cancelLabel: cancelLabelFromProps,
   actionLabel,
   actionVariant = 'destructive',
@@ -168,6 +179,9 @@ export function AlertDialog({
             <Text type="body" color="secondary" id={descriptionId}>
               {description}
             </Text>
+            {errorMessage ? (
+              <Banner status="error" title={errorMessage} container="card" />
+            ) : null}
           </LayoutContent>
         }
         footer={

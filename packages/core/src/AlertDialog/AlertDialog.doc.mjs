@@ -69,6 +69,12 @@ export const docs = {
       description: 'Consequence description. Linked via aria-describedby.',
     },
     {
+      name: 'errorMessage',
+      type: 'string',
+      description:
+        'Error shown inside the dialog when the confirmed action fails (for example a server refusal). Rendered as an error Banner (role="alert") inside the modal so it is announced when it appears. Set to undefined to hide.',
+    },
+    {
       name: 'actionLabel',
       type: 'string',
       required: true,
