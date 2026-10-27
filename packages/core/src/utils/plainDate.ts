@@ -281,10 +281,9 @@ export const DATE_FORMAT_SHORT_WITH_YEAR: Intl.DateTimeFormatOptions = {
 export function plainDateFormat(
   pd: PlainDate,
   options: Intl.DateTimeFormatOptions,
+  locale?: string,
 ): string {
-  return new Intl.DateTimeFormat(undefined, options).format(
-    plainDateToDate(pd),
-  );
+  return new Intl.DateTimeFormat(locale, options).format(plainDateToDate(pd));
 }
 
 // =============================================================================
@@ -332,9 +331,10 @@ export const SHARED_DATE_FORMAT_OPTIONS: Record<
 export function formatSharedDate(
   pd: PlainDate,
   format: SharedDateFormat,
+  locale?: string,
 ): string {
   if (format === 'system_date') {
     return plainDateToISO(pd);
   }
-  return plainDateFormat(pd, SHARED_DATE_FORMAT_OPTIONS[format]);
+  return plainDateFormat(pd, SHARED_DATE_FORMAT_OPTIONS[format], locale);
 }

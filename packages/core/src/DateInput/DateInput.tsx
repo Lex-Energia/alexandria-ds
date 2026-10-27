@@ -156,7 +156,7 @@ import {mergeProps, mergeRefs} from '../utils';
 import type {BaseProps} from '../BaseProps';
 import type {SizeValue} from '../utils/types';
 import {themeProps} from '../utils/themeProps';
-import {useTranslator} from '../i18n';
+import {useFormatLocale, useTranslator} from '../i18n';
 
 export interface DateInputProps extends Omit<
   BaseProps,
@@ -386,6 +386,7 @@ export function DateInput({
   ...rest
 }: DateInputProps) {
   const t = useTranslator();
+  const formatLocale = useFormatLocale();
   const placeholder =
     placeholderFromProps ?? t('@pharos.dateInput.placeholder');
   const size = useSize(sizeProp, 'md');
@@ -468,8 +469,8 @@ export function DateInput({
     (iso: ISODateString): string =>
       typeof format === 'function'
         ? format(iso)
-        : formatSharedDate(plainDateFromISO(iso), format),
-    [format],
+        : formatSharedDate(plainDateFromISO(iso), format, formatLocale),
+    [format, formatLocale],
   );
 
   // Display value: pending input if typing, otherwise formatted value
@@ -484,7 +485,7 @@ export function DateInput({
   const isInputValid =
     pendingInput === null || !pendingInput.trim()
       ? true
-      : parseDateInput(pendingInput) !== null;
+      : parseDateInput(pendingInput, formatLocale) !== null;
 
   const popover = usePopover({
     dialogLabel: t('@pharos.dateInput.dialogLabel'),
@@ -555,7 +556,7 @@ export function DateInput({
       setPendingInput(newValue);
 
       // If the input is valid and passes constraints, update immediately
-      const parsed = parseDateInput(newValue);
+      const parsed = parseDateInput(newValue, formatLocale);
       if (
         parsed &&
         plainDateToISO(parsed) !== value &&
@@ -568,7 +569,7 @@ export function DateInput({
         calendarRef.current?.navigateTo(parsedISO);
       }
     },
-    [value, fireChange, isDateDisabled, isEffectivelyDisabled],
+    [value, fireChange, isDateDisabled, isEffectivelyDisabled, formatLocale],
   );
 
   // Commit pending input (shared by blur and Enter key)
@@ -585,7 +586,7 @@ export function DateInput({
       return;
     }
 
-    const parsed = parseDateInput(pendingInput);
+    const parsed = parseDateInput(pendingInput, formatLocale);
     if (parsed && !isDateDisabled(parsed)) {
       const parsedISO = plainDateToISO(parsed);
       if (parsedISO !== value) {
@@ -593,7 +594,7 @@ export function DateInput({
       }
     }
     setPendingInput(null);
-  }, [pendingInput, value, fireChange, isDateDisabled]);
+  }, [pendingInput, value, fireChange, isDateDisabled, formatLocale]);
 
   // Handle blur - validate, check constraints, and clear pending input
   const handleBlur = useCallback(() => {

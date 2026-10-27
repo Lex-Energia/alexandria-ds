@@ -27,6 +27,7 @@ export type {InternationalizationContextValue} from './InternationalizationConte
 export {useTranslator} from './useTranslator';
 export type {TranslatorFn} from './useTranslator';
 export {useDirection} from './useDirection';
+export {useFormatLocale} from './useFormatLocale';
 export {getLocaleDirection} from './getLocaleDirection';
 export type {Translator} from './translator';
 export type {

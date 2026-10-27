@@ -13,6 +13,7 @@
  */
 
 import {useState, useMemo, useCallback} from 'react';
+import {useFormatLocale} from '../../i18n';
 import type {ISODateString} from '../../utils/dateTypes';
 import {
   type PlainDate,
@@ -98,6 +99,7 @@ export function useCalendarNavigation(
     onFocusDateChange,
     numberOfMonths = 1,
   } = options;
+  const formatLocale = useFormatLocale();
 
   // Pending focus target after month navigation
   const [pendingFocus, setPendingFocus] = useState<ISODateString | null>(null);
@@ -135,12 +137,16 @@ export function useCalendarNavigation(
   // Format month header
   const monthYearLabel = useMemo(() => {
     if (numberOfMonths === 1) {
-      return plainDateFormat(visibleMonths[0], DATE_FORMAT_MONTH_YEAR);
+      return plainDateFormat(
+        visibleMonths[0],
+        DATE_FORMAT_MONTH_YEAR,
+        formatLocale,
+      );
     }
     return visibleMonths
-      .map(m => plainDateFormat(m, DATE_FORMAT_MONTH_YEAR))
+      .map(m => plainDateFormat(m, DATE_FORMAT_MONTH_YEAR, formatLocale))
       .join(' – ');
-  }, [visibleMonths, numberOfMonths]);
+  }, [visibleMonths, numberOfMonths, formatLocale]);
 
   // Navigate to previous/next month
   const navigateMonth = useCallback(

@@ -28,6 +28,12 @@ export interface InternationalizationContextValue {
   direction: 'ltr' | 'rtl';
   messages: MessagesByLocale;
   overrides?: Overrides;
+  /**
+   * True when an InternationalizationProvider supplied this value. Lets
+   * formatters tell an explicit locale apart from the `en` fallback, so
+   * consumers without a provider keep the runtime's default locale.
+   */
+  isProvided?: boolean;
 }
 
 /**

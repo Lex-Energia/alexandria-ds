@@ -54,7 +54,7 @@ import type {SizeValue} from '../utils/types';
 import {useSize} from '../SizeContext/SizeContext';
 import {useInputStatusIcon} from '../hooks/useInputStatusIcon';
 import {themeProps} from '../utils/themeProps';
-import {useTranslator} from '../i18n';
+import {useFormatLocale, useTranslator} from '../i18n';
 
 export type {DateRange} from '../Calendar';
 
@@ -178,7 +178,7 @@ const sizeStyles = stylex.create({
   },
 });
 
-function formatRangeDisplay(range: DateRange | null): string {
+function formatRangeDisplay(range: DateRange | null, locale?: string): string {
   if (!range) {
     return '';
   }
@@ -188,7 +188,11 @@ function formatRangeDisplay(range: DateRange | null): string {
   const sameYear = start.year === end.year && start.year === currentYear;
 
   const fmt = sameYear ? DATE_FORMAT_SHORT : DATE_FORMAT_SHORT_WITH_YEAR;
-  return `${plainDateFormat(start, fmt)} – ${plainDateFormat(end, fmt)}`;
+  return `${plainDateFormat(start, fmt, locale)} – ${plainDateFormat(
+    end,
+    fmt,
+    locale,
+  )}`;
 }
 
 function isRangeEqual(a: DateRange | null, b: DateRange | null): boolean {
@@ -404,6 +408,7 @@ export function DateRangeInput({
   ...rest
 }: DateRangeInputProps) {
   const t = useTranslator();
+  const formatLocale = useFormatLocale();
   const placeholder =
     placeholderFromProps ?? t('@pharos.dateRangeInput.placeholder');
   const size = useSize(sizeProp, 'md');
@@ -450,8 +455,8 @@ export function DateRangeInput({
       .join(' ') || undefined;
 
   const displayValue = useMemo(
-    () => formatRangeDisplay(optimisticValue),
-    [optimisticValue],
+    () => formatRangeDisplay(optimisticValue, formatLocale),
+    [optimisticValue, formatLocale],
   );
 
   const popover = usePopover({
