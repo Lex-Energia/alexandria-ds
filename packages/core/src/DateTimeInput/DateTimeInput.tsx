@@ -76,7 +76,7 @@ import type {BaseProps} from '../BaseProps';
 import type {SizeValue} from '../utils/types';
 import {useSize} from '../SizeContext/SizeContext';
 import {themeProps} from '../utils/themeProps';
-import {useTranslator} from '../i18n';
+import {useFormatLocale, useTranslator} from '../i18n';
 
 export type ISODateTimeString = string & {
   readonly __brand: 'ISODateTimeString';
@@ -433,6 +433,7 @@ export function DateTimeInput({
   ...rest
 }: DateTimeInputProps) {
   const t = useTranslator();
+  const formatLocale = useFormatLocale();
   const placeholder =
     placeholderFromProps ?? t('@pharos.dateTimeInput.placeholder');
   const timePlaceholder =
@@ -545,7 +546,7 @@ export function DateTimeInput({
   const isDateInputValid =
     datePendingInput === null || !datePendingInput.trim()
       ? true
-      : parseDateInput(datePendingInput) !== null;
+      : parseDateInput(datePendingInput, formatLocale) !== null;
 
   // --- Time input state ---
   const [timePendingInput, setTimePendingInput] = useState<string | null>(null);
@@ -660,7 +661,7 @@ export function DateTimeInput({
       const text = e.target.value;
       setDatePendingInput(text);
 
-      const parsed = parseDateInput(text);
+      const parsed = parseDateInput(text, formatLocale);
       if (
         parsed &&
         plainDateToISO(parsed) !== valueParts.date &&
@@ -672,7 +673,13 @@ export function DateTimeInput({
         calendarRef.current?.navigateTo(parsedISO);
       }
     },
-    [valueParts.date, isDateDisabled, handleDateChange, isEffectivelyDisabled],
+    [
+      valueParts.date,
+      isDateDisabled,
+      handleDateChange,
+      isEffectivelyDisabled,
+      formatLocale,
+    ],
   );
 
   const commitDatePendingInput = useCallback(() => {
@@ -688,7 +695,7 @@ export function DateTimeInput({
       return;
     }
 
-    const parsed = parseDateInput(datePendingInput);
+    const parsed = parseDateInput(datePendingInput, formatLocale);
     if (parsed && !isDateDisabled(parsed)) {
       const parsedISO = plainDateToISO(parsed);
       if (parsedISO !== valueParts.date) {
@@ -703,6 +710,7 @@ export function DateTimeInput({
     fireChange,
     isDateDisabled,
     handleDateChange,
+    formatLocale,
   ]);
 
   const handleDateBlur = useCallback(() => {

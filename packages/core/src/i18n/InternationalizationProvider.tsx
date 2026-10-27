@@ -79,7 +79,13 @@ export function InternationalizationProvider({
 }: InternationalizationProviderProps) {
   const direction = dir ?? getLocaleDirection(locale);
   const value = useMemo(
-    () => ({locale, direction, messages: messages ?? {}, overrides}),
+    () => ({
+      locale,
+      direction,
+      messages: messages ?? {},
+      overrides,
+      isProvided: true,
+    }),
     [locale, direction, messages, overrides],
   );
   return (

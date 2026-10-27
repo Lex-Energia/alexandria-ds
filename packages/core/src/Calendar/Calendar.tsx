@@ -85,7 +85,7 @@ import type {
 } from '../utils/dateTypes';
 import {normalizeDayOfWeek} from '../utils/dateTypes';
 import {themeProps} from '../utils/themeProps';
-import {useTranslator} from '../i18n';
+import {useFormatLocale, useTranslator} from '../i18n';
 
 /** Imperative handle for Calendar handleRef */
 
@@ -200,6 +200,7 @@ export type CalendarProps = CalendarSingleProps | CalendarRangeProps;
  */
 export function Calendar({ref, ...props}: CalendarProps) {
   const t = useTranslator();
+  const formatLocale = useFormatLocale();
   const {
     handleRef,
     mode = 'single',
@@ -305,12 +306,16 @@ export function Calendar({ref, ...props}: CalendarProps) {
   // Format month header
   const monthYearLabel = useMemo(() => {
     if (numberOfMonths === 1) {
-      return plainDateFormat(visibleMonths[0], DATE_FORMAT_MONTH_YEAR);
+      return plainDateFormat(
+        visibleMonths[0],
+        DATE_FORMAT_MONTH_YEAR,
+        formatLocale,
+      );
     }
     return visibleMonths
-      .map(m => plainDateFormat(m, DATE_FORMAT_MONTH_YEAR))
+      .map(m => plainDateFormat(m, DATE_FORMAT_MONTH_YEAR, formatLocale))
       .join(' – ');
-  }, [visibleMonths, numberOfMonths]);
+  }, [visibleMonths, numberOfMonths, formatLocale]);
 
   // Announce the newly visible month to screen readers whenever it changes.
   // The visible month label (`<span>`) carries no live semantics, so paging the
@@ -418,7 +423,11 @@ export function Calendar({ref, ...props}: CalendarProps) {
           setRangeSelectionStart(iso);
           announce(
             t('@pharos.calendar.rangeStartAnnounce', {
-              date: plainDateFormat(date, DATE_FORMAT_WITH_WEEKDAY),
+              date: plainDateFormat(
+                date,
+                DATE_FORMAT_WITH_WEEKDAY,
+                formatLocale,
+              ),
             }),
           );
         } else {
@@ -447,10 +456,12 @@ export function Calendar({ref, ...props}: CalendarProps) {
               start: plainDateFormat(
                 plainDateFromISO(start),
                 DATE_FORMAT_WITH_WEEKDAY,
+                formatLocale,
               ),
               end: plainDateFormat(
                 plainDateFromISO(end),
                 DATE_FORMAT_WITH_WEEKDAY,
+                formatLocale,
               ),
             }),
           );
@@ -801,9 +812,10 @@ function MonthGrid({
   }
 
   // Month label for announcements
+  const formatLocale = useFormatLocale();
   const monthLabel = useMemo(() => {
-    return plainDateFormat(month, DATE_FORMAT_MONTH_YEAR);
-  }, [month]);
+    return plainDateFormat(month, DATE_FORMAT_MONTH_YEAR, formatLocale);
+  }, [month, formatLocale]);
 
   return (
     <div {...stylex.props(monthGridStyles.monthGrid)}>
@@ -961,6 +973,7 @@ function DayCell({
   onDayHover,
 }: DayCellProps) {
   const t = useTranslator();
+  const formatLocale = useFormatLocale();
   const {date, isOutside, dayNumber} = day;
 
   if (isOutside && !hasOutsideDays) {
@@ -1006,7 +1019,11 @@ function DayCell({
   // params rather than string concatenation. A mid-flight first pick (where
   // rangeStart === rangeEnd) reads as "range start" only; a completed one-day
   // range reads as both start and end.
-  const dateLabel = plainDateFormat(date, DATE_FORMAT_WITH_WEEKDAY);
+  const dateLabel = plainDateFormat(
+    date,
+    DATE_FORMAT_WITH_WEEKDAY,
+    formatLocale,
+  );
   const dayLabel = state.isSelected
     ? t('@pharos.calendar.daySelected', {date: dateLabel})
     : state.isRangeStart && state.isRangeEnd

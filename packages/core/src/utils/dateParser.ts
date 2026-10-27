@@ -22,8 +22,10 @@ export {
  * Detects if the user's locale uses day-first date format (DD/MM/YYYY).
  * US and a few others use month-first (MM/DD/YYYY).
  */
-export function isLocaleDayFirst(): boolean {
-  const parts = new Intl.DateTimeFormat().formatToParts(new Date(2000, 0, 15));
+export function isLocaleDayFirst(locale?: string): boolean {
+  const parts = new Intl.DateTimeFormat(locale).formatToParts(
+    new Date(2000, 0, 15),
+  );
   const dayIndex = parts.findIndex(p => p.type === 'day');
   const monthIndex = parts.findIndex(p => p.type === 'month');
   return dayIndex < monthIndex;
@@ -43,7 +45,10 @@ export function isLocaleDayFirst(): boolean {
  *
  * @returns PlainDate if valid, null if unparseable
  */
-export function parseDateInput(input: string): PlainDate | null {
+export function parseDateInput(
+  input: string,
+  locale?: string,
+): PlainDate | null {
   const trimmed = input.trim();
   if (!trimmed) {
     return null;
@@ -114,14 +119,14 @@ export function parseDateInput(input: string): PlainDate | null {
     if (sep1 !== sep2) {
       return null;
     }
-    return parseNumericDate(+first, +second, +year);
+    return parseNumericDate(+first, +second, +year, locale);
   }
 
   // 5. Try numeric formats WITHOUT year (defaults to current year)
   const numericNoYearMatch = trimmed.match(/^(\d{1,2})[-/.](\d{1,2})$/);
   if (numericNoYearMatch) {
     const [, first, second] = numericNoYearMatch;
-    return parseNumericDate(+first, +second, currentYear);
+    return parseNumericDate(+first, +second, currentYear, locale);
   }
 
   // 6. Fall back to native Date parsing for other formats.
@@ -151,6 +156,7 @@ function parseNumericDate(
   first: number,
   second: number,
   year: number,
+  locale?: string,
 ): PlainDate | null {
   let day: number;
   let month: number;
@@ -164,7 +170,7 @@ function parseNumericDate(
   } else if (first > 12 && second > 12) {
     return null;
   } else {
-    if (isLocaleDayFirst()) {
+    if (isLocaleDayFirst(locale)) {
       day = first;
       month = second;
     } else {

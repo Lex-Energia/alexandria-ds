@@ -15,6 +15,7 @@ import userEvent from '@testing-library/user-event';
 import {getButton} from '../__tests__/fastRoleQueries';
 import * as stylex from '@stylexjs/stylex';
 import {Calendar} from './Calendar';
+import {InternationalizationProvider} from '../i18n';
 import type {CalendarHandle} from './Calendar';
 import type {ISODateString} from './Calendar';
 import {calendarStyles} from './styles';
@@ -1223,5 +1224,16 @@ describe('Calendar', () => {
       expect(css).toContain('.pharos-calendar-nav.next');
       expect(css).toContain('background-color: var(--color-accent-muted)');
     });
+  });
+});
+
+describe('Calendar locale', () => {
+  it('formats the month header with the InternationalizationProvider locale', () => {
+    render(
+      <InternationalizationProvider locale="pt-BR">
+        <Calendar mode="single" value="2026-10-15" onChange={() => {}} />
+      </InternationalizationProvider>,
+    );
+    expect(screen.getByText(/outubro de 2026/i)).toBeInTheDocument();
   });
 });
