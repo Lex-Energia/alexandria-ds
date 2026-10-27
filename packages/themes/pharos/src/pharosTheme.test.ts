@@ -55,6 +55,21 @@ describe.each<Mode>(['light', 'dark'])('Pharos theme contrast (%s)', mode => {
     ).toBeGreaterThanOrEqual(AA_NON_TEXT);
   });
 
+  it('Button success label (on-success) on the success fill meets AA', () => {
+    expect(
+      contrast(color('--color-on-success'), color('--color-success')),
+    ).toBeGreaterThanOrEqual(AA_TEXT);
+  });
+
+  it.each(SURFACES)(
+    'Button destructive-outline (error text and border) on %s meets AA',
+    surface => {
+      expect(
+        contrast(color('--color-error'), color(surface)),
+      ).toBeGreaterThanOrEqual(AA_TEXT);
+    },
+  );
+
   it('Button primary label (on-accent) on the accent fill meets AA', () => {
     expect(
       contrast(color('--color-on-accent'), color('--color-accent')),
