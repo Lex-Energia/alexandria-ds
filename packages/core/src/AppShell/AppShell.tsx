@@ -374,6 +374,11 @@ const styles = stylex.create({
     minHeight: 0,
     height: '100%',
   },
+  // SideNav-only shells have no TopNav above the content, so the card is
+  // rounded on both start corners instead of just the one under the TopNav.
+  elevatedBackdropSideNavOnly: {
+    borderEndStartRadius: radiusVars['--radius-page'],
+  },
   contentBgSurface: {
     backgroundColor: colorVars['--color-background-surface'],
   },
@@ -552,7 +557,7 @@ export function AppShell({
   const contentAreaStyle =
     variant === 'wash'
       ? styles.contentBgWash
-      : variant === 'elevated' && hasTopNav && hasSideNav && !isBelowBreakpoint
+      : variant === 'elevated' && hasSideNav && !isBelowBreakpoint
         ? styles.contentBgTransparent
         : variant === 'surface' || variant === 'elevated'
           ? styles.contentBgSurface
@@ -716,7 +721,7 @@ export function AppShell({
   // =========================================================================
   // Build main content
   // =========================================================================
-  const shouldElevateWithCorner = isElevated && hasTopNav && showSideNavInline;
+  const shouldElevateWithCorner = isElevated && showSideNavInline;
 
   const mainInner = (
     <LayoutContent
@@ -731,7 +736,12 @@ export function AppShell({
 
   const mainContent = shouldElevateWithCorner ? (
     <div {...stylex.props(styles.elevatedContentWrapper)}>
-      <div {...stylex.props(styles.elevatedBackdrop)} />
+      <div
+        {...stylex.props(
+          styles.elevatedBackdrop,
+          !hasTopNav && styles.elevatedBackdropSideNavOnly,
+        )}
+      />
       {mainInner}
     </div>
   ) : (
