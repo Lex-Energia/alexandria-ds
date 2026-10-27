@@ -18,7 +18,14 @@ import {
   afterAll,
   beforeEach,
 } from 'vitest';
-import {render, screen, fireEvent, waitFor, act} from '@testing-library/react';
+import {
+  render,
+  screen,
+  fireEvent,
+  waitFor,
+  act,
+  within,
+} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {Typeahead} from './Typeahead';
 import {BaseTypeahead} from './BaseTypeahead';
@@ -208,6 +215,23 @@ describe('BaseTypeahead', () => {
       />,
     );
     expect(screen.getByRole('combobox')).toBeDisabled();
+  });
+
+  it('blocks the input and announces a busy state when isLoading', () => {
+    render(
+      <Typeahead
+        label="Role"
+        searchSource={fruitSource}
+        value={null}
+        onChange={() => {}}
+        isLoading
+        data-testid="typeahead"
+      />,
+    );
+    expect(screen.getByRole('combobox')).toBeDisabled();
+    const wrapper = screen.getByTestId('typeahead');
+    expect(wrapper).toHaveAttribute('aria-busy', 'true');
+    expect(within(wrapper).getByRole('status')).toHaveAccessibleName('Loading');
   });
 
   it('uses anchorRef for dropdown positioning', () => {
@@ -976,11 +1000,16 @@ describe('Typeahead disabledMessage', () => {
   });
 });
 
-
 describe('Typeahead statusVariant forwarding', () => {
   it('defaults to attached (status renders with data-variant="attached")', () => {
     const {container} = render(
-      <Typeahead label="Fruit" searchSource={fruitSource} value={null} onChange={() => {}} status={{type: 'error', message: 'Required'}} />,
+      <Typeahead
+        label="Fruit"
+        searchSource={fruitSource}
+        value={null}
+        onChange={() => {}}
+        status={{type: 'error', message: 'Required'}}
+      />,
     );
     expect(container.querySelector('.pharos-field-status')).toHaveAttribute(
       'data-variant',
@@ -990,7 +1019,14 @@ describe('Typeahead statusVariant forwarding', () => {
 
   it('forwards statusVariant="detached" to the underlying Field status', () => {
     const {container} = render(
-      <Typeahead label="Fruit" searchSource={fruitSource} value={null} onChange={() => {}} status={{type: 'error', message: 'Required'}} statusVariant="detached" />,
+      <Typeahead
+        label="Fruit"
+        searchSource={fruitSource}
+        value={null}
+        onChange={() => {}}
+        status={{type: 'error', message: 'Required'}}
+        statusVariant="detached"
+      />,
     );
     expect(container.querySelector('.pharos-field-status')).toHaveAttribute(
       'data-variant',
