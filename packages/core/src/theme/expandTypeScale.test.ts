@@ -257,6 +257,22 @@ describe('generateTypeScaleComponents', () => {
     }
   });
 
+  it('lets a display type on a heading beat its level (issue #45)', () => {
+    const components = generateTypeScaleComponents({base: 14, ratio: 1.2});
+    const keys = Object.keys(components.heading);
+    for (const type of ['display-1', 'display-2', 'display-3']) {
+      expect(components.heading[`type:${type}`]).toMatchObject({
+        fontSize: `var(--text-${type}-size)`,
+        fontWeight: `var(--text-${type}-weight)`,
+        lineHeight: `var(--text-${type}-leading)`,
+      });
+      // Same specificity as `.level-N`: the later rule wins.
+      expect(keys.indexOf(`type:${type}`)).toBeGreaterThan(
+        keys.indexOf('level:6'),
+      );
+    }
+  });
+
   it('generates rules for all 8 text types (including display)', () => {
     const components = generateTypeScaleComponents({base: 14, ratio: 1.2});
     for (const type of [

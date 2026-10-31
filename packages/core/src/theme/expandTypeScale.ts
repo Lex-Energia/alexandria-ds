@@ -368,6 +368,19 @@ export function generateTypeScaleComponents(
       lineHeight: `var(--text-heading-${level}-leading)`,
     };
   }
+  // `type="display-*"` overrides the `level` typography (Heading's own docs).
+  // The level rules above sit in the theme layer, above the atomic class the
+  // component sets for `type`, so without these rules the level wins and a
+  // display heading renders at the plain heading size. Same specificity as
+  // `.level-N` and emitted after it, so `type` wins when both are set.
+  for (const type of ['display-1', 'display-2', 'display-3']) {
+    headingRules[`type:${type}`] = {
+      fontFamily: 'var(--font-family-heading)',
+      fontSize: `var(--text-${type}-size)`,
+      fontWeight: `var(--text-${type}-weight)`,
+      lineHeight: `var(--text-${type}-leading)`,
+    };
+  }
   components.heading = headingRules;
 
   const textRules: Record<string, Record<string, string>> = {};
