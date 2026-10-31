@@ -4,7 +4,7 @@
 
 /**
  * @file Spinner.tsx
- * @input Uses React, StyleX, canvas rendering
+ * @input Uses React, StyleX, inline SVG (Alexandria "A")
  * @output Exports Spinner component, SpinnerProps, SpinnerSize, SpinnerShade types
  * @position Core implementation of spinner loading indicator
  *
@@ -16,10 +16,9 @@
  * - /packages/cli/templates/blocks/components/Spinner/ (showcase blocks)
  */
 
-import {useEffect, useId, useRef, type ReactNode} from 'react';
+import {useId, type ReactNode} from 'react';
 import * as stylex from '@stylexjs/stylex';
-import {durationVars, spacingVars} from '../theme/tokens.stylex';
-import {useTheme} from '../theme/useTheme';
+import {colorVars, spacingVars} from '../theme/tokens.stylex';
 import type {BaseProps} from '../BaseProps';
 import {Text} from '../Text/Text';
 import {mergeProps} from '../utils';
@@ -29,11 +28,6 @@ import {themeProps} from '../utils/themeProps';
 // Constants
 // =============================================================================
 
-/** How much of the circle the active arc covers (as a fraction of 2π) */
-const SPREAD = 0.75;
-/** Where the active arc starts (as a fraction of 2π) */
-const START_POINT = 1.5;
-
 const SIZES = {
   sm: {diameter: 10, border: 2},
   md: {diameter: 14, border: 3},
@@ -41,13 +35,29 @@ const SIZES = {
   xl: {diameter: 28, border: 4},
 };
 
+/** The Alexandria "A" (viewBox 0 0 137 129). */
+const LOGO_PATH =
+  'M0.261875 129C2.96054 121.763 5.84321 114.28 8.90988 106.552C12.0992 98.824 15.2272 91.2187 18.2939 83.736C21.4832 76.1307 24.5499 68.7707 27.4939 61.656C30.5605 54.5413 33.3819 48.04 35.9579 42.152C38.5339 36.1413 40.8032 30.8667 42.7659 26.328C44.8512 21.7893 46.5072 18.2933 47.7339 15.84C50.4325 10.0747 53.4379 6.14932 56.7499 4.064C60.0619 1.97866 64.0485 0.935993 68.7099 0.935993C73.4939 0.935993 77.1125 1.61066 79.5659 2.95999C82.1419 4.30933 83.9205 5.47466 84.9019 6.456C87.1099 10.2587 89.7472 15.4107 92.8139 21.912C95.8805 28.2907 99.0699 35.4053 102.382 43.256C105.817 50.984 109.251 59.08 112.686 67.544C116.121 75.8853 119.371 83.9813 122.438 91.832C125.505 99.6827 128.265 106.859 130.718 113.36C133.294 119.861 135.318 125.075 136.79 129H108.454C107.473 126.301 106.062 122.744 104.222 118.328C102.505 113.789 100.419 108.392 97.9659 102.136H37.7979C35.3445 108.392 33.2592 113.728 31.5419 118.144C29.8245 122.56 28.4139 126.179 27.3099 129H0.261875ZM67.9739 27.248C67.3605 28.4747 66.3179 30.8053 64.8459 34.24C63.4965 37.6747 61.8405 41.784 59.8779 46.568C58.0379 51.352 55.9525 56.6267 53.6219 62.392C51.2912 68.0347 49.0219 73.6773 46.8139 79.32H88.9499C86.7419 73.6773 84.4725 68.0347 82.1419 62.392C79.9339 56.6267 77.8485 51.4133 75.8859 46.752C73.9232 41.968 72.2059 37.8587 70.7339 34.424C69.3845 30.9893 68.4645 28.5973 67.9739 27.248Z';
+
+/** Brand gradient of the default shade: blue, purple, orange, amber, yellow. */
+const LOGO_GRADIENT = [
+  ['0', '#034694'],
+  ['0.25', '#7C51A1'],
+  ['0.5', '#EA5B30'],
+  ['0.75', '#FAA61A'],
+  ['1', '#FFF200'],
+] as const;
+
 // =============================================================================
 // Animation
 // =============================================================================
 
-const rotation = stylex.keyframes({
-  '0%': {transform: 'rotate(0deg)'},
-  '100%': {transform: 'rotate(360deg)'},
+// The logo stays put and only fades and swells slightly: no rotation, and the
+// transform never touches the layout around it.
+const pulse = stylex.keyframes({
+  '0%': {opacity: 0.1, transform: 'scale(1)'},
+  '50%': {opacity: 1, transform: 'scale(1.05)'},
+  '100%': {opacity: 0.1, transform: 'scale(1)'},
 });
 
 // =============================================================================
@@ -64,24 +74,28 @@ const styles = stylex.create({
   spinner: {
     display: 'inline-grid',
     placeItems: 'center',
-    overflow: 'hidden',
+    // The pulse scales the logo 5% past its box; the box itself, and so the
+    // space the spinner takes, stays the frame size.
+    overflow: 'visible',
     verticalAlign: 'middle',
   },
-  canvas: {
-    backfaceVisibility: 'hidden',
+  logo: {
     display: 'block',
-    willChange: 'transform',
-    // Slow the rotation dramatically under reduced-motion rather than freezing
-    // it (a frozen spinner reads as broken), matching ProgressBar's approach.
-    // The role="status" + "Loading" label still convey busy state (obs-6).
-    animationDuration: {
-      default: durationVars['--duration-slow-min'],
-      '@media (prefers-reduced-motion: reduce)': '3s',
-    },
+    width: '100%',
+    height: '100%',
+    willChange: 'opacity, transform',
+    animationDuration: '3s',
     animationIterationCount: 'infinite',
-    animationName: rotation,
-    animationTimingFunction: 'linear',
+    animationName: {
+      default: pulse,
+      '@media (prefers-reduced-motion: reduce)': 'none',
+    },
+    animationTimingFunction: 'ease-in-out',
+    // Reduced motion: a still, fully visible logo. The role="status" and the
+    // "Loading" label still convey the busy state.
   },
+  shadeOnMedia: {color: colorVars['--color-on-dark']},
+  shadeSubtle: {color: colorVars['--color-text-secondary']},
 });
 
 // =============================================================================
@@ -106,7 +120,7 @@ export interface SpinnerProps extends BaseProps<HTMLSpanElement> {
   size?: SpinnerSize;
   /**
    * Color shade.
-   * - 'default': accent color on light backgrounds
+   * - 'default': the Alexandria "A" in its brand gradient
    * - 'onMedia': white on dark/accent backgrounds
    * - 'subtle': secondary text color, less prominent — for inline use in lists
    * - 'inherit': inherits the parent's `currentColor` (with a translucent
@@ -141,7 +155,8 @@ export interface SpinnerProps extends BaseProps<HTMLSpanElement> {
 // =============================================================================
 
 /**
- * An animated loading indicator. Available in three sizes and two color shades.
+ * An animated loading indicator: the Alexandria "A" pulsing in place, in the
+ * same box the ring spinner used.
  *
  * @example
  * ```
@@ -164,94 +179,7 @@ export function Spinner({
   ref,
   ...restProps
 }: SpinnerProps) {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const {tokens: themeTokens} = useTheme();
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (canvas == null) {
-      return;
-    }
-
-    const context = canvas.getContext('2d');
-    if (!context) {
-      return;
-    }
-
-    const {border, diameter} = SIZES[size];
-    const pixelRatio = window.devicePixelRatio || 1;
-
-    // Resolve colors from theme tokens (useTheme handles light/dark resolution).
-    // - default → accent ring on a track tuned to body luminance
-    // - subtle  → secondary text color, less prominent
-    // - onMedia → on-dark color, with a translucent track for photos/video
-    // - inherit → the inherited currentColor, so the ring matches the parent's
-    //   resolved foreground (e.g. a button's variant text color)
-    const inheritedColor =
-      shade === 'inherit' ? getComputedStyle(canvas).color : null;
-    const activeColor =
-      shade === 'inherit'
-        ? (inheritedColor as string)
-        : shade === 'onMedia'
-          ? themeTokens['--color-on-dark']
-          : shade === 'subtle'
-            ? themeTokens['--color-text-secondary']
-            : themeTokens['--color-accent'];
-    // Track derives from --color-on-dark for onMedia (with a 30% alpha so the
-    // ring reads against arbitrary backgrounds) and from --color-track for the
-    // body-luminance shades. For inherit, the track is the same currentColor
-    // drawn at reduced alpha via globalAlpha (see below). All branches are
-    // fully theme-driven.
-    const backgroundColor =
-      shade === 'inherit'
-        ? (inheritedColor as string)
-        : shade === 'onMedia'
-          ? `${themeTokens['--color-on-dark']}4D`
-          : themeTokens['--color-track'];
-
-    const cssSize = diameter + border * 2;
-
-    // Round to an even number of device pixels so the center stays on a whole
-    // pixel (avoids rotation jitter); keep CSS size pinned to cssSize (#2732).
-    const rawFrameSize = Math.round(cssSize * pixelRatio);
-    const frameSize = rawFrameSize + (rawFrameSize % 2);
-
-    const scale = frameSize / cssSize;
-    const radius = (diameter / 2) * scale;
-    const lineWidth = border * scale;
-
-    canvas.height = canvas.width = frameSize;
-    canvas.style.width = canvas.style.height = cssSize + 'px';
-
-    context.lineCap = 'round';
-    context.lineWidth = lineWidth;
-
-    const center = frameSize / 2;
-
-    // Background circle (full ring, faded). For the inherit shade the track is
-    // the same currentColor as the arc, so fade it via globalAlpha (the
-    // computed color is an opaque rgb() string with no alpha channel to tweak).
-    context.beginPath();
-    context.arc(center, center, radius, 0, 2 * Math.PI);
-    context.strokeStyle = backgroundColor;
-    if (shade === 'inherit') {
-      context.globalAlpha = 0.3;
-    }
-    context.stroke();
-    context.globalAlpha = 1;
-
-    // Active arc (partial ring, colored)
-    context.beginPath();
-    context.arc(
-      center,
-      center,
-      radius,
-      START_POINT * Math.PI,
-      ((START_POINT + SPREAD) % 2) * Math.PI,
-    );
-    context.strokeStyle = activeColor;
-    context.stroke();
-  }, [shade, size, themeTokens]);
+  const gradientId = `pharos-spinner-${useId().replace(/:/g, '')}`;
 
   const {border, diameter} = SIZES[size];
   const frameSize = diameter + border * 2;
@@ -283,7 +211,36 @@ export function Spinner({
         hasLabel ? undefined : className,
         {...(hasLabel ? {} : style), width: frameSize, height: frameSize},
       )}>
-      <canvas ref={canvasRef} {...stylex.props(styles.canvas)} />
+      <svg
+        viewBox="0 0 137 129"
+        fill="none"
+        aria-hidden="true"
+        focusable="false"
+        {...stylex.props(
+          styles.logo,
+          shade === 'onMedia' && styles.shadeOnMedia,
+          shade === 'subtle' && styles.shadeSubtle,
+        )}>
+        {shade === 'default' && (
+          <defs>
+            <linearGradient
+              id={gradientId}
+              x1="40"
+              y1="30.5"
+              x2="127"
+              y2="129"
+              gradientUnits="userSpaceOnUse">
+              {LOGO_GRADIENT.map(([offset, color]) => (
+                <stop key={offset} offset={offset} stopColor={color} />
+              ))}
+            </linearGradient>
+          </defs>
+        )}
+        <path
+          d={LOGO_PATH}
+          fill={shade === 'default' ? `url(#${gradientId})` : 'currentColor'}
+        />
+      </svg>
     </span>
   );
 

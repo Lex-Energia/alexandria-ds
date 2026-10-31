@@ -51,6 +51,49 @@ describe('Spinner', () => {
     expect(spinner).toHaveAttribute('data-shade', 'inherit');
   });
 
+  it('draws the Alexandria "A" instead of a canvas ring', () => {
+    render(<Spinner data-testid="s" />);
+    const spinner = screen.getByTestId('s');
+    expect(spinner.querySelector('canvas')).toBeNull();
+    expect(spinner.querySelector('svg path')).toBeInTheDocument();
+    expect(spinner.querySelector('svg')).toHaveAttribute('aria-hidden', 'true');
+  });
+
+  it('keeps the box of the ring spinner for each size', () => {
+    const {rerender} = render(<Spinner size="sm" data-testid="s" />);
+    // diameter + 2 * border: sm 14, md 20, lg 24, xl 36
+    expect(screen.getByTestId('s')).toHaveStyle({
+      width: '14px',
+      height: '14px',
+    });
+    rerender(<Spinner size="md" data-testid="s" />);
+    expect(screen.getByTestId('s')).toHaveStyle({
+      width: '20px',
+      height: '20px',
+    });
+    rerender(<Spinner size="lg" data-testid="s" />);
+    expect(screen.getByTestId('s')).toHaveStyle({
+      width: '24px',
+      height: '24px',
+    });
+    rerender(<Spinner size="xl" data-testid="s" />);
+    expect(screen.getByTestId('s')).toHaveStyle({
+      width: '36px',
+      height: '36px',
+    });
+  });
+
+  it('uses the brand gradient on the default shade and currentColor otherwise', () => {
+    const {rerender} = render(<Spinner data-testid="s" />);
+    const path = () =>
+      screen.getByTestId('s').querySelector('path') as SVGPathElement;
+    expect(path().getAttribute('fill')).toMatch(/^url\(#pharos-spinner-/);
+    expect(screen.getByTestId('s').querySelectorAll('stop')).toHaveLength(5);
+    rerender(<Spinner shade="inherit" data-testid="s" />);
+    expect(path().getAttribute('fill')).toBe('currentColor');
+    expect(screen.getByTestId('s').querySelector('linearGradient')).toBeNull();
+  });
+
   it('has role="status"', () => {
     render(<Spinner data-testid="spinner" />);
     expect(screen.getByRole('status')).toBeInTheDocument();
