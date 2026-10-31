@@ -6,7 +6,17 @@ export const docs = {
   name: 'Spinner',
   displayName: 'Spinner',
   category: 'Feedback & Status',
-  keywords: ["spinner","loader","loading","circular","progress","spin","activity","busy","indeterminate"],
+  keywords: [
+    'spinner',
+    'loader',
+    'loading',
+    'circular',
+    'progress',
+    'spin',
+    'activity',
+    'busy',
+    'indeterminate',
+  ],
   props: [
     {
       name: 'size',
@@ -17,7 +27,8 @@ export const docs = {
     {
       name: 'shade',
       type: "'default' | 'onMedia' | 'subtle' | 'inherit'",
-      description: 'Color shade for light or dark backgrounds.',
+      description:
+        'Color shade. default draws the Alexandria "A" in its brand gradient; onMedia, subtle and inherit draw it in a single color for dark, quiet or colored surfaces. The "A" pulses in place (no rotation) and keeps the same box as the former ring.',
       default: "'default'",
     },
     {
@@ -39,19 +50,34 @@ export const docs = {
       description:
         'StyleX styles for layout customization (margins, positioning, sizing). Must be a stylex.create() value, not an inline style object like style={{}}.',
     },
-  ],  theming: {
-    targets: [
-      {className: 'pharos-spinner', visualProps: ['size', 'shade']},
-    ],
+  ],
+  theming: {
+    targets: [{className: 'pharos-spinner', visualProps: ['size', 'shade']}],
   },
   usage: {
     description:
       'An animated loading indicator for processes with unknown duration, such as data fetching or form submission. Supports visible labels, multiple sizes, and a dark background variant. For content with known dimensions, use Skeleton instead.',
     bestPractices: [
-      {guidance: true, description: 'Provide a meaningful label to describe what is loading for screen reader users.'},
-      {guidance: true, description: 'Use the "onMedia" shade when placed on dark or accent-colored backgrounds.'},
-      {guidance: false, description: 'Use for content areas with known dimensions; use Skeleton to preserve layout instead.'},
-      {guidance: false, description: 'Stack multiple spinners in the same view; use one to represent the overall loading state.'},
+      {
+        guidance: true,
+        description:
+          'Provide a meaningful label to describe what is loading for screen reader users.',
+      },
+      {
+        guidance: true,
+        description:
+          'Use the "onMedia" shade when placed on dark or accent-colored backgrounds.',
+      },
+      {
+        guidance: false,
+        description:
+          'Use for content areas with known dimensions; use Skeleton to preserve layout instead.',
+      },
+      {
+        guidance: false,
+        description:
+          'Stack multiple spinners in the same view; use one to represent the overall loading state.',
+      },
     ],
   },
 };
@@ -81,7 +107,8 @@ export const docsZh = {
     {
       name: 'aria-label',
       type: 'string',
-      description: '屏幕阅读器的无障碍名称。默认为 label（如果是字符串）或 "Loading"。',
+      description:
+        '屏幕阅读器的无障碍名称。默认为 label（如果是字符串）或 "Loading"。',
       default: "'Loading'",
     },
     {
@@ -92,18 +119,32 @@ export const docsZh = {
     },
   ],
   theming: {
-    targets: [
-      {className: 'pharos-spinner', visualProps: ['size', 'shade']},
-    ],
+    targets: [{className: 'pharos-spinner', visualProps: ['size', 'shade']}],
   },
   usage: {
     description:
       'An animated loading indicator for processes with unknown duration, such as data fetching or form submission. Supports visible labels, multiple sizes, and a dark background variant. For content with known dimensions, use Skeleton instead.',
     bestPractices: [
-      {guidance: true, description: 'Provide a meaningful label to describe what is loading for screen reader users.'},
-      {guidance: true, description: 'Use the "onMedia" shade when placed on dark or accent-colored backgrounds.'},
-      {guidance: false, description: 'Use for content areas with known dimensions; use Skeleton to preserve layout instead.'},
-      {guidance: false, description: 'Stack multiple spinners in the same view; use one to represent the overall loading state.'},
+      {
+        guidance: true,
+        description:
+          'Provide a meaningful label to describe what is loading for screen reader users.',
+      },
+      {
+        guidance: true,
+        description:
+          'Use the "onMedia" shade when placed on dark or accent-colored backgrounds.',
+      },
+      {
+        guidance: false,
+        description:
+          'Use for content areas with known dimensions; use Skeleton to preserve layout instead.',
+      },
+      {
+        guidance: false,
+        description:
+          'Stack multiple spinners in the same view; use one to represent the overall loading state.',
+      },
     ],
   },
 };
@@ -114,17 +155,35 @@ export const docsDense = {
     description:
       'An animated loading indicator for processes with unknown duration, such as data fetching or form submission. Supports visible labels, multiple sizes, and a dark background variant. For content with known dimensions, use Skeleton instead.',
     bestPractices: [
-      {guidance: true, description: 'Provide a meaningful label to describe what is loading for screen reader users.'},
-      {guidance: true, description: 'Use the "onMedia" shade when placed on dark or accent-colored backgrounds.'},
-      {guidance: false, description: 'Use for content areas with known dimensions; use Skeleton to preserve layout instead.'},
-      {guidance: false, description: 'Stack multiple spinners in the same view; use one to represent the overall loading state.'},
+      {
+        guidance: true,
+        description:
+          'Provide a meaningful label to describe what is loading for screen reader users.',
+      },
+      {
+        guidance: true,
+        description:
+          'Use the "onMedia" shade when placed on dark or accent-colored backgrounds.',
+      },
+      {
+        guidance: false,
+        description:
+          'Use for content areas with known dimensions; use Skeleton to preserve layout instead.',
+      },
+      {
+        guidance: false,
+        description:
+          'Stack multiple spinners in the same view; use one to represent the overall loading state.',
+      },
     ],
   },
   propDescriptions: {
     size: 'Spinner size (10px, 14px, 18px).',
     shade: 'Color shade for light or dark backgrounds.',
     label: 'Visible content below spinner. String auto-sets aria-label.',
-    'aria-label': 'A11y name for screen readers. Defaults to label or "Loading".',
-    xstyle: 'StyleX styles for layout customization. Must be stylex.create() value, not inline style.',
+    'aria-label':
+      'A11y name for screen readers. Defaults to label or "Loading".',
+    xstyle:
+      'StyleX styles for layout customization. Must be stylex.create() value, not inline style.',
   },
 };
