@@ -1,0 +1,28 @@
+import{a as e,n as t}from"./rolldown-runtime-DaJ6WEGw.js";import{t as n}from"./react-BJoyWkjz.js";import{n as r,t as i}from"./themeProps-DnL3zvT_.js";import{i as a,n as o,r as s,t as c}from"./LayoutContent-EIGUrS01.js";import{t as l,x as u}from"./utils-BG_6uO_I.js";import{n as d,t as f}from"./Text-D-FAeb1k.js";import{t as p}from"./jsx-runtime-cM__dR4X.js";import{t as m}from"./Button-DSlq49eW.js";import{t as h}from"./Button-CtnouKoY.js";import{a as g,t as _}from"./i18n-NBhNkU8c.js";import{n as v,t as y}from"./Banner-CbFkNpT2.js";import{i as b,t as x}from"./Dialog-D83thHBu.js";import{n as S,t as C}from"./Heading-Bn22ti6S.js";import{o as w,t as T}from"./Stack-CupIjuD0.js";import{n as E,t as D}from"./LayoutFooter-CNHGG38D.js";function O({ref:e,isOpen:t,isInline:n,onOpenChange:i,title:a,description:o,errorMessage:l,cancelLabel:d,actionLabel:p,actionVariant:h=`destructive`,isActionLoading:_,onAction:y,width:x=400,xstyle:S,className:T,style:E,"data-testid":O,...j}){let M=g(),N=d??M(`@pharos.alertDialog.cancel`),P=(0,k.useId)(),F=(0,k.useId)(),I=(0,k.useCallback)(()=>{i(!1)},[i]);return(0,A.jsx)(b,{...j,ref:e,isOpen:t,isInline:n,onOpenChange:i,width:x,purpose:`form`,role:`alertdialog`,"aria-labelledby":P,"aria-describedby":F,...u(r(`alert-dialog`),{className:T,style:E}),xstyle:S,"data-testid":O,children:(0,A.jsx)(s,{content:(0,A.jsxs)(c,{children:[(0,A.jsx)(C,{level:2,id:P,children:a}),(0,A.jsx)(f,{type:`body`,color:`secondary`,id:F,children:o}),l?(0,A.jsx)(v,{status:`error`,title:l,container:`card`}):null]}),footer:(0,A.jsx)(D,{children:(0,A.jsxs)(w,{gap:2,hAlign:`end`,children:[(0,A.jsx)(m,{variant:`ghost`,label:N,onClick:I}),(0,A.jsx)(m,{variant:h,label:p,onClick:y,isLoading:_})]})})})})}var k,A,j=t((()=>{k=e(n(),1),x(),a(),o(),E(),T(),S(),d(),y(),h(),l(),i(),_(),A=p(),O.displayName=`AlertDialog`,O.__docgenInfo={description:`A confirmation dialog for destructive or irreversible actions.
+
+Uses \`role="alertdialog"\` and requires explicit user action to dismiss.
+Cannot be dismissed by clicking outside. Escape key triggers cancel.
+Initial focus goes to the cancel button (least destructive action).
+
+@example
+\`\`\`
+<AlertDialog
+  isOpen={isOpen}
+  onOpenChange={setIsOpen}
+  title="Delete item?"
+  description="This action cannot be undone."
+  actionLabel="Delete"
+  onAction={async () => { await deleteItem(); setIsOpen(false); }}
+/>
+\`\`\``,methods:[],displayName:`AlertDialog`,props:{xstyle:{required:!1,tsType:{name:`StyleXStyles`},description:"StyleX styles created via `stylex.create()`. Merged with the component's\nbase styles inside a single `stylex.props()` call for optimal deduplication.\n\n@example\n```\nconst overrides = stylex.create({ root: { marginBottom: 8 } });\n<Component xstyle={overrides.root} />\n```"},ref:{required:!1,tsType:{name:`ReactRef`,raw:`React.Ref<HTMLDialogElement>`,elements:[{name:`HTMLDialogElement`}]},description:``},isOpen:{required:!0,tsType:{name:`boolean`},description:`Whether the dialog is open.`},isInline:{required:!1,tsType:{name:`boolean`},description:`Renders alert dialog content inline without modal behavior.
+For documentation previews and showcases only.
+@default false`},onOpenChange:{required:!0,tsType:{name:`signature`,type:`function`,raw:`(isOpen: boolean) => unknown`,signature:{arguments:[{type:{name:`boolean`},name:`isOpen`}],return:{name:`unknown`}}},description:"Callback fired when the dialog visibility changes.\nCalled with `false` when cancel is clicked or Escape is pressed."},title:{required:!0,tsType:{name:`string`},description:"Dialog title. Linked to the dialog via `aria-labelledby`."},description:{required:!0,tsType:{name:`string`},description:"Consequence description. Linked to the dialog via `aria-describedby`."},errorMessage:{required:!1,tsType:{name:`string`},description:`Error message shown inside the dialog when the confirmed action fails
+(for example a server refusal). Rendered as an error Banner, which has
+\`role="alert"\`, so assistive technology announces it when it appears
+(WCAG 4.1.3), and it stays inside the modal where the rest of the page
+is inert. Clear it (\`undefined\`) to hide.`},cancelLabel:{required:!1,tsType:{name:`string`},description:`Label for the cancel button. Rendered as a ghost Button.
+Clicking cancel calls \`onOpenChange(false)\`.
+@default 'Cancel'`},actionLabel:{required:!0,tsType:{name:`string`},description:`Label for the action button.`},actionVariant:{required:!1,tsType:{name:`ButtonVariantMap`},description:`Variant for the action button.
+@default 'destructive'`,defaultValue:{value:`'destructive'`,computed:!1}},isActionLoading:{required:!1,tsType:{name:`boolean`},description:`Whether the action button shows a loading spinner.`},onAction:{required:!0,tsType:{name:`signature`,type:`function`,raw:`() => unknown`,signature:{arguments:[],return:{name:`unknown`}}},description:"Callback fired when the action button is clicked.\nThe dialog does NOT auto-close — call `onOpenChange(false)` when done."},width:{required:!1,tsType:{name:`union`,raw:`number | string`,elements:[{name:`number`},{name:`string`}]},description:`The width of the dialog.
+Numbers are treated as pixels, strings are used as-is.
+@default 400`,defaultValue:{value:`400`,computed:!1}}},composes:[`Omit`]}}));function M(){let[e,t]=(0,N.useState)(!1),[n,r]=(0,N.useState)(null);return{show:(0,N.useCallback)(e=>{r(e),t(!0)},[]),hide:(0,N.useCallback)(()=>{t(!1)},[]),isOpen:e,element:(0,N.useMemo)(()=>n?(0,P.jsx)(O,{...n,isOpen:e,onOpenChange:e=>{e||t(!1)}}):null,[e,n])}}var N,P,F=t((()=>{N=e(n(),1),j(),P=p()})),I=t((()=>{j(),F()}));export{j as a,O as i,F as n,M as r,I as t};
