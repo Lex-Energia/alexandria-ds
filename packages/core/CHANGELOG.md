@@ -1,5 +1,29 @@
 # @xds/core
 
+# 1.0.12
+
+#### New Features
+
+- `AlertDialog` ganha `errorMessage`: quando a ação confirmada falha (como um 409 do servidor), a mensagem aparece dentro do diálogo num Banner de erro (`role="alert"`), anunciada pelo leitor de tela e sem sair do modal. Sem a prop, nada muda. Atende o pedido da issue #242 do alexandria.frontend.
+- `Button` ganha as variantes `success` (fundo `--color-success`, texto `--color-on-success`) e `destructive-outline` (fundo transparente, contorno e texto `--color-error`), para aprovar e rejeitar. Herdam hover, pressionado, foco e desabilitado do `Button`. Fecha #36.
+- `Calendar`, `DateInput`, `DateRangeInput` e `DateTimeInput` formatam datas (mês do cabeçalho, rótulos dos dias, valor exibido) e leem a ordem dia/mês da digitação com o locale do `InternationalizationProvider`, não mais com o padrão do runtime. Servidor e navegador passam a formatar igual, o que elimina o erro de hidratação. Sem provider, nada muda (continua o locale do runtime). Novo hook `useFormatLocale` e parâmetro `locale` opcional em `plainDateFormat`, `formatSharedDate`, `isLocaleDayFirst` e `parseDateInput`. `Timestamp` e `PowerSearch` ainda usam o locale do runtime. Atende a issue #144 do alexandria.frontend.
+- `Spinner` passa a ser o "A" da Alexandria pulsando no lugar do anel girando: a opacidade vai de 0,1 a 1 e a escala de 1 a 1,05 em 3 s (`ease-in-out`, infinito), sem rotação. O tamanho que o `Spinner` ocupa não muda (sm 14, md 20, lg 24, xl 36 px). O `shade` padrão usa o gradiente da marca (azul, roxo, laranja, âmbar, amarelo), com o azul e o roxo mais claros no modo escuro (o azul da marca dá 1,7:1 no fundo escuro); `onMedia`, `subtle` e `inherit` desenham o "A" numa cor só (`--color-on-dark`, `--color-text-secondary` e `currentColor`). Com `prefers-reduced-motion` a logo fica parada e visível. Sem canvas, então o `Spinner` funciona no servidor sem efeito.
+- Novo plugin `useTableStickyHeader({maxHeight})` para a `Table`: fixa o cabeçalho ao rolar na vertical e limita a altura da área rolável (padrão `70dvh`, número em px ou qualquer comprimento CSS). Compõe com `useTableStickyColumns`: o cabeçalho das colunas fixas fica fixo nos dois eixos. Fecha #18.
+- `Typeahead` ganha `isLoading`: o campo fica inerte como em `isDisabled`, o wrapper recebe `aria-busy` e aparece um `Spinner` com `role="status"` ("Loading" / "Carregando"). Serve para ações disparadas pela escolha da opção, como um envio em `onChange`. Não muda o indicador da busca de sugestões. Fecha o pedido da issue #242 do alexandria.frontend.
+
+#### Fixes
+
+- Pedidos de acessibilidade e i18n do backoffice e do Líder Lex: "Optional"/"Required" do `FieldLabel`, o texto do `FileInput` (placeholder, anúncio de seleção, erros de tipo, tamanho e quantidade) e o "Skip to content" do `AppShell` vão para o catálogo (`en` e `pt-BR`); o `Selector` com `hasSearch` deixa de pôr `aria-required` no botão e o põe no combobox da busca; o `ref` do `FileInput` passa a focar o botão visível quando se chama `focus()` (react-hook-form), assim como o "Limpar"; o campo e o "Limpar tudo" do `Tokenizer`/`PowerSearch` mantêm 24px (WCAG 2.5.8). Fecha #12 (item 1), #35 e #31 (itens 2 e 5).
+- `AppShell` `variant="elevated"` desenha o cartão do conteúdo também quando há só `SideNav` (sem `TopNav`), arredondado nos dois cantos do lado do menu. Com `TopNav` e `SideNav` nada muda. Fecha o item 3 da #31.
+
+#### Contributors
+
+Thanks to everyone who contributed to this release:
+
+- @Caio-Silvestre
+
+---
+
 # 1.0.11
 
 #### New Features
