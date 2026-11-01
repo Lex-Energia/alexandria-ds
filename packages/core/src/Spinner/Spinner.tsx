@@ -100,6 +100,9 @@ const styles = stylex.create({
     // Reduced motion: a still, fully visible logo. The role="status" and the
     // "Loading" label still convey the busy state.
   },
+  // The "A" of the logotype in one color: brand blue on light, white on dark,
+  // the same pairing as the `azul` and `white` tones of the logo.
+  shadeBrand: {color: 'light-dark(#034694, #FFFFFF)'},
   shadeOnMedia: {color: colorVars['--color-on-dark']},
   shadeSubtle: {color: colorVars['--color-text-secondary']},
 });
@@ -110,7 +113,8 @@ const styles = stylex.create({
 
 export type SpinnerSize = keyof typeof SIZES;
 
-export type SpinnerShade = 'default' | 'onMedia' | 'subtle' | 'inherit';
+export type SpinnerShade =
+  'default' | 'brand' | 'onMedia' | 'subtle' | 'inherit';
 
 export interface SpinnerProps extends BaseProps<HTMLSpanElement> {
   /** Ref forwarded to the root element */
@@ -127,6 +131,8 @@ export interface SpinnerProps extends BaseProps<HTMLSpanElement> {
   /**
    * Color shade.
    * - 'default': the Alexandria "A" in its brand gradient
+   * - 'brand': the "A" in the logo's single color: brand blue on light,
+   *   white on dark
    * - 'onMedia': white on dark/accent backgrounds
    * - 'subtle': secondary text color, less prominent — for inline use in lists
    * - 'inherit': inherits the parent's `currentColor` (with a translucent
@@ -168,6 +174,7 @@ export interface SpinnerProps extends BaseProps<HTMLSpanElement> {
  * ```
  * <Spinner />
  * <Spinner size="sm" />
+ * <Spinner shade="brand" />
  * <Spinner size="lg" shade="onMedia" />
  * <Spinner label="Loading..." />
  * <Spinner aria-label="Loading data" />
@@ -224,6 +231,7 @@ export function Spinner({
         focusable="false"
         {...stylex.props(
           styles.logo,
+          shade === 'brand' && styles.shadeBrand,
           shade === 'onMedia' && styles.shadeOnMedia,
           shade === 'subtle' && styles.shadeSubtle,
         )}>

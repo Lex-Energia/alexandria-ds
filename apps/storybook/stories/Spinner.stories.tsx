@@ -17,7 +17,7 @@ const meta: Meta<typeof Spinner> = {
     },
     shade: {
       control: 'select',
-      options: ['default', 'onMedia'],
+      options: ['default', 'brand', 'onMedia'],
       description: 'Color shade',
     },
   },
@@ -48,6 +48,7 @@ export const Shades: Story = {
   render: () => (
     <HStack gap={4} vAlign="center">
       <Spinner shade="default" />
+      <Spinner shade="brand" />
       <div
         style={{
           backgroundColor: '#1a1a2e',

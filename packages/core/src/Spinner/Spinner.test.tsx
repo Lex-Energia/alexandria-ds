@@ -94,6 +94,16 @@ describe('Spinner', () => {
     expect(screen.getByTestId('s').querySelector('linearGradient')).toBeNull();
   });
 
+  it('draws the brand shade in one color, with no gradient', () => {
+    render(<Spinner shade="brand" data-testid="s" />);
+    const root = screen.getByTestId('s');
+    expect(root).toHaveAttribute('data-shade', 'brand');
+    expect(root.querySelector('path')?.getAttribute('fill')).toBe(
+      'currentColor',
+    );
+    expect(root.querySelector('linearGradient')).toBeNull();
+  });
+
   it('has role="status"', () => {
     render(<Spinner data-testid="spinner" />);
     expect(screen.getByRole('status')).toBeInTheDocument();
