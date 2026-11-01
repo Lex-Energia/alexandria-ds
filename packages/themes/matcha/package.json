@@ -1,6 +1,6 @@
 {
   "name": "@pharos-ds/theme-matcha",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "private": true,
   "description": "Earthy greens with a calm, organic feel. Naturalistic and grounded, great for wellness or content-first apps.",
   "author": "Caio Silvestre",
@@ -51,11 +51,11 @@
     "lucide-react": "^1.26.0"
   },
   "peerDependencies": {
-    "@pharos-ds/core": "1.0.12",
+    "@pharos-ds/core": "1.0.13",
     "react": ">=19"
   },
   "devDependencies": {
-    "@pharos-ds/cli": "1.0.12"
+    "@pharos-ds/cli": "1.0.13"
   },
   "module": "./dist/source.mjs"
 }
