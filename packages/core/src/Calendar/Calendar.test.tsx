@@ -9,7 +9,7 @@
  * SYNC: When Calendar.tsx changes, update tests accordingly
  */
 
-import {describe, it, expect, vi, afterEach} from 'vitest';
+import {describe, it, expect, vi, afterEach, beforeEach} from 'vitest';
 import {act, render, screen, within, waitFor} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {getButton} from '../__tests__/fastRoleQueries';
@@ -1039,8 +1039,20 @@ describe('Calendar', () => {
 
   // ─── Day-cell marker theming (#4286) ─────────────────────────
   describe('day-cell marker theme state', () => {
-    // Tests use the real "today" (as the existing aria-current tests do) since
-    // Calendar derives it internally. Helpers pin the exact ISO strings.
+    // Calendar derives "today" internally, so the clock is pinned to mid-month.
+    // With the real date, a range from today-2 to today+2 crosses a month
+    // boundary on the 1st and 2nd (and the calendar opens on the range start's
+    // month), which made CI fail on those days. Only `Date` is faked, so
+    // timers and user-event keep working.
+    beforeEach(() => {
+      vi.useFakeTimers({toFake: ['Date']});
+      vi.setSystemTime(new Date(2026, 5, 15, 12, 0, 0));
+    });
+    afterEach(() => {
+      vi.useRealTimers();
+    });
+
+    // Helpers pin the exact ISO strings.
     function todayISO(): ISODateString {
       const n = new Date();
       return `${n.getFullYear()}-${String(n.getMonth() + 1).padStart(2, '0')}-${String(n.getDate()).padStart(2, '0')}` as ISODateString;
