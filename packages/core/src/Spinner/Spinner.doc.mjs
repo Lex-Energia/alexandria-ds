@@ -26,9 +26,9 @@ export const docs = {
     },
     {
       name: 'shade',
-      type: "'default' | 'onMedia' | 'subtle' | 'inherit'",
+      type: "'default' | 'brand' | 'onMedia' | 'subtle' | 'inherit'",
       description:
-        'Color shade. default draws the Alexandria "A" in its brand gradient; onMedia, subtle and inherit draw it in a single color for dark, quiet or colored surfaces. The "A" pulses in place (no rotation) and keeps the same box as the former ring.',
+        'Color shade. default draws the Alexandria "A" in its brand gradient; brand draws it in the single color of the logo (brand blue on light, white on dark); onMedia, subtle and inherit draw it in a single color for dark, quiet or colored surfaces. The "A" pulses in place (no rotation) and keeps the same box as the former ring.',
       default: "'default'",
     },
     {
@@ -95,7 +95,7 @@ export const docsZh = {
     },
     {
       name: 'shade',
-      type: "'default' | 'onMedia' | 'subtle' | 'inherit'",
+      type: "'default' | 'brand' | 'onMedia' | 'subtle' | 'inherit'",
       description: '浅色或深色背景的颜色色调。',
       default: "'default'",
     },
