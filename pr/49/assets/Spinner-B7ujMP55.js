@@ -1,0 +1,34 @@
+import{a as e,n as t}from"./rolldown-runtime-DaJ6WEGw.js";import{t as n}from"./react-BJoyWkjz.js";import{l as r,n as i,t as a,u as o}from"./themeProps-DnL3zvT_.js";import{t as s,x as c}from"./utils-BG_6uO_I.js";import{n as l,t as u}from"./Text-D-FAeb1k.js";import{t as d}from"./jsx-runtime-cM__dR4X.js";function f({size:e=`md`,shade:t=`default`,label:n,xstyle:r,className:a,style:s,"aria-label":l,"data-testid":d,ref:f,...y}){let b=`pharos-spinner-${(0,p.useId)().replace(/:/g,``)}`,{border:x,diameter:S}=h[e],C=S+x*2,w=n!=null,T=(0,p.useId)(),E=w&&typeof n==`string`&&l==null,D=(0,m.jsx)(`span`,{ref:w?void 0:f,role:`status`,"aria-label":E?void 0:l??(typeof n==`string`?n:void 0)??`Loading`,"aria-labelledby":E?T:void 0,"data-testid":w?void 0:d,...w?{}:y,...c(w?``:i(`spinner`,{size:e,shade:t}),o(v.spinner,!w&&r),w?void 0:a,{...w?{}:s,width:C,height:C}),children:(0,m.jsxs)(`svg`,{viewBox:`0 0 137 129`,fill:`none`,"aria-hidden":`true`,focusable:`false`,...{0:{className:`pharos1lliihq pharosh8yej3 pharos5yr21d pharos6my1t9 pharos7t6ubo pharosa4qsjk pharos1q2l976 pharos1aquc0h pharos4hg4is`},2:{className:`pharos1lliihq pharosh8yej3 pharos5yr21d pharos6my1t9 pharos7t6ubo pharosa4qsjk pharos1q2l976 pharos1aquc0h pharos4hg4is pharos9e3rv5`},1:{className:`pharos1lliihq pharosh8yej3 pharos5yr21d pharos6my1t9 pharos7t6ubo pharosa4qsjk pharos1q2l976 pharos1aquc0h pharos4hg4is pharosv1l7n4`},3:{className:`pharos1lliihq pharosh8yej3 pharos5yr21d pharos6my1t9 pharos7t6ubo pharosa4qsjk pharos1q2l976 pharos1aquc0h pharos4hg4is pharosv1l7n4`}}[(t===`onMedia`)<<1|(t===`subtle`)<<0],children:[t==="default"&&(0,m.jsx)(`defs`,{children:(0,m.jsx)(`linearGradient`,{id:b,x1:`40`,y1:`30.5`,x2:`127`,y2:`129`,gradientUnits:`userSpaceOnUse`,children:_.map(([e,t,n])=>(0,m.jsx)(`stop`,{offset:e,style:{stopColor:`light-dark(${t}, ${n})`}},e))})}),(0,m.jsx)(`path`,{d:g,fill:t==="default"?`url(#${b})`:`currentColor`})]})});return w?(0,m.jsxs)(`div`,{ref:f,"data-testid":d,...y,...c(i(`spinner`,{size:e,shade:t}),o(v.wrapper,r),a,s),children:[D,typeof n==`string`?(0,m.jsx)(u,{id:T,type:`body`,weight:`bold`,children:n}):n]}):D}var p,m,h,g,_,v,y=t((()=>{p=e(n(),1),r(),l(),s(),a(),m=d(),h={sm:{diameter:10,border:2},md:{diameter:14,border:3},lg:{diameter:18,border:3},xl:{diameter:28,border:4}},g=`M0.261875 129C2.96054 121.763 5.84321 114.28 8.90988 106.552C12.0992 98.824 15.2272 91.2187 18.2939 83.736C21.4832 76.1307 24.5499 68.7707 27.4939 61.656C30.5605 54.5413 33.3819 48.04 35.9579 42.152C38.5339 36.1413 40.8032 30.8667 42.7659 26.328C44.8512 21.7893 46.5072 18.2933 47.7339 15.84C50.4325 10.0747 53.4379 6.14932 56.7499 4.064C60.0619 1.97866 64.0485 0.935993 68.7099 0.935993C73.4939 0.935993 77.1125 1.61066 79.5659 2.95999C82.1419 4.30933 83.9205 5.47466 84.9019 6.456C87.1099 10.2587 89.7472 15.4107 92.8139 21.912C95.8805 28.2907 99.0699 35.4053 102.382 43.256C105.817 50.984 109.251 59.08 112.686 67.544C116.121 75.8853 119.371 83.9813 122.438 91.832C125.505 99.6827 128.265 106.859 130.718 113.36C133.294 119.861 135.318 125.075 136.79 129H108.454C107.473 126.301 106.062 122.744 104.222 118.328C102.505 113.789 100.419 108.392 97.9659 102.136H37.7979C35.3445 108.392 33.2592 113.728 31.5419 118.144C29.8245 122.56 28.4139 126.179 27.3099 129H0.261875ZM67.9739 27.248C67.3605 28.4747 66.3179 30.8053 64.8459 34.24C63.4965 37.6747 61.8405 41.784 59.8779 46.568C58.0379 51.352 55.9525 56.6267 53.6219 62.392C51.2912 68.0347 49.0219 73.6773 46.8139 79.32H88.9499C86.7419 73.6773 84.4725 68.0347 82.1419 62.392C79.9339 56.6267 77.8485 51.4133 75.8859 46.752C73.9232 41.968 72.2059 37.8587 70.7339 34.424C69.3845 30.9893 68.4645 28.5973 67.9739 27.248Z`,_=[[`0`,`#034694`,`#6BA3F5`],[`0.25`,`#7C51A1`,`#A98BD0`],[`0.5`,`#EA5B30`,`#EA5B30`],[`0.75`,`#FAA61A`,`#FAA61A`],[`1`,`#FFF200`,`#FFF200`]],v={wrapper:{k1xSpc:`pharos3nfvp2`,kXwgrk:`pharosdt5ytf`,kGNEyG:`pharos6s0dn4`,kOIVth:`pharos1txdalj`,$$css:!0},spinner:{k1xSpc:`pharoswz0xwf`,kgQiWS:`pharos1ku5rj1`,kVQacm:`pharos1rea2x4`,kXLuUW:`pharosxymvpz`,$$css:!0}},f.displayName=`Spinner`,f.__docgenInfo={description:`An animated loading indicator: the Alexandria "A" pulsing in place, in the
+same box the ring spinner used.
+
+@example
+\`\`\`
+<Spinner />
+<Spinner size="sm" />
+<Spinner size="lg" shade="onMedia" />
+<Spinner label="Loading..." />
+<Spinner aria-label="Loading data" />
+\`\`\``,methods:[],displayName:`Spinner`,props:{xstyle:{required:!1,tsType:{name:`StyleXStyles`},description:"StyleX styles created via `stylex.create()`. Merged with the component's\nbase styles inside a single `stylex.props()` call for optimal deduplication.\n\n@example\n```\nconst overrides = stylex.create({ root: { marginBottom: 8 } });\n<Component xstyle={overrides.root} />\n```"},ref:{required:!1,tsType:{name:`ReactRef`,raw:`React.Ref<HTMLSpanElement>`,elements:[{name:`HTMLSpanElement`}]},description:`Ref forwarded to the root element`},size:{required:!1,tsType:{name:`union`,raw:`keyof typeof SIZES`,elements:[{name:`literal`,value:`sm`},{name:`literal`,value:`md`},{name:`literal`,value:`lg`},{name:`literal`,value:`xl`}]},description:`Spinner size.
+- 'sm': 10px diameter
+- 'md': 14px diameter
+- 'lg': 18px diameter
+- 'xl': 36px diameter
+@default 'md'`,defaultValue:{value:`'md'`,computed:!1}},shade:{required:!1,tsType:{name:`union`,raw:`'default' | 'onMedia' | 'subtle' | 'inherit'`,elements:[{name:`literal`,value:`'default'`},{name:`literal`,value:`'onMedia'`},{name:`literal`,value:`'subtle'`},{name:`literal`,value:`'inherit'`}]},description:`Color shade.
+- 'default': the Alexandria "A" in its brand gradient
+- 'onMedia': white on dark/accent backgrounds
+- 'subtle': secondary text color, less prominent — for inline use in lists
+- 'inherit': inherits the parent's \`currentColor\` (with a translucent
+  track) — use inside colored elements like buttons so the ring matches
+  the resolved foreground regardless of theme/variant
+@default 'default'`,defaultValue:{value:`'default'`,computed:!1}},label:{required:!1,tsType:{name:`ReactNode`},description:`Visible content displayed below the spinner.
+Accepts a string or ReactNode for rich content.
+
+When \`label\` is a string, the visible text also provides the accessible
+name of the status element (via aria-labelledby, avoiding a duplicate
+announcement) unless \`aria-label\` is explicitly set.
+
+@example
+\`\`\`
+<Spinner label="Loading..." />
+<Spinner label={<><strong>Fetching data</strong><br/>This may take a moment</>} aria-label="Fetching data" />
+\`\`\``},"data-testid":{required:!1,tsType:{name:`string`},description:`Test ID for the root element.`}},composes:[`Omit`]}})),b=t((()=>{y()}));export{f as n,y as r,b as t};
