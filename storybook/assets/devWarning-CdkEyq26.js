@@ -1,0 +1,1 @@
+import{n as e}from"./rolldown-runtime-DaJ6WEGw.js";function t(e,t){return`${e}: ${t}`}function n(e,t,...n){}function r(e,n,...r){console.error(t(e,n),...r)}function i(e,t,n,...r){}var a=e((()=>{}));export{i,n,a as r,r as t};
