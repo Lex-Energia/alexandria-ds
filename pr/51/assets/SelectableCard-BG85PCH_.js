@@ -1,0 +1,44 @@
+import{a as e,n as t}from"./rolldown-runtime-DaJ6WEGw.js";import{t as n}from"./react-BJoyWkjz.js";import{n as r,t as i}from"./themeProps-DnL3zvT_.js";import{t as a,x as o,y as s}from"./utils-BG_6uO_I.js";import{t as c}from"./jsx-runtime-cM__dR4X.js";import{n as l,t as u}from"./Card-D720a6N2.js";import{n as d,r as f}from"./useClickableContainer-AgLNossR.js";function p({label:e,isSelected:t,onChange:n,onClick:i,onMouseUp:a,isDisabled:c=!1,children:l,padding:d,variant:p=`default`,elevation:v=`none`,width:y,height:b,maxWidth:x,ref:S,xstyle:C,className:w,style:T,...E}){let D=(0,m.useRef)(null),O=(0,m.useRef)(null),{onClick:k,onMouseUp:A}=f({containerRef:D,interactiveRef:O,onClick:(0,m.useCallback)(e=>{c||n(!t)},[c,t,n]),disabled:c}),j=i?e=>{k(e),i(e)}:k,M=a?e=>{A(e),a(e)}:A;return(0,h.jsxs)(u,{ref:s(S,D),width:y,height:b,maxWidth:x,padding:d,variant:p,elevation:v,...o(r(`selectable-card`,{variant:p,selected:t?`true`:`false`}),{className:w,style:T}),xstyle:[g.interactive,g.focusWithin,t&&_(p),!c&&g.overlay,!c&&g.hoverOnPointer,c&&g.disabled,C],onClick:c?void 0:j,onMouseUp:c?void 0:M,...E,children:[(0,h.jsx)(`input`,{ref:O,type:`checkbox`,checked:t,"aria-label":e,disabled:c,onChange:()=>n(!t),className:`pharos10l6tqk pharos1i1rx1s pharosjm9jq1 pharos1717udv pharoskdpibf pharosb3r6kr pharoszpqnlu pharosuxw1ft pharosc342km`}),l]})}var m,h,g,_,v=t((()=>{m=e(n(),1),a(),l(),d(),i(),h=c(),g={interactive:{kVAEAm:`pharos1n2onr6`,kkrTdU:`pharos1ypdohk`,k1ekBW:`pharos16mfhj0`,kIyJzY:`pharosuedmi6`,kAMwcw:`pharoslr8y92`,kInvED:`pharos1hl8ikr`,$$css:!0},focusWithin:{kRYL1X:`pharos1irc7jg`,kry4t4:null,kf5QHk:null,kuo1qL:null,koJ47v:`pharosdjuwb3`,$$css:!0},overlay:{k5JduY:`pharos1s928wv`,kwXMNM:`pharos1j6awrg`,kv0HGH:`pharosarstr8`,kcktkL:null,kc1e00:null,kH8aOt:null,kH8cDV:null,kLxBhq:null,kSy8m5:null,k3foIR:null,k8Iv0R:null,kUfP38:`pharos1k48kgn`,kGftIZ:null,kSluu6:null,kYXnhQ:null,kaOt8G:null,kgFEc0:null,kDH5la:null,kskBYc:null,kBNLoZ:null,kloYau:`pharos2q1x1w`,kRicXK:`pharos1ywzrc5`,kPNhGg:`pharos97pup0`,kA8PQs:`pharos1dlmc9c`,ks3ayO:`pharosyhc2n1`,kAcZsS:`pharos1k7wiig`,$$css:!0},hoverOnPointer:{kJs8I2:`pharosi14tyy`,$$css:!0},disabled:{kkrTdU:`pharos1h6gzvc`,kSiTet:`pharosbyyjgo`,$$css:!0},selected:{kVAM5u:`pharosad5do`,kzOINU:null,kGJrpR:null,kaZRDh:null,kBCPoo:null,k26BEO:null,k5QoK5:null,kLZC3w:null,kL6WhQ:null,"--_card-ring":`pharosr9ms2c`,$$css:!0},selectedBlue:{kVAM5u:`pharoslee4gx`,kzOINU:null,kGJrpR:null,kaZRDh:null,kBCPoo:null,k26BEO:null,k5QoK5:null,kLZC3w:null,kL6WhQ:null,"--_card-ring":`pharosgwwt2v`,$$css:!0},selectedCyan:{kVAM5u:`pharosb1xfl`,kzOINU:null,kGJrpR:null,kaZRDh:null,kBCPoo:null,k26BEO:null,k5QoK5:null,kLZC3w:null,kL6WhQ:null,"--_card-ring":`pharoscdi0x3`,$$css:!0},selectedGray:{kVAM5u:`pharos1w9ec3u`,kzOINU:null,kGJrpR:null,kaZRDh:null,kBCPoo:null,k26BEO:null,k5QoK5:null,kLZC3w:null,kL6WhQ:null,"--_card-ring":`pharos1m1zkwp`,$$css:!0},selectedGreen:{kVAM5u:`pharosy90a9n`,kzOINU:null,kGJrpR:null,kaZRDh:null,kBCPoo:null,k26BEO:null,k5QoK5:null,kLZC3w:null,kL6WhQ:null,"--_card-ring":`pharos1485227`,$$css:!0},selectedOrange:{kVAM5u:`pharosloqurj`,kzOINU:null,kGJrpR:null,kaZRDh:null,kBCPoo:null,k26BEO:null,k5QoK5:null,kLZC3w:null,kL6WhQ:null,"--_card-ring":`pharos1cclxpp`,$$css:!0},selectedPink:{kVAM5u:`pharos1czkbn8`,kzOINU:null,kGJrpR:null,kaZRDh:null,kBCPoo:null,k26BEO:null,k5QoK5:null,kLZC3w:null,kL6WhQ:null,"--_card-ring":`pharoszs6dn4`,$$css:!0},selectedPurple:{kVAM5u:`pharosq98wne`,kzOINU:null,kGJrpR:null,kaZRDh:null,kBCPoo:null,k26BEO:null,k5QoK5:null,kLZC3w:null,kL6WhQ:null,"--_card-ring":`pharos9zgi83`,$$css:!0},selectedRed:{kVAM5u:`pharosjqgoec`,kzOINU:null,kGJrpR:null,kaZRDh:null,kBCPoo:null,k26BEO:null,k5QoK5:null,kLZC3w:null,kL6WhQ:null,"--_card-ring":`pharoso8718j`,$$css:!0},selectedTeal:{kVAM5u:`pharos1r9gxr1`,kzOINU:null,kGJrpR:null,kaZRDh:null,kBCPoo:null,k26BEO:null,k5QoK5:null,kLZC3w:null,kL6WhQ:null,"--_card-ring":`pharosp4e5fy`,$$css:!0},selectedYellow:{kVAM5u:`pharos1kpnwn1`,kzOINU:null,kGJrpR:null,kaZRDh:null,kBCPoo:null,k26BEO:null,k5QoK5:null,kLZC3w:null,kL6WhQ:null,"--_card-ring":`pharos1glw7ee`,$$css:!0}},_=e=>{switch(e){case`default`:case`transparent`:case`muted`:return g.selected;case`blue`:return g.selectedBlue;case`cyan`:return g.selectedCyan;case`gray`:return g.selectedGray;case`green`:return g.selectedGreen;case`orange`:return g.selectedOrange;case`pink`:return g.selectedPink;case`purple`:return g.selectedPurple;case`red`:return g.selectedRed;case`teal`:return g.selectedTeal;case`yellow`:return g.selectedYellow}},p.displayName=`SelectableCard`,p.__docgenInfo={description:`A card that toggles between selected and unselected states.
+
+Composes Card for visual styling and adds selection state with
+an inset box-shadow (zero layout jitter vs plain Card). Supports
+hover, pressed, focus, and disabled states.
+
+A visually-hidden <input type="checkbox"> inside the card provides
+the accessible role, label, and checked state. The card surface
+is a plain <div> — no role or tabIndex on the container.
+
+@compositionHint Use for multi-select or single-select card groups.
+Manage selection state externally — use a Set for multi-select
+or a single value for radio-style selection.
+For navigation/action cards, use ClickableCard instead.
+
+@example
+\`\`\`
+<SelectableCard
+  label="Option A"
+  isSelected={selected === 'a'}
+  onChange={() => setSelected('a')}>
+  <Text type="body" weight="bold">Option A</Text>
+</SelectableCard>
+\`\`\``,methods:[],displayName:`SelectableCard`,props:{ref:{required:!1,tsType:{name:`Ref`,elements:[{name:`HTMLDivElement`}],raw:`Ref<HTMLDivElement>`},description:`Ref forwarded to the root element.`},label:{required:!0,tsType:{name:`string`},description:"Accessibility label for the card.\nUsed as `aria-label` — provides the accessible name for screen readers."},isSelected:{required:!0,tsType:{name:`boolean`},description:`Controlled selection state.
+When true, the card shows an inset accent border indicating selection.`},onChange:{required:!0,tsType:{name:`signature`,type:`function`,raw:`(isSelected: boolean) => void`,signature:{arguments:[{type:{name:`boolean`},name:`isSelected`}],return:{name:`void`}}},description:`Selection change handler.
+Called with the new selection state when the card is toggled.`},isDisabled:{required:!1,tsType:{name:`boolean`},description:`Set to true to disable the card.
+Disabled cards remain focusable (tabIndex 0) with aria-disabled
+so screen reader users can discover them.`,defaultValue:{value:`false`,computed:!1}},children:{required:!1,tsType:{name:`ReactNode`},description:`Content to render inside the card.`},padding:{required:!1,tsType:{name:`union`,raw:`0 | 0.5 | 1 | 1.5 | 2 | 3 | 4 | 5 | 6 | 8 | 10`,elements:[{name:`literal`,value:`0`},{name:`literal`,value:`0.5`},{name:`literal`,value:`1`},{name:`literal`,value:`1.5`},{name:`literal`,value:`2`},{name:`literal`,value:`3`},{name:`literal`,value:`4`},{name:`literal`,value:`5`},{name:`literal`,value:`6`},{name:`literal`,value:`8`},{name:`literal`,value:`10`}]},description:`Internal padding of the card using the spacing scale.
+@default 4 (16px)`},variant:{required:!1,tsType:{name:`union`,raw:`| 'default'
+| 'transparent'
+| 'muted'
+| 'blue'
+| 'cyan'
+| 'gray'
+| 'green'
+| 'orange'
+| 'pink'
+| 'purple'
+| 'red'
+| 'teal'
+| 'yellow'`,elements:[{name:`literal`,value:`'default'`},{name:`literal`,value:`'transparent'`},{name:`literal`,value:`'muted'`},{name:`literal`,value:`'blue'`},{name:`literal`,value:`'cyan'`},{name:`literal`,value:`'gray'`},{name:`literal`,value:`'green'`},{name:`literal`,value:`'orange'`},{name:`literal`,value:`'pink'`},{name:`literal`,value:`'purple'`},{name:`literal`,value:`'red'`},{name:`literal`,value:`'teal'`},{name:`literal`,value:`'yellow'`}]},description:`Background color variant.
+@default 'default'`,defaultValue:{value:`'default'`,computed:!1}},elevation:{required:!1,tsType:{name:`union`,raw:`'none' | 'low' | 'med' | 'high'`,elements:[{name:`literal`,value:`'none'`},{name:`literal`,value:`'low'`},{name:`literal`,value:`'med'`},{name:`literal`,value:`'high'`}]},description:`Resting elevation — the shadow depth the card sits at.
+The selection ring composes on top, so a selected card keeps its shadow.
+@default 'none'`,defaultValue:{value:`'none'`,computed:!1}},width:{required:!1,tsType:{name:`union`,raw:`number | string`,elements:[{name:`number`},{name:`string`}]},description:`Width of the card.`},height:{required:!1,tsType:{name:`union`,raw:`number | string`,elements:[{name:`number`},{name:`string`}]},description:`Height of the card.`},maxWidth:{required:!1,tsType:{name:`union`,raw:`number | string`,elements:[{name:`number`},{name:`string`}]},description:`Maximum width of the card.`}},composes:[`Omit`]}})),y=t((()=>{v()}));export{p as n,v as r,y as t};
